@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chạy Python Online với PIP</title>
+    <title>Python Online Runner - Chạy mã Python trực tiếp</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/theme/dracula.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -16,31 +16,30 @@
         }
         
         body {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            background: linear-gradient(135deg, #1a2980 0%, #26d0ce 100%);
             min-height: 100vh;
             padding: 20px;
             color: #333;
         }
         
         .container {
-            max-width: 1300px;
+            max-width: 1200px;
             margin: 0 auto;
             background: white;
             border-radius: 15px;
-            box-shadow: 0 25px 70px rgba(0,0,0,0.4);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             overflow: hidden;
         }
         
         header {
             background: linear-gradient(135deg, #0f2027 0%, #203a43 100%);
             color: white;
-            padding: 30px 40px;
+            padding: 25px 40px;
             text-align: center;
-            position: relative;
         }
         
         h1 {
-            font-size: 2.8rem;
+            font-size: 2.5rem;
             margin-bottom: 10px;
             display: flex;
             align-items: center;
@@ -49,46 +48,28 @@
         }
         
         .subtitle {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             opacity: 0.9;
             margin-bottom: 15px;
             max-width: 800px;
             margin-left: auto;
             margin-right: auto;
-        }
-        
-        .github-link {
-            display: inline-block;
-            background: #24292e;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 8px;
-            text-decoration: none;
-            margin-top: 15px;
-            font-weight: bold;
-            transition: all 0.3s;
-            border: 2px solid transparent;
-        }
-        
-        .github-link:hover {
-            background: #444d56;
-            border-color: #58a6ff;
-            transform: translateY(-3px);
+            line-height: 1.6;
         }
         
         .main-content {
             display: flex;
             flex-wrap: wrap;
-            min-height: 650px;
+            min-height: 600px;
         }
         
-        .left-panel, .right-panel {
+        .editor-section, .output-section {
             flex: 1;
             min-width: 300px;
-            padding: 30px;
+            padding: 25px;
         }
         
-        .left-panel {
+        .editor-section {
             border-right: 1px solid #e2e8f0;
             background: #f8fafc;
             display: flex;
@@ -103,7 +84,7 @@
         }
         
         h2 {
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             color: #2d3748;
             display: flex;
             align-items: center;
@@ -123,119 +104,35 @@
             gap: 8px;
         }
         
-        .run-btn {
+        .primary-btn {
             background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
             color: white;
         }
         
-        .run-btn:hover {
+        .primary-btn:hover {
             background: linear-gradient(135deg, #38a169 0%, #2f855a 100%);
             transform: translateY(-3px);
             box-shadow: 0 7px 20px rgba(56, 161, 105, 0.5);
         }
         
-        .clear-btn {
+        .secondary-btn {
+            background: #4299e1;
+            color: white;
+        }
+        
+        .secondary-btn:hover {
+            background: #3182ce;
+            transform: translateY(-3px);
+        }
+        
+        .danger-btn {
             background: #e53e3e;
             color: white;
         }
         
-        .clear-btn:hover {
+        .danger-btn:hover {
             background: #c53030;
             transform: translateY(-3px);
-        }
-        
-        .pip-section {
-            background: white;
-            border: 2px solid #e2e8f0;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 25px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-        }
-        
-        .pip-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        
-        .pip-input-container {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-        
-        .pip-input {
-            flex: 1;
-            padding: 12px 15px;
-            border: 2px solid #cbd5e0;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: border-color 0.3s;
-        }
-        
-        .pip-input:focus {
-            outline: none;
-            border-color: #4299e1;
-        }
-        
-        .pip-btn {
-            background: #4299e1;
-            color: white;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .pip-btn:hover {
-            background: #3182ce;
-            transform: translateY(-2px);
-        }
-        
-        .installed-libs {
-            margin-top: 15px;
-        }
-        
-        .libs-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 10px;
-        }
-        
-        .lib-tag {
-            background: #e2e8f0;
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .remove-lib {
-            background: none;
-            border: none;
-            color: #e53e3e;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 1.1rem;
-            padding: 0;
-            width: 20px;
-            height: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .code-editor-container {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
         }
         
         .code-editor {
@@ -243,10 +140,10 @@
             border: 2px solid #e2e8f0;
             border-radius: 10px;
             overflow: hidden;
-            min-height: 300px;
+            min-height: 350px;
         }
         
-        .right-panel {
+        .output-section {
             display: flex;
             flex-direction: column;
         }
@@ -260,9 +157,9 @@
             padding: 20px;
             overflow-y: auto;
             font-family: 'Consolas', 'Monaco', monospace;
-            font-size: 15px;
+            font-size: 14px;
             white-space: pre-wrap;
-            min-height: 300px;
+            min-height: 350px;
         }
         
         .loading {
@@ -326,11 +223,11 @@
         
         .footer {
             text-align: center;
-            padding: 25px;
+            padding: 20px;
             background: #f8fafc;
             border-top: 1px solid #e2e8f0;
             color: #718096;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
         }
         
         .status-bar {
@@ -350,6 +247,11 @@
             gap: 8px;
         }
         
+        .btn-group {
+            display: flex;
+            gap: 10px;
+        }
+        
         .success {
             color: #38a169;
         }
@@ -362,45 +264,41 @@
             color: #d69e2e;
         }
         
-        .lib-count {
-            background: #4299e1;
-            color: white;
-            padding: 3px 10px;
-            border-radius: 20px;
-            font-weight: bold;
-            font-size: 0.8rem;
-        }
-        
-        .pip-commands {
-            background: #2d3748;
-            color: #e2e8f0;
-            padding: 10px;
-            border-radius: 5px;
-            margin-top: 10px;
-            font-family: monospace;
+        .api-warning {
+            background: #fff5f5;
+            border: 1px solid #fed7d7;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+            color: #c53030;
             font-size: 0.9rem;
         }
         
-        @media (max-width: 900px) {
+        .api-warning i {
+            margin-right: 10px;
+        }
+        
+        @media (max-width: 768px) {
             .main-content {
                 flex-direction: column;
             }
             
-            .left-panel {
+            .editor-section {
                 border-right: none;
                 border-bottom: 1px solid #e2e8f0;
             }
-            
-            h1 {
-                font-size: 2.2rem;
-                flex-direction: column;
-                gap: 5px;
-            }
         }
         
-        .btn-group {
-            display: flex;
-            gap: 10px;
+        .output-success {
+            color: #68d391;
+        }
+        
+        .output-error {
+            color: #fc8181;
+        }
+        
+        .output-warning {
+            color: #f6ad55;
         }
     </style>
 </head>
@@ -408,158 +306,180 @@
     <div class="container">
         <header>
             <h1>
-                <i class="fas fa-code"></i>
-                Python Online với PIP
                 <i class="fab fa-python"></i>
+                Python Online Runner
             </h1>
-            <p class="subtitle">Chạy mã Python trực tuyến và cài đặt thư viện với pip install. Hỗ trợ numpy, pandas, matplotlib và nhiều thư viện khác!</p>
-            <a href="https://github.com" target="_blank" class="github-link">
-                <i class="fab fa-github"></i>
-                Sao trên GitHub
-            </a>
+            <p class="subtitle">Chạy mã Python trực tiếp trên trình duyệt. Hỗ trợ thư viện cơ bản. Sử dụng Brython để thực thi client-side.</p>
         </header>
         
         <div class="main-content">
-            <div class="left-panel">
-                <div class="pip-section">
-                    <div class="pip-header">
-                        <h2><i class="fas fa-box-open"></i> Cài đặt Thư viện</h2>
-                        <span class="lib-count" id="libCount">0 thư viện</span>
-                    </div>
-                    
-                    <p>Nhập tên thư viện cần cài đặt (ví dụ: numpy, pandas, matplotlib):</p>
-                    
-                    <div class="pip-input-container">
-                        <input type="text" id="pipInput" class="pip-input" placeholder="numpy==1.24.3" value="numpy">
-                        <button class="pip-btn" id="pipInstallBtn">
-                            <i class="fas fa-download"></i>
-                            pip install
+            <div class="editor-section">
+                <div class="panel-header">
+                    <h2><i class="fas fa-edit"></i> Mã Python</h2>
+                    <div class="btn-group">
+                        <button class="btn primary-btn" id="runBtn">
+                            <i class="fas fa-play"></i>
+                            Chạy Mã
                         </button>
-                    </div>
-                    
-                    <div class="pip-commands">
-                        <div>Ví dụ: <code>numpy</code>, <code>pandas==2.0.3</code>, <code>matplotlib</code></div>
-                        <div>Nhiều thư viện: <code>numpy pandas matplotlib</code></div>
-                    </div>
-                    
-                    <div class="installed-libs">
-                        <p><strong>Thư viện đã cài đặt:</strong></p>
-                        <div class="libs-list" id="libsList">
-                            <!-- Thư viện sẽ hiện ở đây -->
-                        </div>
+                        <button class="btn danger-btn" id="clearBtn">
+                            <i class="fas fa-trash"></i>
+                            Xóa
+                        </button>
                     </div>
                 </div>
                 
-                <div class="code-editor-container">
-                    <div class="panel-header">
-                        <h2><i class="fas fa-edit"></i> Mã Python</h2>
-                        <div class="btn-group">
-                            <button class="btn run-btn" id="runBtn">
-                                <i class="fas fa-play"></i>
-                                Chạy Mã
-                            </button>
-                            <button class="btn clear-btn" id="clearBtn">
-                                <i class="fas fa-trash"></i>
-                                Xóa
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div class="code-editor">
-                        <textarea id="pythonCode"># Sử dụng numpy và matplotlib (cần cài đặt trước)
-# pip install numpy matplotlib
+                <div class="code-editor">
+                    <textarea id="pythonCode">print("🐍 Python Online Runner - Chạy mã Python trực tiếp!")
+print("=" * 60)
 
-import numpy as np
-import matplotlib.pyplot as plt
+# Các thư viện có sẵn trong Brython
+print("\n📚 Thư viện có sẵn:")
+print("  - Toán học: math, random")
+print("  - Thời gian: time, datetime")
+print("  - JSON: json")
+print("  - Browser APIs: browser, dom")
 
-print("🎯 Python với thư viện bên ngoài!")
-print("=" * 50)
+# Tính toán cơ bản
+print("\n🧮 Tính toán cơ bản:")
+a = 15
+b = 7
+print(f"  {a} + {b} = {a + b}")
+print(f"  {a} - {b} = {a - b}")
+print(f"  {a} * {b} = {a * b}")
+print(f"  {a} / {b} = {a / b:.2f}")
 
-# Tạo dữ liệu với numpy
-x = np.linspace(0, 10, 100)
-y = np.sin(x)
+# Danh sách và vòng lặp
+print("\n🔄 Danh sách và vòng lặp:")
+numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+print(f"  Danh sách số: {numbers}")
+print(f"  Tổng các số: {sum(numbers)}")
+print(f"  Số chẵn: {[x for x in numbers if x % 2 == 0]}")
+print(f"  Số lẻ: {[x for x in numbers if x % 2 == 1]}")
 
-print("📊 Thông tin mảng numpy:")
-print(f"  Kiểu dữ liệu: {type(x)}")
-print(f"  Kích thước: {x.shape}")
-print(f"  Giá trị đầu: {x[:5]}")
-print(f"  Giá trị cuối: {x[-5:]}")
-print()
-
-# Tính toán với numpy
-mean_val = np.mean(y)
-std_val = np.std(y)
-print(f"📈 Thống kê hàm sin(x):")
-print(f"  Giá trị trung bình: {mean_val:.4f}")
-print(f"  Độ lệch chuẩn: {std_val:.4f}")
-print()
-
-# Tạo hình với matplotlib
-fig, ax = plt.subplots(figsize=(8, 4))
-ax.plot(x, y, label='sin(x)', color='blue', linewidth=2)
-ax.set_xlabel('x')
-ax.set_ylabel('sin(x)')
-ax.set_title('Đồ thị hàm sin(x) với numpy và matplotlib')
-ax.grid(True, alpha=0.3)
-ax.legend()
-
-# Lưu hình
-plt.savefig('sin_plot.png', dpi=100, bbox_inches='tight')
-print("✅ Đã tạo và lưu đồ thị thành 'sin_plot.png'")
-print()
-
-# Ví dụ với pandas (nếu được cài đặt)
-try:
-    import pandas as pd
-    print("📋 Ví dụ với pandas:")
+# Hàm và đệ quy
+print("\n⚙️ Hàm và đệ quy:")
+def fibonacci(n):
+    if n <= 0:
+        return []
+    elif n == 1:
+        return [0]
+    elif n == 2:
+        return [0, 1]
     
-    # Tạo DataFrame
-    data = {
-        'Tên': ['An', 'Bình', 'Chi', 'Dũng'],
-        'Tuổi': [25, 30, 22, 35],
-        'Điểm': [8.5, 7.2, 9.1, 6.8]
-    }
-    
-    df = pd.DataFrame(data)
-    print(df)
-    print()
-    
-    # Thống kê cơ bản
-    print("📊 Thống kê điểm:")
-    print(f"  Điểm trung bình: {df['Điểm'].mean():.2f}")
-    print(f"  Điểm cao nhất: {df['Điểm'].max():.2f}")
-    print(f"  Điểm thấp nhất: {df['Điểm'].min():.2f}")
-    
-except ImportError:
-    print("⚠ Pandas chưa được cài đặt. Chạy: pip install pandas")</textarea>
-                    </div>
+    fib = [0, 1]
+    for i in range(2, n):
+        fib.append(fib[i-1] + fib[i-2])
+    return fib
+
+print(f"  10 số Fibonacci đầu tiên: {fibonacci(10)}")
+
+# Xử lý chuỗi
+print("\n🔤 Xử lý chuỗi:")
+text = "Python Programming is Fun!"
+print(f"  Chuỗi gốc: {text}")
+print(f"  Viết hoa: {text.upper()}")
+print(f"  Viết thường: {text.lower()}")
+print(f"  Đảo ngược: {text[::-1]}")
+print(f"  Độ dài: {len(text)} ký tự")
+
+# Từ điển
+print("\n📖 Từ điển:")
+student = {
+    "name": "Nguyễn Văn A",
+    "age": 20,
+    "grades": [8.5, 7.5, 9.0, 8.0],
+    "major": "Computer Science"
+}
+
+print("  Thông tin sinh viên:")
+for key, value in student.items():
+    if key != "grades":
+        print(f"    {key}: {value}")
+    else:
+        print(f"    {key}: {value}")
+        print(f"    Điểm trung bình: {sum(value)/len(value):.2f}")
+
+# Xử lý lỗi
+print("\n🛡️ Xử lý lỗi:")
+def safe_divide(x, y):
+    try:
+        result = x / y
+        return f"  {x} / {y} = {result:.2f}"
+    except ZeroDivisionError:
+        return f"  ❌ Lỗi: Không thể chia {x} cho 0"
+    except TypeError:
+        return f"  ❌ Lỗi: Kiểu dữ liệu không hợp lệ"
+
+print(safe_divide(10, 2))
+print(safe_divide(10, 0))
+print(safe_divide(10, "a"))
+
+# Toán học nâng cao
+print("\n🧪 Toán học nâng cao:")
+import math
+
+print("  Sử dụng thư viện math:")
+print(f"    π = {math.pi:.5f}")
+print(f"    e = {math.e:.5f}")
+print(f"    sin(π/2) = {math.sin(math.pi/2):.3f}")
+print(f"    cos(π) = {math.cos(math.pi):.3f}")
+print(f"    √16 = {math.sqrt(16)}")
+print(f"    2^10 = {math.pow(2, 10)}")
+
+# Ngẫu nhiên
+print("\n🎲 Ngẫu nhiên:")
+import random
+
+print("  Số ngẫu nhiên:")
+print(f"    Random float: {random.random():.3f}")
+print(f"    Random int (1-100): {random.randint(1, 100)}")
+print(f"    Random choice: {random.choice(['Python', 'JavaScript', 'Java', 'C++'])}")
+
+# Thời gian
+print("\n⏰ Thời gian:")
+import time
+import datetime
+
+current_time = datetime.datetime.now()
+print(f"  Thời gian hiện tại: {current_time}")
+print(f"  Ngày: {current_time.day}/{current_time.month}/{current_time.year}")
+print(f"  Giờ: {current_time.hour}:{current_time.minute}:{current_time.second}")
+
+print("\n" + "=" * 60)
+print("✅ Mã Python đã chạy thành công!")
+print("💡 Mẹo: Thử thay đổi mã và nhấn 'Chạy Mã' để xem kết quả!")</textarea>
                 </div>
                 
                 <div class="status-bar">
                     <div class="status-item">
-                        <i class="fas fa-info-circle"></i>
-                        <span>Nhấn Ctrl+Enter để chạy mã</span>
+                        <i class="fas fa-keyboard"></i>
+                        <span>Ctrl+Enter: Chạy mã</span>
                     </div>
                     <div class="status-item">
-                        <i class="fas fa-history"></i>
-                        <span>Python 3.10</span>
+                        <i class="fas fa-bolt"></i>
+                        <span>Brython Engine</span>
                     </div>
+                </div>
+                
+                <div class="api-warning">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <strong>Lưu ý:</strong> Đang sử dụng Brython để chạy Python trên trình duyệt. 
+                    Một số thư viện như numpy, pandas không khả dụng. Chỉ hỗ trợ thư viện Python thuần.
                 </div>
             </div>
             
-            <div class="right-panel">
+            <div class="output-section">
                 <div class="panel-header">
                     <h2><i class="fas fa-terminal"></i> Kết quả</h2>
-                    <button class="btn clear-btn" id="clearOutputBtn">
+                    <button class="btn danger-btn" id="clearOutputBtn">
                         <i class="fas fa-broom"></i>
-                        Xóa kết quả
+                        Xóa
                     </button>
                 </div>
                 
                 <div class="loading" id="loading">
                     <div class="spinner"></div>
-                    <p>Đang cài đặt thư viện và chạy mã Python...</p>
-                    <p id="loadingDetails" style="margin-top: 10px; font-size: 0.9rem;"></p>
+                    <p>Đang chạy mã Python...</p>
                 </div>
                 
                 <div class="output-container" id="output">
@@ -570,30 +490,47 @@ except ImportError:
                     <div class="examples-header">
                         <h3><i class="fas fa-code-branch"></i> Ví dụ mã</h3>
                         <select class="examples-select" id="exampleSelect">
-                            <option value="0">NumPy & Matplotlib</option>
-                            <option value="1">Pandas & Requests</option>
-                            <option value="2">Flask Web Server</option>
-                            <option value="3">Tính toán khoa học</option>
-                            <option value="4">Xử lý ảnh với PIL</option>
+                            <option value="0">Ví dụ cơ bản</option>
+                            <option value="1">Máy tính đơn giản</option>
+                            <option value="2">Kiểm tra số nguyên tố</option>
+                            <option value="3">Sắp xếp danh sách</option>
+                            <option value="4">Tìm kiếm nhị phân</option>
                             <option value="custom">Mã tùy chỉnh</option>
                         </select>
                     </div>
                     
                     <div class="example-code" id="exampleCode">
-# Sử dụng numpy và matplotlib (cần cài đặt trước)
-# pip install numpy matplotlib
+# Máy tính đơn giản
+def may_tinh():
+    print("🧮 Máy Tính Đơn Giản")
+    print("1. Cộng")
+    print("2. Trừ")
+    print("3. Nhân")
+    print("4. Chia")
+    
+    try:
+        choice = int(input("Chọn phép tính (1-4): "))
+        a = float(input("Nhập số thứ nhất: "))
+        b = float(input("Nhập số thứ hai: "))
+        
+        if choice == 1:
+            print(f"Kết quả: {a} + {b} = {a + b}")
+        elif choice == 2:
+            print(f"Kết quả: {a} - {b} = {a - b}")
+        elif choice == 3:
+            print(f"Kết quả: {a} × {b} = {a * b}")
+        elif choice == 4:
+            if b != 0:
+                print(f"Kết quả: {a} ÷ {b} = {a / b}")
+            else:
+                print("Lỗi: Không thể chia cho 0!")
+        else:
+            print("Lựa chọn không hợp lệ!")
+    except:
+        print("Lỗi: Dữ liệu nhập không hợp lệ!")
 
-import numpy as np
-import matplotlib.pyplot as plt
-
-# Tạo dữ liệu và vẽ đồ thị
-x = np.linspace(0, 10, 100)
-y = np.sin(x)
-
-plt.plot(x, y)
-plt.title('Đồ thị hàm sin(x)')
-plt.savefig('plot.png')
-print("Đã tạo đồ thị!")
+# Gọi hàm máy tính
+may_tinh()
                     </div>
                 </div>
             </div>
@@ -601,13 +538,12 @@ print("Đã tạo đồ thị!")
         
         <div class="footer">
             <p>
-                <i class="fas fa-exclamation-circle"></i>
-                Cảnh báo: Môi trường thực thi tạm thời. Dữ liệu sẽ mất khi tải lại trang.
-                Sử dụng API Piston với hỗ trợ pip install.
-            </p>
-            <p style="margin-top: 10px;">
+                <i class="fas fa-code"></i>
+                Chạy Python trực tiếp trên trình duyệt với Brython | 
                 <i class="fas fa-shield-alt"></i>
-                Chỉ chạy mã từ nguồn đáng tin cậy. Một số thư viện có thể không được hỗ trợ.
+                An toàn & Bảo mật | 
+                <i class="fas fa-bolt"></i>
+                Không cần cài đặt
             </p>
         </div>
     </div>
@@ -615,6 +551,10 @@ print("Đã tạo đồ thị!")
     <!-- Thư viện CodeMirror -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/python/python.min.js"></script>
+    
+    <!-- Brython - Python trong trình duyệt -->
+    <script src="https://cdn.jsdelivr.net/npm/brython@3.11.2/brython.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/brython@3.11.2/brython_stdlib.js"></script>
     
     <script>
         // Khởi tạo CodeMirror editor
@@ -627,7 +567,8 @@ print("Đã tạo đồ thị!")
             lineWrapping: true,
             autofocus: true,
             extraKeys: {
-                "Ctrl-Enter": function() { runPythonCode(); }
+                "Ctrl-Enter": function() { runPythonCode(); },
+                "Ctrl-S": function() { saveCode(); }
             }
         });
         
@@ -637,363 +578,364 @@ print("Đã tạo đồ thị!")
         const runBtn = document.getElementById('runBtn');
         const clearBtn = document.getElementById('clearBtn');
         const clearOutputBtn = document.getElementById('clearOutputBtn');
-        const pipInput = document.getElementById('pipInput');
-        const pipInstallBtn = document.getElementById('pipInstallBtn');
         const outputDiv = document.getElementById('output');
         const loadingDiv = document.getElementById('loading');
-        const loadingDetails = document.getElementById('loadingDetails');
-        const libsList = document.getElementById('libsList');
-        const libCount = document.getElementById('libCount');
         const exampleSelect = document.getElementById('exampleSelect');
         const exampleCode = document.getElementById('exampleCode');
-        
-        // Danh sách thư viện đã cài đặt
-        let installedLibs = new Set(['numpy']);
         
         // Các ví dụ mã
         const examples = [
             {
-                name: "NumPy & Matplotlib",
-                code: `# Sử dụng numpy và matplotlib (cần cài đặt trước)
-# pip install numpy matplotlib
+                name: "Ví dụ cơ bản",
+                code: `print("🐍 Python Online Runner - Chạy mã Python trực tiếp!")
+print("=" * 60)
 
-import numpy as np
-import matplotlib.pyplot as plt
+# Các thư viện có sẵn trong Brython
+print("\\n📚 Thư viện có sẵn:")
+print("  - Toán học: math, random")
+print("  - Thời gian: time, datetime")
+print("  - JSON: json")
+print("  - Browser APIs: browser, dom")
 
-print("🎯 Python với thư viện bên ngoài!")
-print("=" * 50)
+# Tính toán cơ bản
+print("\\n🧮 Tính toán cơ bản:")
+a = 15
+b = 7
+print(f"  {a} + {b} = {a + b}")
+print(f"  {a} - {b} = {a - b}")
+print(f"  {a} * {b} = {a * b}")
+print(f"  {a} / {b} = {a / b:.2f}")
 
-# Tạo dữ liệu với numpy
-x = np.linspace(0, 10, 100)
-y = np.sin(x)
-
-print("📊 Thông tin mảng numpy:")
-print(f"  Kiểu dữ liệu: {type(x)}")
-print(f"  Kích thước: {x.shape}")
-print(f"  Giá trị đầu: {x[:5]}")
-print(f"  Giá trị cuối: {x[-5:]}")
-print()
-
-# Tính toán với numpy
-mean_val = np.mean(y)
-std_val = np.std(y)
-print(f"📈 Thống kê hàm sin(x):")
-print(f"  Giá trị trung bình: {mean_val:.4f}")
-print(f"  Độ lệch chuẩn: {std_val:.4f}")
-print()
-
-# Tạo hình với matplotlib
-fig, ax = plt.subplots(figsize=(8, 4))
-ax.plot(x, y, label='sin(x)', color='blue', linewidth=2)
-ax.set_xlabel('x')
-ax.set_ylabel('sin(x)')
-ax.set_title('Đồ thị hàm sin(x) với numpy và matplotlib')
-ax.grid(True, alpha=0.3)
-ax.legend()
-
-# Lưu hình
-plt.savefig('sin_plot.png', dpi=100, bbox_inches='tight')
-print("✅ Đã tạo và lưu đồ thị thành 'sin_plot.png'")`,
-                libs: ["numpy", "matplotlib"]
+# Danh sách và vòng lặp
+print("\\n🔄 Danh sách và vòng lặp:")
+numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+print(f"  Danh sách số: {numbers}")
+print(f"  Tổng các số: {sum(numbers)}")
+print(f"  Số chẵn: {[x for x in numbers if x % 2 == 0]}")
+print(f"  Số lẻ: {[x for x in numbers if x % 2 == 1]}")`
             },
             {
-                name: "Pandas & Requests",
-                code: `# Sử dụng pandas và requests (cần cài đặt trước)
-# pip install pandas requests
-
-import pandas as pd
-import requests
-from datetime import datetime
-
-print("📊 Phân tích dữ liệu với pandas")
-print("=" * 50)
-
-# Tạo DataFrame mẫu
-data = {
-    'Tên': ['Nguyễn Văn A', 'Trần Thị B', 'Lê Văn C', 'Phạm Thị D'],
-    'Tuổi': [25, 30, 22, 35],
-    'Lương': [15000000, 22000000, 12000000, 28000000],
-    'Thành phố': ['Hà Nội', 'Hồ Chí Minh', 'Đà Nẵng', 'Hải Phòng']
-}
-
-df = pd.DataFrame(data)
-print("📋 Dữ liệu nhân viên:")
-print(df)
-print()
-
-# Thống kê cơ bản
-print("📈 Thống kê lương:")
-print(f"  Lương trung bình: {df['Lương'].mean():,.0f} VND")
-print(f"  Lương cao nhất: {df['Lương'].max():,.0f} VND")
-print(f"  Lương thấp nhất: {df['Lương'].min():,.0f} VND")
-print(f"  Tổng lương: {df['Lương'].sum():,.0f} VND")
-print()
-
-# Lọc dữ liệu
-print("👥 Nhân viên trên 25 tuổi:")
-over_25 = df[df['Tuổi'] > 25]
-print(over_25)
-print()
-
-# Sắp xếp
-print("⬇ Sắp xếp theo lương giảm dần:")
-sorted_df = df.sort_values('Lương', ascending=False)
-print(sorted_df)
-print()
-
-# Truy cập API với requests
-try:
-    print("🌐 Truy cập API công cộng...")
-    response = requests.get('https://api.github.com', timeout=5)
-    if response.status_code == 200:
-        print("✅ Kết nối API thành công!")
-        print(f"  Status Code: {response.status_code}")
-        print(f"  Thời gian phản hồi: {response.elapsed.total_seconds():.2f}s")
-    else:
-        print(f"⚠ Lỗi API: {response.status_code}")
-except Exception as e:
-    print(f"❌ Lỗi kết nối: {e}")`,
-                libs: ["pandas", "requests"]
-            },
-            {
-                name: "Flask Web Server",
-                code: `# Tạo web server đơn giản với Flask
-# pip install flask
-
-from flask import Flask, jsonify, request
-import json
-
-print("🚀 Tạo Flask Web Server")
-print("=" * 50)
-
-# Tạo ứng dụng Flask (chạy trong môi trường ảo)
-app = Flask(__name__)
-
-# Định nghĩa route
-@app.route('/')
-def home():
-    return "👋 Xin chào từ Flask Server!"
-
-@app.route('/api/data')
-def get_data():
-    data = {
-        "message": "Chào mừng đến với API!",
-        "status": "success",
-        "data": {
-            "người dùng": 150,
-            "hoạt động": "đang chạy",
-            "phiên bản": "1.0.0"
-        }
-    }
-    return jsonify(data)
-
-@app.route('/api/calculate', methods=['POST'])
-def calculate():
+                name: "Máy tính đơn giản",
+                code: `# Máy tính đơn giản
+def may_tinh():
+    print("🧮 Máy Tính Đơn Giản")
+    print("1. Cộng")
+    print("2. Trừ")
+    print("3. Nhân")
+    print("4. Chia")
+    
     try:
-        data = request.get_json()
-        a = data.get('a', 0)
-        b = data.get('b', 0)
-        operation = data.get('operation', 'add')
+        a = 15
+        b = 7
         
-        result = 0
-        if operation == 'add':
-            result = a + b
-        elif operation == 'subtract':
-            result = a - b
-        elif operation == 'multiply':
-            result = a * b
-        elif operation == 'divide':
-            result = a / b if b != 0 else "Lỗi: chia cho 0"
+        print(f"\\nSố thứ nhất: {a}")
+        print(f"Số thứ hai: {b}")
         
-        return jsonify({
-            "result": result,
-            "operation": operation,
-            "a": a,
-            "b": b
-        })
+        print("\\nKết quả các phép tính:")
+        print(f"  Cộng: {a} + {b} = {a + b}")
+        print(f"  Trừ: {a} - {b} = {a - b}")
+        print(f"  Nhân: {a} × {b} = {a * b}")
+        
+        if b != 0:
+            print(f"  Chia: {a} ÷ {b} = {a / b:.2f}")
+        else:
+            print("  Chia: Không thể chia cho 0!")
+            
     except Exception as e:
-        return jsonify({"error": str(e)}), 400
+        print(f"Lỗi: {e}")
 
-print("✅ Ứng dụng Flask đã được định nghĩa!")
-print()
-print("📡 Các endpoint có sẵn:")
-print("  - GET  /             : Trang chủ")
-print("  - GET  /api/data     : Lấy dữ liệu JSON")
-print("  - POST /api/calculate: Tính toán (gửi JSON với a, b, operation)")
-print()
-print("⚠ Lưu ý: Đây là môi trường demo, server không thực sự chạy.")
-print("   Trong môi trường thực, chạy: app.run(debug=True)")`,
-                libs: ["flask"]
+# Gọi hàm máy tính
+may_tinh()`
             },
             {
-                name: "Tính toán khoa học",
-                code: `# Tính toán khoa học với scipy và sympy
-# pip install numpy scipy sympy
+                name: "Kiểm tra số nguyên tố",
+                code: `# Kiểm tra số nguyên tố
+def la_so_nguyen_to(n):
+    if n <= 1:
+        return False
+    if n <= 3:
+        return True
+    if n % 2 == 0 or n % 3 == 0:
+        return False
+    
+    i = 5
+    while i * i <= n:
+        if n % i == 0 or n % (i + 2) == 0:
+            return False
+        i += 6
+    
+    return True
 
-import numpy as np
-import scipy.integrate as spi
-import scipy.optimize as spo
-import sympy as sp
+print("🔢 Kiểm tra số nguyên tố")
+print("=" * 40)
 
-print("🔬 Tính toán khoa học với Python")
-print("=" * 50)
+# Kiểm tra các số từ 1 đến 30
+so_nguyen_to = []
+for i in range(1, 31):
+    if la_so_nguyen_to(i):
+        so_nguyen_to.append(i)
 
-# 1. Tích phân số học với scipy
-print("1. 📐 Tích phân số học:")
-def f(x):
-    return np.sin(x) * np.exp(-x)
+print(f"Các số nguyên tố từ 1 đến 30:")
+print(so_nguyen_to)
+print(f"\\nTổng cộng có {len(so_nguyen_to)} số nguyên tố")
 
-result, error = spi.quad(f, 0, np.pi)
-print(f"   ∫ sin(x) * exp(-x) dx từ 0 đến π")
-print(f"   Kết quả: {result:.6f}")
-print(f"   Sai số ước tính: {error:.2e}")
-print()
-
-# 2. Giải phương trình với scipy
-print("2. 🧮 Giải phương trình:")
-def equation(x):
-    return x**3 - 2*x**2 - 5*x + 6
-
-# Tìm nghiệm gần 0
-root = spo.fsolve(equation, 0)[0]
-print(f"   Phương trình: x³ - 2x² - 5x + 6 = 0")
-print(f"   Nghiệm gần 0: x = {root:.6f}")
-print()
-
-# 3. Tính toán biểu tượng với sympy
-print("3. 🧠 Tính toán biểu tượng:")
-x, y = sp.symbols('x y')
-expr = sp.sin(x)**2 + sp.cos(x)**2
-simplified = sp.simplify(expr)
-
-print(f"   Biểu thức: sin²(x) + cos²(x)")
-print(f"   Rút gọn: {simplified}")
-print()
-
-# Đạo hàm
-derivative = sp.diff(sp.exp(-x**2), x)
-print(f"   Đạo hàm của exp(-x²):")
-print(f"   d/dx = {derivative}")
-print()
-
-# Tích phân biểu tượng
-integral = sp.integrate(sp.sin(x), (x, 0, sp.pi))
-print(f"   Tích phân của sin(x) từ 0 đến π:")
-print(f"   ∫ sin(x) dx = {integral}")
-print()
-
-# 4. Giải hệ phương trình
-print("4. 🤔 Giải hệ phương trình:")
-eq1 = sp.Eq(2*x + 3*y, 5)
-eq2 = sp.Eq(4*x - y, 3)
-solution = sp.solve((eq1, eq2), (x, y))
-
-print(f"   2x + 3y = 5")
-print(f"   4x - y = 3")
-print(f"   Nghiệm: x = {solution[x]}, y = {solution[y]}")`,
-                libs: ["numpy", "scipy", "sympy"]
+# Kiểm tra số cụ thể
+so_can_kiem_tra = [49, 53, 97, 100, 127]
+print("\\nKiểm tra số cụ thể:")
+for so in so_can_kiem_tra:
+    ket_qua = "là số nguyên tố" if la_so_nguyen_to(so) else "không phải số nguyên tố"
+    print(f"  {so}: {ket_qua}")`
             },
             {
-                name: "Xử lý ảnh với PIL",
-                code: `# Xử lý ảnh với Pillow (PIL)
-# pip install pillow numpy
+                name: "Sắp xếp danh sách",
+                code: `# Thuật toán sắp xếp
+def sap_xep_noi_bot(arr):
+    """Sắp xếp nổi bọt"""
+    n = len(arr)
+    for i in range(n):
+        for j in range(0, n - i - 1):
+            if arr[j] > arr[j + 1]:
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]
+    return arr
 
-from PIL import Image, ImageFilter, ImageDraw, ImageFont
-import numpy as np
-import math
+def sap_xep_chon(arr):
+    """Sắp xếp chọn"""
+    n = len(arr)
+    for i in range(n):
+        min_idx = i
+        for j in range(i + 1, n):
+            if arr[j] < arr[min_idx]:
+                min_idx = j
+        arr[i], arr[min_idx] = arr[min_idx], arr[i]
+    return arr
 
-print("🖼️ Xử lý ảnh với PIL")
+print("📊 Thuật toán sắp xếp")
 print("=" * 50)
 
-print("Tạo ảnh mới...")
+import random
 
-# Tạo ảnh mới
-width, height = 400, 300
-image = Image.new('RGB', (width, height), color='white')
-draw = ImageDraw.Draw(image)
+# Tạo danh sách ngẫu nhiên
+danh_sach_goc = random.sample(range(1, 101), 10)
+print(f"Danh sách gốc:")
+print(danh_sach_goc)
 
-# Vẽ hình chữ nhật
-draw.rectangle([50, 50, 350, 250], fill='lightblue', outline='blue', width=3)
+# Sắp xếp nổi bọt
+danh_sach_bubble = danh_sach_goc.copy()
+sap_xep_noi_bot(danh_sach_bubble)
+print(f"\\nSắp xếp nổi bọt:")
+print(danh_sach_bubble)
 
-# Vẽ hình tròn
-draw.ellipse([100, 100, 300, 200], fill='yellow', outline='orange', width=2)
+# Sắp xếp chọn
+danh_sach_selection = danh_sach_goc.copy()
+sap_xep_chon(danh_sach_selection)
+print(f"\\nSắp xếp chọn:")
+print(danh_sach_selection)
 
-# Vẽ đa giác
-draw.polygon([(200, 50), (150, 150), (250, 150)], fill='green', outline='darkgreen', width=2)
+# Sắp xếp có sẵn trong Python
+danh_sach_sorted = sorted(danh_sach_goc)
+print(f"\\nSắp xếp có sẵn (sorted):")
+print(danh_sach_sorted)
 
-# Vẽ văn bản
-try:
-    font = ImageFont.truetype("arial.ttf", 24)
-except:
-    font = ImageFont.load_default()
+print("\\n✅ Kiểm tra kết quả:")
+print(f"  Bubble sort đúng: {danh_sach_bubble == danh_sach_sorted}")
+print(f"  Selection sort đúng: {danh_sach_selection == danh_sach_sorted}")`
+            },
+            {
+                name: "Tìm kiếm nhị phân",
+                code: `# Thuật toán tìm kiếm nhị phân
+def tim_kiem_nhi_phan(arr, x):
+    """Tìm kiếm nhị phân - trả về chỉ mục nếu tìm thấy"""
+    low = 0
+    high = len(arr) - 1
+    steps = 0
+    
+    while low <= high:
+        steps += 1
+        mid = (low + high) // 2
+        
+        if arr[mid] == x:
+            return mid, steps
+        elif arr[mid] < x:
+            low = mid + 1
+        else:
+            high = mid - 1
+    
+    return -1, steps
 
-draw.text((120, 260), "Xử lý ảnh với PIL", fill='black', font=font)
+print("🔍 Thuật toán tìm kiếm nhị phân")
+print("=" * 50)
 
-print(f"✅ Đã tạo ảnh: {width}x{height} pixels")
-print()
+# Tạo danh sách đã sắp xếp
+import random
+danh_sach = sorted(random.sample(range(1, 101), 20))
+print(f"Danh sách đã sắp xếp (20 số):")
+print(danh_sach)
 
-# Áp dụng bộ lọc
-print("Áp dụng bộ lọc ảnh...")
-blurred = image.filter(ImageFilter.GaussianBlur(2))
-edges = image.filter(ImageFilter.FIND_EDGES)
+# Tìm kiếm các giá trị
+gia_tri_can_tim = [danh_sach[0], danh_sach[9], danh_sach[19], 50, 101]
+print("\\nKết quả tìm kiếm:")
 
-print("✅ Đã áp dụng các bộ lọc:")
-print("   - Làm mờ Gaussian")
-print("   - Tìm cạnh")
-print()
+for gia_tri in gia_tri_can_tim:
+    chi_muc, buoc = tim_kiem_nhi_phan(danh_sach, gia_tri)
+    
+    if chi_muc != -1:
+        print(f"  {gia_tri} tìm thấy tại vị trí {chi_muc} (sau {buoc} bước)")
+    else:
+        print(f"  {gia_tri} không tìm thấy trong danh sách (sau {buoc} bước)")
 
-# Tạo ảnh gradient với numpy
-print("Tạo ảnh gradient...")
-gradient = np.zeros((200, 400, 3), dtype=np.uint8)
+# So sánh với tìm kiếm tuyến tính
+print("\\n📊 So sánh với tìm kiếm tuyến tính:")
+x = danh_sach[15]
+buoc_nhi_phan = tim_kiem_nhi_phan(danh_sach, x)[1]
 
-for i in range(200):
-    for j in range(400):
-        gradient[i, j] = [
-            int(255 * (j / 400)),      # Red tăng dần
-            int(255 * (i / 200)),      # Green tăng dần
-            150                        # Blue cố định
-        ]
+# Tìm kiếm tuyến tính
+buoc_tuyen_tinh = 0
+for i in range(len(danh_sach)):
+    buoc_tuyen_tinh += 1
+    if danh_sach[i] == x:
+        break
 
-gradient_img = Image.fromarray(gradient, 'RGB')
-print("✅ Đã tạo ảnh gradient với numpy")
-print()
-
-# Tạo ảnh nhiễu
-print("Tạo ảnh nhiễu ngẫu nhiên...")
-noise = np.random.randint(0, 256, (100, 100, 3), dtype=np.uint8)
-noise_img = Image.fromarray(noise, 'RGB')
-
-print("✅ Hoàn thành xử lý ảnh!")
-print()
-print("📁 Các ảnh đã tạo (trong môi trường ảo):")
-print("   - Ảnh gốc với hình vẽ")
-print("   - Ảnh đã làm mờ")
-print("   - Ảnh cạnh")
-print("   - Ảnh gradient")
-print("   - Ảnh nhiễu ngẫu nhiên")
-print()
-print("💡 Trong môi trường thực, có thể lưu ảnh:")
-print("   image.save('output.png')")`,
-                libs: ["pillow", "numpy"]
+print(f"  Tìm giá trị {x} trong danh sách 20 phần tử:")
+print(f"  - Tìm kiếm nhị phân: {buoc_nhi_phan} bước")
+print(f"  - Tìm kiếm tuyến tính: {buoc_tuyen_tinh} bước")
+print(f"  - Hiệu quả hơn: {buoc_tuyen_tinh - buoc_nhi_phan} bước")`
             }
         ];
-
-        // Hiển thị thư viện đã cài đặt
-        function updateLibsList() {
-            libsList.innerHTML = '';
-            installedLibs.forEach(lib => {
-                const libTag = document.createElement('div');
-                libTag.className = 'lib-tag';
-                libTag.innerHTML = `
-                    <i class="fas fa-cube"></i>
-                    ${lib}
-                    <button class="remove-lib" data-lib="${lib}">
-                        <i class="fas fa-times"></i>
-                    </button>
-                `;
-                libsList.appendChild(libTag);
+        
+        // Khởi tạo Brython
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hiển thị thông báo Brython đang chạy
+            outputDiv.innerHTML = '<span class="output-success">✅ Brython đã sẵn sàng! Bạn có thể chạy mã Python.</span>\n\n' + 
+                                  '💡 <strong>Hướng dẫn:</strong>\n' +
+                                  '1. Viết hoặc chọn mã Python từ ví dụ\n' +
+                                  '2. Nhấn nút "Chạy Mã" hoặc Ctrl+Enter\n' +
+                                  '3. Xem kết quả ở khung bên phải\n\n' +
+                                  '⚠ <strong>Lưu ý:</strong> Một số thư viện như numpy, pandas không khả dụng.\n' +
+                                  '   Chỉ hỗ trợ thư viện Python thuần và browser APIs.';
+            
+            // Cài đặt Brython
+            brython({
+                debug: 0,
+                indexedDB: false
             });
+        });
+        
+        // Hàm chạy mã Python với Brython
+        async function runPythonCode() {
+            const code = editor.getValue();
             
-            libCount.textContent = `${installedLibs.size} thư viện`;
+            if (!code.trim()) {
+                showOutput("⚠ Vui lòng nhập mã Python để chạy!", "warning");
+                return;
+            }
             
-            // Thêm sự kiện
+            // Hiển thị loading
+            loadingDiv.style.display = 'flex';
+            outputDiv.innerHTML = '';
+            
+            try {
+                // Xóa console cũ
+                if (window.brythonConsole) {
+                    window.brythonConsole.clear();
+                }
+                
+                // Tạo một script element để chạy Brython
+                const scriptId = 'brython-exec-script-' + Date.now();
+                const script = document.createElement('script');
+                script.type = 'text/python';
+                script.id = scriptId;
+                script.textContent = `
+from browser import document, html
+import sys
+import io
+
+# Capture output
+class OutputCapture:
+    def __init__(self):
+        self.buffer = []
+    
+    def write(self, text):
+        self.buffer.append(str(text))
+    
+    def flush(self):
+        pass
+    
+    def get_output(self):
+        return ''.join(self.buffer)
+
+# Redirect stdout
+capture = OutputCapture()
+sys.stdout = capture
+sys.stderr = capture
+
+try:
+    # Execute user code
+    exec(r"""${code.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\\n/g, '\\\\n')}""")
+    
+    # Get output
+    output = capture.get_output()
+    
+    # Display result
+    if output:
+        document['output'].text = output
+    else:
+        document['output'].text = "✅ Mã đã chạy thành công (không có đầu ra)."
+        
+except Exception as e:
+    error_msg = f"❌ Lỗi khi chạy mã:\\n{type(e).__name__}: {e}"
+    document['output'].text = error_msg
+`;
+                
+                // Thêm script vào DOM
+                document.body.appendChild(script);
+                
+                // Chạy Brython
+                setTimeout(() => {
+                    try {
+                        // Brython sẽ tự động chạy script
+                        // Sau 2 giây, ẩn loading
+                        setTimeout(() => {
+                            loadingDiv.style.display = 'none';
+                            
+                            // Xóa script element
+                            const scriptElement = document.getElementById(scriptId);
+                            if (scriptElement) {
+                                scriptElement.remove();
+                            }
+                        }, 2000);
+                        
+                    } catch (error) {
+                        loadingDiv.style.display = 'none';
+                        showOutput(`❌ Lỗi Brython: ${error.message}`, "error");
+                        
+                        // Fallback: chạy với eval trong try-catch
+                        setTimeout(() => {
+                            runPythonFallback(code);
+                        }, 100);
+                    }
+                }, 100);
+                
+            } catch (error) {
+                loadingDiv.style.display = 'none';
+                showOutput(`❌ Lỗi: ${error.message}`, "error");
+            }
+        }
+        
+        // Fallback method nếu Brython không hoạt động
+        function runPythonFallback(code) {
+            try {
+                // Simple Python-like execution in JavaScript
+                // This is a very basic interpreter for demo purposes
+                const lines = code.split('\n');
+                let output = [];
+                
+                // Replace Python syntax with JavaScript
+                let jsCode = code
+                    .replace(/print\((.*?)\)/g, 'output.push($1)')
+                    .replace(/#.*$/gm, '') // Remove comments
+                    .replace(/^(\s*)def\s+(\w+)\s*\((.*?)\):/gm, '$1function $2($3) {')
+                    .replace(/^(\s*)if\s+(.*?):/gm, '$1if ($2) {')
+                    .replace(/^(\s*)elif\s+(.*?):/gm, '$1} else if ($2) {')
+                    .replace(/^(\s*)else:/gm, '$1} else {')
+                    .replace(/^(\s*)for\s+(\w+)\s+in\s+(.*?):/gm, '$1for (let $2 of $3) {')
+                    .replace(/^(\s*)while\s+(.*?):/gm, '$
