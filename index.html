@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Python Online Runner - Chạy mã Python trực tiếp</title>
+    <title>Chạy Python Online</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/theme/dracula.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -16,14 +16,14 @@
         }
         
         body {
-            background: linear-gradient(135deg, #1a2980 0%, #26d0ce 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
             color: #333;
         }
         
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             background: white;
             border-radius: 15px;
@@ -32,7 +32,7 @@
         }
         
         header {
-            background: linear-gradient(135deg, #0f2027 0%, #203a43 100%);
+            background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
             color: white;
             padding: 25px 40px;
             text-align: center;
@@ -41,20 +41,48 @@
         h1 {
             font-size: 2.5rem;
             margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
         }
         
         .subtitle {
             font-size: 1.1rem;
-            opacity: 0.9;
-            margin-bottom: 15px;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-            line-height: 1.6;
+            opacity: 0.8;
+            margin-bottom: 10px;
+        }
+        
+        .header-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .github-link, .upload-btn {
+            display: inline-block;
+            background: #24292e;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+        
+        .github-link:hover {
+            background: #444d56;
+            transform: translateY(-2px);
+        }
+        
+        .upload-btn {
+            background: #4299e1;
+        }
+        
+        .upload-btn:hover {
+            background: #3182ce;
+            transform: translateY(-2px);
         }
         
         .main-content {
@@ -72,114 +100,98 @@
         .editor-section {
             border-right: 1px solid #e2e8f0;
             background: #f8fafc;
-            display: flex;
-            flex-direction: column;
         }
         
-        .panel-header {
+        .editor-header, .output-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         
         h2 {
             font-size: 1.5rem;
             color: #2d3748;
-            display: flex;
-            align-items: center;
-            gap: 10px;
         }
         
         .btn {
-            padding: 12px 24px;
+            padding: 10px 20px;
             border: none;
-            border-radius: 10px;
+            border-radius: 8px;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s;
             font-size: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
         }
         
-        .primary-btn {
+        .run-btn {
             background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
             color: white;
         }
         
-        .primary-btn:hover {
+        .run-btn:hover {
             background: linear-gradient(135deg, #38a169 0%, #2f855a 100%);
-            transform: translateY(-3px);
-            box-shadow: 0 7px 20px rgba(56, 161, 105, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(56, 161, 105, 0.4);
         }
         
-        .secondary-btn {
-            background: #4299e1;
-            color: white;
-        }
-        
-        .secondary-btn:hover {
-            background: #3182ce;
-            transform: translateY(-3px);
-        }
-        
-        .danger-btn {
+        .clear-btn {
             background: #e53e3e;
             color: white;
+            margin-left: 10px;
         }
         
-        .danger-btn:hover {
+        .clear-btn:hover {
             background: #c53030;
-            transform: translateY(-3px);
+        }
+        
+        .save-btn {
+            background: #4299e1;
+            color: white;
+            margin-left: 10px;
+        }
+        
+        .save-btn:hover {
+            background: #3182ce;
         }
         
         .code-editor {
-            flex: 1;
             border: 2px solid #e2e8f0;
             border-radius: 10px;
             overflow: hidden;
-            min-height: 350px;
-        }
-        
-        .output-section {
-            display: flex;
-            flex-direction: column;
+            height: 400px;
+            margin-bottom: 20px;
         }
         
         .output-container {
-            flex: 1;
             border: 2px solid #e2e8f0;
             border-radius: 10px;
+            height: 400px;
             background: #1a202c;
             color: #e2e8f0;
-            padding: 20px;
+            padding: 15px;
             overflow-y: auto;
             font-family: 'Consolas', 'Monaco', monospace;
             font-size: 14px;
             white-space: pre-wrap;
-            min-height: 350px;
+            margin-bottom: 20px;
         }
         
         .loading {
             display: none;
             text-align: center;
-            padding: 30px;
+            padding: 20px;
             color: #4299e1;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
         }
         
         .spinner {
-            border: 5px solid rgba(255,255,255,0.3);
-            border-top: 5px solid #3498db;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
             border-radius: 50%;
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             animation: spin 1s linear infinite;
-            margin-bottom: 15px;
+            margin: 0 auto 10px;
         }
         
         @keyframes spin {
@@ -187,38 +199,24 @@
             100% { transform: rotate(360deg); }
         }
         
-        .examples-section {
-            background: #edf2f7;
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 25px;
-        }
-        
-        .examples-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        
-        .examples-select {
-            padding: 8px 15px;
-            border-radius: 8px;
-            border: 2px solid #cbd5e0;
-            background: white;
-            font-size: 1rem;
-            cursor: pointer;
-        }
-        
         .example-code {
-            background: #2d3748;
-            color: #e2e8f0;
+            background: #edf2f7;
             padding: 15px;
             border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        .example-code h3 {
+            margin-bottom: 10px;
+            color: #4a5568;
+        }
+        
+        .example-code pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 10px;
+            border-radius: 5px;
             overflow-x: auto;
-            font-family: 'Consolas', 'Monaco', monospace;
-            font-size: 14px;
-            line-height: 1.5;
         }
         
         .footer {
@@ -227,55 +225,333 @@
             background: #f8fafc;
             border-top: 1px solid #e2e8f0;
             color: #718096;
-            font-size: 0.9rem;
         }
         
-        .status-bar {
+        /* Phần module bổ sung */
+        .modules-section {
+            background: #edf2f7;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        .modules-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 20px;
-            padding-top: 15px;
-            border-top: 1px solid #e2e8f0;
-            font-size: 0.9rem;
-            color: #4a5568;
+            margin-bottom: 10px;
         }
         
-        .status-item {
+        .modules-header h3 {
+            color: #4a5568;
+            margin: 0;
+        }
+        
+        .add-module-btn {
+            background: #4299e1;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        
+        .add-module-btn:hover {
+            background: #3182ce;
+        }
+        
+        .modules-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .module-item {
+            background: white;
+            padding: 8px 12px;
+            border-radius: 5px;
             display: flex;
             align-items: center;
             gap: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         
-        .btn-group {
+        .module-name {
+            font-weight: bold;
+            color: #2d3748;
+        }
+        
+        .remove-module {
+            background: #fc8181;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+        }
+        
+        .remove-module:hover {
+            background: #f56565;
+        }
+        
+        .add-module-form {
+            display: none;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .module-input-group {
             display: flex;
             gap: 10px;
+            margin-bottom: 10px;
         }
         
-        .success {
-            color: #38a169;
-        }
-        
-        .error {
-            color: #e53e3e;
-        }
-        
-        .warning {
-            color: #d69e2e;
-        }
-        
-        .api-warning {
-            background: #fff5f5;
-            border: 1px solid #fed7d7;
-            border-radius: 8px;
-            padding: 15px;
-            margin-top: 20px;
-            color: #c53030;
+        .module-input {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #cbd5e0;
+            border-radius: 5px;
             font-size: 0.9rem;
         }
         
-        .api-warning i {
-            margin-right: 10px;
+        .module-input:focus {
+            outline: none;
+            border-color: #4299e1;
+        }
+        
+        .module-form-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        
+        .common-modules {
+            margin-top: 15px;
+        }
+        
+        .common-modules h4 {
+            margin-bottom: 8px;
+            color: #4a5568;
+            font-size: 0.9rem;
+        }
+        
+        .common-modules-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .common-module {
+            background: #bee3f8;
+            color: #2c5282;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .common-module:hover {
+            background: #90cdf4;
+        }
+        
+        .error-message {
+            color: #fc8181;
+            background: rgba(252, 129, 129, 0.1);
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-size: 0.9rem;
+        }
+        
+        .install-suggestion {
+            color: #68d391;
+            background: rgba(104, 211, 145, 0.1);
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-size: 0.9rem;
+        }
+        
+        .install-suggestion button {
+            background: #68d391;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            margin-left: 10px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        
+        .install-suggestion button:hover {
+            background: #48bb78;
+        }
+        
+        /* Modal upload file */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .modal-header h3 {
+            color: #2d3748;
+            margin: 0;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #718096;
+        }
+        
+        .close-modal:hover {
+            color: #e53e3e;
+        }
+        
+        .upload-area {
+            border: 3px dashed #cbd5e0;
+            border-radius: 10px;
+            padding: 40px 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .upload-area:hover, .upload-area.dragover {
+            border-color: #4299e1;
+            background: #ebf8ff;
+        }
+        
+        .upload-area i {
+            font-size: 3rem;
+            color: #4299e1;
+            margin-bottom: 15px;
+        }
+        
+        .upload-area p {
+            margin: 10px 0;
+            color: #4a5568;
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .file-info {
+            display: none;
+            background: #f7fafc;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #4299e1;
+        }
+        
+        .file-info p {
+            margin: 5px 0;
+            color: #4a5568;
+        }
+        
+        .file-info strong {
+            color: #2d3748;
+        }
+        
+        .modal-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        
+        .current-files {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f7fafc;
+            border-radius: 8px;
+        }
+        
+        .current-files h4 {
+            margin-bottom: 10px;
+            color: #4a5568;
+        }
+        
+        .file-list {
+            list-style: none;
+        }
+        
+        .file-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+            margin-bottom: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .file-name {
+            font-weight: bold;
+            color: #2d3748;
+        }
+        
+        .file-actions button {
+            background: #4299e1;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            margin-left: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        
+        .file-actions button:hover {
+            background: #3182ce;
+        }
+        
+        .file-actions button.delete {
+            background: #fc8181;
+        }
+        
+        .file-actions button.delete:hover {
+            background: #f56565;
         }
         
         @media (max-width: 768px) {
@@ -287,194 +563,143 @@
                 border-right: none;
                 border-bottom: 1px solid #e2e8f0;
             }
-        }
-        
-        .output-success {
-            color: #68d391;
-        }
-        
-        .output-error {
-            color: #fc8181;
-        }
-        
-        .output-warning {
-            color: #f6ad55;
+            
+            .module-input-group {
+                flex-direction: column;
+            }
+            
+            .editor-header, .header-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .editor-header > div {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                width: 100%;
+            }
+            
+            .btn {
+                width: 100%;
+                margin-left: 0 !important;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>
-                <i class="fab fa-python"></i>
-                Python Online Runner
-            </h1>
-            <p class="subtitle">Chạy mã Python trực tiếp trên trình duyệt. Hỗ trợ thư viện cơ bản. Sử dụng Brython để thực thi client-side.</p>
+            <h1>🐍 Chạy Python Online</h1>
+            <p class="subtitle">Thực thi mã Python trực tiếp trên trình duyệt của bạn</p>
+            <div class="header-buttons">
+                <a href="https://github.com" target="_blank" class="github-link">
+                    <i class="fab fa-github"></i> Sao trên GitHub
+                </a>
+                <button class="upload-btn" id="openUploadModal">
+                    <i class="fas fa-upload"></i> Tải lên file .py
+                </button>
+            </div>
         </header>
         
         <div class="main-content">
             <div class="editor-section">
-                <div class="panel-header">
-                    <h2><i class="fas fa-edit"></i> Mã Python</h2>
-                    <div class="btn-group">
-                        <button class="btn primary-btn" id="runBtn">
-                            <i class="fas fa-play"></i>
-                            Chạy Mã
+                <div class="editor-header">
+                    <h2>📝 Viết mã Python</h2>
+                    <div>
+                        <button class="btn run-btn" id="runBtn">
+                            <i class="fas fa-play"></i> Chạy mã
                         </button>
-                        <button class="btn danger-btn" id="clearBtn">
-                            <i class="fas fa-trash"></i>
-                            Xóa
+                        <button class="btn save-btn" id="saveBtn">
+                            <i class="fas fa-save"></i> Lưu file
+                        </button>
+                        <button class="btn clear-btn" id="clearBtn">
+                            <i class="fas fa-trash"></i> Xóa mã
                         </button>
                     </div>
                 </div>
                 
                 <div class="code-editor">
-                    <textarea id="pythonCode">print("🐍 Python Online Runner - Chạy mã Python trực tiếp!")
-print("=" * 60)
+                    <textarea id="pythonCode"># Mã Python mẫu
+print("Xin chào! Đây là Python chạy trên web!")
+print()
 
-# Các thư viện có sẵn trong Brython
-print("\n📚 Thư viện có sẵn:")
-print("  - Toán học: math, random")
-print("  - Thời gian: time, datetime")
-print("  - JSON: json")
-print("  - Browser APIs: browser, dom")
+# Tính tổng các số từ 1 đến 10
+tong = sum(range(1, 11))
+print(f"Tổng các số từ 1 đến 10 là: {tong}")
 
-# Tính toán cơ bản
-print("\n🧮 Tính toán cơ bản:")
-a = 15
-b = 7
-print(f"  {a} + {b} = {a + b}")
-print(f"  {a} - {b} = {a - b}")
-print(f"  {a} * {b} = {a * b}")
-print(f"  {a} / {b} = {a / b:.2f}")
+# Tạo danh sách và lọc số chẵn
+so = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+so_chan = [x for x in so if x % 2 == 0]
+print(f"Các số chẵn: {so_chan}")
 
-# Danh sách và vòng lặp
-print("\n🔄 Danh sách và vòng lặp:")
-numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-print(f"  Danh sách số: {numbers}")
-print(f"  Tổng các số: {sum(numbers)}")
-print(f"  Số chẵn: {[x for x in numbers if x % 2 == 0]}")
-print(f"  Số lẻ: {[x for x in numbers if x % 2 == 1]}")
-
-# Hàm và đệ quy
-print("\n⚙️ Hàm và đệ quy:")
-def fibonacci(n):
-    if n <= 0:
-        return []
-    elif n == 1:
-        return [0]
-    elif n == 2:
-        return [0, 1]
-    
-    fib = [0, 1]
-    for i in range(2, n):
-        fib.append(fib[i-1] + fib[i-2])
-    return fib
-
-print(f"  10 số Fibonacci đầu tiên: {fibonacci(10)}")
-
-# Xử lý chuỗi
-print("\n🔤 Xử lý chuỗi:")
-text = "Python Programming is Fun!"
-print(f"  Chuỗi gốc: {text}")
-print(f"  Viết hoa: {text.upper()}")
-print(f"  Viết thường: {text.lower()}")
-print(f"  Đảo ngược: {text[::-1]}")
-print(f"  Độ dài: {len(text)} ký tự")
-
-# Từ điển
-print("\n📖 Từ điển:")
-student = {
-    "name": "Nguyễn Văn A",
-    "age": 20,
-    "grades": [8.5, 7.5, 9.0, 8.0],
-    "major": "Computer Science"
-}
-
-print("  Thông tin sinh viên:")
-for key, value in student.items():
-    if key != "grades":
-        print(f"    {key}: {value}")
-    else:
-        print(f"    {key}: {value}")
-        print(f"    Điểm trung bình: {sum(value)/len(value):.2f}")
-
-# Xử lý lỗi
-print("\n🛡️ Xử lý lỗi:")
-def safe_divide(x, y):
-    try:
-        result = x / y
-        return f"  {x} / {y} = {result:.2f}"
-    except ZeroDivisionError:
-        return f"  ❌ Lỗi: Không thể chia {x} cho 0"
-    except TypeError:
-        return f"  ❌ Lỗi: Kiểu dữ liệu không hợp lệ"
-
-print(safe_divide(10, 2))
-print(safe_divide(10, 0))
-print(safe_divide(10, "a"))
-
-# Toán học nâng cao
-print("\n🧪 Toán học nâng cao:")
-import math
-
-print("  Sử dụng thư viện math:")
-print(f"    π = {math.pi:.5f}")
-print(f"    e = {math.e:.5f}")
-print(f"    sin(π/2) = {math.sin(math.pi/2):.3f}")
-print(f"    cos(π) = {math.cos(math.pi):.3f}")
-print(f"    √16 = {math.sqrt(16)}")
-print(f"    2^10 = {math.pow(2, 10)}")
-
-# Ngẫu nhiên
-print("\n🎲 Ngẫu nhiên:")
-import random
-
-print("  Số ngẫu nhiên:")
-print(f"    Random float: {random.random():.3f}")
-print(f"    Random int (1-100): {random.randint(1, 100)}")
-print(f"    Random choice: {random.choice(['Python', 'JavaScript', 'Java', 'C++'])}")
-
-# Thời gian
-print("\n⏰ Thời gian:")
-import time
-import datetime
-
-current_time = datetime.datetime.now()
-print(f"  Thời gian hiện tại: {current_time}")
-print(f"  Ngày: {current_time.day}/{current_time.month}/{current_time.year}")
-print(f"  Giờ: {current_time.hour}:{current_time.minute}:{current_time.second}")
-
-print("\n" + "=" * 60)
-print("✅ Mã Python đã chạy thành công!")
-print("💡 Mẹo: Thử thay đổi mã và nhấn 'Chạy Mã' để xem kết quả!")</textarea>
+# Thử import một số module phổ biến
+try:
+    import numpy as np
+    print("NumPy đã được cài đặt!")
+    arr = np.array([1, 2, 3])
+    print(f"Mảng numpy: {arr}")
+except ImportError:
+    print("NumPy chưa được cài đặt. Hãy thêm nó từ phần 'Module bổ sung' bên dưới.")</textarea>
                 </div>
                 
-                <div class="status-bar">
-                    <div class="status-item">
-                        <i class="fas fa-keyboard"></i>
-                        <span>Ctrl+Enter: Chạy mã</span>
+                <!-- Phần module bổ sung -->
+                <div class="modules-section" id="modulesSection">
+                    <div class="modules-header">
+                        <h3><i class="fas fa-puzzle-piece"></i> Module bổ sung</h3>
+                        <button class="add-module-btn" id="showModuleForm">
+                            <i class="fas fa-plus"></i> Thêm module
+                        </button>
                     </div>
-                    <div class="status-item">
-                        <i class="fas fa-bolt"></i>
-                        <span>Brython Engine</span>
+                    
+                    <div class="modules-list" id="modulesList">
+                        <!-- Các module sẽ được thêm vào đây -->
+                        <div class="module-item">
+                            <span class="module-name">requests</span>
+                            <button class="remove-module" data-module="requests">×</button>
+                        </div>
+                        <div class="module-item">
+                            <span class="module-name">numpy</span>
+                            <button class="remove-module" data-module="numpy">×</button>
+                        </div>
                     </div>
-                </div>
-                
-                <div class="api-warning">
-                    <i class="fas fa-exclamation-triangle"></i>
-                    <strong>Lưu ý:</strong> Đang sử dụng Brython để chạy Python trên trình duyệt. 
-                    Một số thư viện như numpy, pandas không khả dụng. Chỉ hỗ trợ thư viện Python thuần.
+                    
+                    <div class="add-module-form" id="addModuleForm">
+                        <div class="module-input-group">
+                            <input type="text" class="module-input" id="moduleInput" 
+                                   placeholder="Nhập tên module (ví dụ: pandas, matplotlib)">
+                            <button class="btn run-btn" id="addModuleBtn">Thêm</button>
+                        </div>
+                        
+                        <div class="common-modules">
+                            <h4>Module phổ biến:</h4>
+                            <div class="common-modules-list">
+                                <span class="common-module" data-module="pandas">pandas</span>
+                                <span class="common-module" data-module="matplotlib">matplotlib</span>
+                                <span class="common-module" data-module="numpy">numpy</span>
+                                <span class="common-module" data-module="requests">requests</span>
+                                <span class="common-module" data-module="beautifulsoup4">beautifulsoup4</span>
+                                <span class="common-module" data-module="scipy">scipy</span>
+                                <span class="common-module" data-module="sympy">sympy</span>
+                                <span class="common-module" data-module="pillow">pillow</span>
+                            </div>
+                        </div>
+                        
+                        <div class="module-form-buttons">
+                            <button class="btn clear-btn" id="cancelModuleBtn">Hủy</button>
+                        </div>
+                    </div>
                 </div>
             </div>
             
             <div class="output-section">
-                <div class="panel-header">
-                    <h2><i class="fas fa-terminal"></i> Kết quả</h2>
-                    <button class="btn danger-btn" id="clearOutputBtn">
-                        <i class="fas fa-broom"></i>
-                        Xóa
-                    </button>
+                <div class="output-header">
+                    <h2>📤 Kết quả</h2>
+                    <div>
+                        <button class="btn clear-btn" id="clearOutputBtn">
+                            <i class="fas fa-broom"></i> Xóa kết quả
+                        </button>
+                    </div>
                 </div>
                 
                 <div class="loading" id="loading">
@@ -486,75 +711,69 @@ print("💡 Mẹo: Thử thay đổi mã và nhấn 'Chạy Mã' để xem kết
                     Kết quả sẽ hiển thị ở đây...
                 </div>
                 
-                <div class="examples-section">
-                    <div class="examples-header">
-                        <h3><i class="fas fa-code-branch"></i> Ví dụ mã</h3>
-                        <select class="examples-select" id="exampleSelect">
-                            <option value="0">Ví dụ cơ bản</option>
-                            <option value="1">Máy tính đơn giản</option>
-                            <option value="2">Kiểm tra số nguyên tố</option>
-                            <option value="3">Sắp xếp danh sách</option>
-                            <option value="4">Tìm kiếm nhị phân</option>
-                            <option value="custom">Mã tùy chỉnh</option>
-                        </select>
-                    </div>
-                    
-                    <div class="example-code" id="exampleCode">
-# Máy tính đơn giản
-def may_tinh():
-    print("🧮 Máy Tính Đơn Giản")
-    print("1. Cộng")
-    print("2. Trừ")
-    print("3. Nhân")
-    print("4. Chia")
-    
-    try:
-        choice = int(input("Chọn phép tính (1-4): "))
-        a = float(input("Nhập số thứ nhất: "))
-        b = float(input("Nhập số thứ hai: "))
-        
-        if choice == 1:
-            print(f"Kết quả: {a} + {b} = {a + b}")
-        elif choice == 2:
-            print(f"Kết quả: {a} - {b} = {a - b}")
-        elif choice == 3:
-            print(f"Kết quả: {a} × {b} = {a * b}")
-        elif choice == 4:
-            if b != 0:
-                print(f"Kết quả: {a} ÷ {b} = {a / b}")
-            else:
-                print("Lỗi: Không thể chia cho 0!")
-        else:
-            print("Lựa chọn không hợp lệ!")
-    except:
-        print("Lỗi: Dữ liệu nhập không hợp lệ!")
-
-# Gọi hàm máy tính
-may_tinh()
-                    </div>
+                <!-- Khu vực gợi ý cài đặt module -->
+                <div id="installSuggestions"></div>
+                
+                <div class="example-code">
+                    <h3>ℹ Thông tin</h3>
+                    <p>Mã Python được thực thi thông qua API công khai. Bạn có thể:</p>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>Tải lên file .py từ máy tính của bạn</li>
+                        <li>Viết và chạy mã Python trực tiếp</li>
+                        <li>Thêm các module Python từ phần "Module bổ sung"</li>
+                        <li>Lưu mã đang chỉnh sửa thành file .py</li>
+                        <li>Lưu mã vào GitHub bằng nút "⭐ Sao trên GitHub"</li>
+                    </ul>
                 </div>
             </div>
         </div>
         
         <div class="footer">
-            <p>
-                <i class="fas fa-code"></i>
-                Chạy Python trực tiếp trên trình duyệt với Brython | 
-                <i class="fas fa-shield-alt"></i>
-                An toàn & Bảo mật | 
-                <i class="fas fa-bolt"></i>
-                Không cần cài đặt
-            </p>
+            <p>© 2023 Python Online Runner | Sử dụng API Piston để thực thi mã Python | Mã nguồn có thể lưu trên GitHub</p>
         </div>
     </div>
 
-    <!-- Thư viện CodeMirror -->
+    <!-- Modal upload file -->
+    <div class="modal" id="uploadModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-upload"></i> Tải lên file Python</h3>
+                <button class="close-modal" id="closeModal">&times;</button>
+            </div>
+            
+            <div class="upload-area" id="uploadArea">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <p><strong>Kéo và thả file .py vào đây</strong></p>
+                <p>hoặc</p>
+                <button class="btn run-btn" id="browseFiles">
+                    <i class="fas fa-folder-open"></i> Chọn file từ máy tính
+                </button>
+                <input type="file" id="fileInput" class="file-input" accept=".py,.txt,.json,.csv" multiple>
+            </div>
+            
+            <div class="file-info" id="fileInfo">
+                <p><strong>Tên file:</strong> <span id="fileName"></span></p>
+                <p><strong>Kích thước:</strong> <span id="fileSize"></span></p>
+                <p><strong>Loại file:</strong> <span id="fileType"></span></p>
+            </div>
+            
+            <div class="modal-buttons">
+                <button class="btn clear-btn" id="cancelUpload">Hủy</button>
+                <button class="btn run-btn" id="confirmUpload">Tải lên và mở</button>
+            </div>
+            
+            <div class="current-files" id="currentFilesSection" style="display: none;">
+                <h4><i class="fas fa-file-code"></i> File đã tải lên:</h4>
+                <ul class="file-list" id="fileList">
+                    <!-- Danh sách file sẽ được thêm vào đây -->
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Thư viện CodeMirror cho trình soạn thảo -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/python/python.min.js"></script>
-    
-    <!-- Brython - Python trong trình duyệt -->
-    <script src="https://cdn.jsdelivr.net/npm/brython@3.11.2/brython.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/brython@3.11.2/brython_stdlib.js"></script>
     
     <script>
         // Khởi tạo CodeMirror editor
@@ -565,377 +784,285 @@ may_tinh()
             indentUnit: 4,
             smartIndent: true,
             lineWrapping: true,
-            autofocus: true,
-            extraKeys: {
-                "Ctrl-Enter": function() { runPythonCode(); },
-                "Ctrl-S": function() { saveCode(); }
-            }
+            autofocus: true
         });
         
-        editor.setSize('100%', '100%');
+        // Thiết lập chiều cao cho editor
+        editor.setSize('100%', '400px');
         
-        // Các phần tử DOM
+        // Lấy các phần tử DOM
         const runBtn = document.getElementById('runBtn');
         const clearBtn = document.getElementById('clearBtn');
-        const clearOutputBtn = document.getElementById('clearOutputBtn');
+        const saveBtn = document.getElementById('saveBtn');
         const outputDiv = document.getElementById('output');
         const loadingDiv = document.getElementById('loading');
-        const exampleSelect = document.getElementById('exampleSelect');
-        const exampleCode = document.getElementById('exampleCode');
+        const clearOutputBtn = document.getElementById('clearOutputBtn');
+        const modulesList = document.getElementById('modulesList');
+        const moduleInput = document.getElementById('moduleInput');
+        const addModuleBtn = document.getElementById('addModuleBtn');
+        const showModuleFormBtn = document.getElementById('showModuleForm');
+        const addModuleForm = document.getElementById('addModuleForm');
+        const cancelModuleBtn = document.getElementById('cancelModuleBtn');
+        const installSuggestionsDiv = document.getElementById('installSuggestions');
         
-        // Các ví dụ mã
-        const examples = [
+        // Upload modal elements
+        const uploadModal = document.getElementById('uploadModal');
+        const openUploadModalBtn = document.getElementById('openUploadModal');
+        const closeModalBtn = document.getElementById('closeModal');
+        const cancelUploadBtn = document.getElementById('cancelUpload');
+        const confirmUploadBtn = document.getElementById('confirmUpload');
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const browseFilesBtn = document.getElementById('browseFiles');
+        const fileInfo = document.getElementById('fileInfo');
+        const fileName = document.getElementById('fileName');
+        const fileSize = document.getElementById('fileSize');
+        const fileType = document.getElementById('fileType');
+        const currentFilesSection = document.getElementById('currentFilesSection');
+        const fileList = document.getElementById('fileList');
+        
+        // Biến lưu trữ
+        let addedModules = ['requests', 'numpy'];
+        let currentFile = null;
+        let uploadedFiles = [];
+        
+        // Danh sách module có sẵn trong môi trường thực thi
+        const availableModules = [
+            'math', 'random', 'datetime', 'json', 're', 'os', 'sys', 
+            'collections', 'itertools', 'functools', 'string', 'time'
+        ];
+        
+        // Các API thực thi Python (dự phòng)
+        const executionAPIs = [
             {
-                name: "Ví dụ cơ bản",
-                code: `print("🐍 Python Online Runner - Chạy mã Python trực tiếp!")
-print("=" * 60)
-
-# Các thư viện có sẵn trong Brython
-print("\\n📚 Thư viện có sẵn:")
-print("  - Toán học: math, random")
-print("  - Thời gian: time, datetime")
-print("  - JSON: json")
-print("  - Browser APIs: browser, dom")
-
-# Tính toán cơ bản
-print("\\n🧮 Tính toán cơ bản:")
-a = 15
-b = 7
-print(f"  {a} + {b} = {a + b}")
-print(f"  {a} - {b} = {a - b}")
-print(f"  {a} * {b} = {a * b}")
-print(f"  {a} / {b} = {a / b:.2f}")
-
-# Danh sách và vòng lặp
-print("\\n🔄 Danh sách và vòng lặp:")
-numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-print(f"  Danh sách số: {numbers}")
-print(f"  Tổng các số: {sum(numbers)}")
-print(f"  Số chẵn: {[x for x in numbers if x % 2 == 0]}")
-print(f"  Số lẻ: {[x for x in numbers if x % 2 == 1]}")`
+                name: 'Piston',
+                url: 'https://emkc.org/api/v2/piston/execute',
+                method: 'POST',
+                format: (code, modules) => ({
+                    language: 'python',
+                    version: '3.10.0',
+                    files: [{ content: code }]
+                })
             },
             {
-                name: "Máy tính đơn giản",
-                code: `# Máy tính đơn giản
-def may_tinh():
-    print("🧮 Máy Tính Đơn Giản")
-    print("1. Cộng")
-    print("2. Trừ")
-    print("3. Nhân")
-    print("4. Chia")
-    
-    try:
-        a = 15
-        b = 7
-        
-        print(f"\\nSố thứ nhất: {a}")
-        print(f"Số thứ hai: {b}")
-        
-        print("\\nKết quả các phép tính:")
-        print(f"  Cộng: {a} + {b} = {a + b}")
-        print(f"  Trừ: {a} - {b} = {a - b}")
-        print(f"  Nhân: {a} × {b} = {a * b}")
-        
-        if b != 0:
-            print(f"  Chia: {a} ÷ {b} = {a / b:.2f}")
-        else:
-            print("  Chia: Không thể chia cho 0!")
-            
-    except Exception as e:
-        print(f"Lỗi: {e}")
-
-# Gọi hàm máy tính
-may_tinh()`
+                name: 'CodeX',
+                url: 'https://api.codex.jaagrav.in',
+                method: 'POST',
+                format: (code, modules) => ({
+                    code: code,
+                    language: 'py'
+                })
             },
             {
-                name: "Kiểm tra số nguyên tố",
-                code: `# Kiểm tra số nguyên tố
-def la_so_nguyen_to(n):
-    if n <= 1:
-        return False
-    if n <= 3:
-        return True
-    if n % 2 == 0 or n % 3 == 0:
-        return False
-    
-    i = 5
-    while i * i <= n:
-        if n % i == 0 or n % (i + 2) == 0:
-            return False
-        i += 6
-    
-    return True
-
-print("🔢 Kiểm tra số nguyên tố")
-print("=" * 40)
-
-# Kiểm tra các số từ 1 đến 30
-so_nguyen_to = []
-for i in range(1, 31):
-    if la_so_nguyen_to(i):
-        so_nguyen_to.append(i)
-
-print(f"Các số nguyên tố từ 1 đến 30:")
-print(so_nguyen_to)
-print(f"\\nTổng cộng có {len(so_nguyen_to)} số nguyên tố")
-
-# Kiểm tra số cụ thể
-so_can_kiem_tra = [49, 53, 97, 100, 127]
-print("\\nKiểm tra số cụ thể:")
-for so in so_can_kiem_tra:
-    ket_qua = "là số nguyên tố" if la_so_nguyen_to(so) else "không phải số nguyên tố"
-    print(f"  {so}: {ket_qua}")`
-            },
-            {
-                name: "Sắp xếp danh sách",
-                code: `# Thuật toán sắp xếp
-def sap_xep_noi_bot(arr):
-    """Sắp xếp nổi bọt"""
-    n = len(arr)
-    for i in range(n):
-        for j in range(0, n - i - 1):
-            if arr[j] > arr[j + 1]:
-                arr[j], arr[j + 1] = arr[j + 1], arr[j]
-    return arr
-
-def sap_xep_chon(arr):
-    """Sắp xếp chọn"""
-    n = len(arr)
-    for i in range(n):
-        min_idx = i
-        for j in range(i + 1, n):
-            if arr[j] < arr[min_idx]:
-                min_idx = j
-        arr[i], arr[min_idx] = arr[min_idx], arr[i]
-    return arr
-
-print("📊 Thuật toán sắp xếp")
-print("=" * 50)
-
-import random
-
-# Tạo danh sách ngẫu nhiên
-danh_sach_goc = random.sample(range(1, 101), 10)
-print(f"Danh sách gốc:")
-print(danh_sach_goc)
-
-# Sắp xếp nổi bọt
-danh_sach_bubble = danh_sach_goc.copy()
-sap_xep_noi_bot(danh_sach_bubble)
-print(f"\\nSắp xếp nổi bọt:")
-print(danh_sach_bubble)
-
-# Sắp xếp chọn
-danh_sach_selection = danh_sach_goc.copy()
-sap_xep_chon(danh_sach_selection)
-print(f"\\nSắp xếp chọn:")
-print(danh_sach_selection)
-
-# Sắp xếp có sẵn trong Python
-danh_sach_sorted = sorted(danh_sach_goc)
-print(f"\\nSắp xếp có sẵn (sorted):")
-print(danh_sach_sorted)
-
-print("\\n✅ Kiểm tra kết quả:")
-print(f"  Bubble sort đúng: {danh_sach_bubble == danh_sach_sorted}")
-print(f"  Selection sort đúng: {danh_sach_selection == danh_sach_sorted}")`
-            },
-            {
-                name: "Tìm kiếm nhị phân",
-                code: `# Thuật toán tìm kiếm nhị phân
-def tim_kiem_nhi_phan(arr, x):
-    """Tìm kiếm nhị phân - trả về chỉ mục nếu tìm thấy"""
-    low = 0
-    high = len(arr) - 1
-    steps = 0
-    
-    while low <= high:
-        steps += 1
-        mid = (low + high) // 2
-        
-        if arr[mid] == x:
-            return mid, steps
-        elif arr[mid] < x:
-            low = mid + 1
-        else:
-            high = mid - 1
-    
-    return -1, steps
-
-print("🔍 Thuật toán tìm kiếm nhị phân")
-print("=" * 50)
-
-# Tạo danh sách đã sắp xếp
-import random
-danh_sach = sorted(random.sample(range(1, 101), 20))
-print(f"Danh sách đã sắp xếp (20 số):")
-print(danh_sach)
-
-# Tìm kiếm các giá trị
-gia_tri_can_tim = [danh_sach[0], danh_sach[9], danh_sach[19], 50, 101]
-print("\\nKết quả tìm kiếm:")
-
-for gia_tri in gia_tri_can_tim:
-    chi_muc, buoc = tim_kiem_nhi_phan(danh_sach, gia_tri)
-    
-    if chi_muc != -1:
-        print(f"  {gia_tri} tìm thấy tại vị trí {chi_muc} (sau {buoc} bước)")
-    else:
-        print(f"  {gia_tri} không tìm thấy trong danh sách (sau {buoc} bước)")
-
-# So sánh với tìm kiếm tuyến tính
-print("\\n📊 So sánh với tìm kiếm tuyến tính:")
-x = danh_sach[15]
-buoc_nhi_phan = tim_kiem_nhi_phan(danh_sach, x)[1]
-
-# Tìm kiếm tuyến tính
-buoc_tuyen_tinh = 0
-for i in range(len(danh_sach)):
-    buoc_tuyen_tinh += 1
-    if danh_sach[i] == x:
-        break
-
-print(f"  Tìm giá trị {x} trong danh sách 20 phần tử:")
-print(f"  - Tìm kiếm nhị phân: {buoc_nhi_phan} bước")
-print(f"  - Tìm kiếm tuyến tính: {buoc_tuyen_tinh} bước")
-print(f"  - Hiệu quả hơn: {buoc_tuyen_tinh - buoc_nhi_phan} bước")`
+                name: 'Rextester',
+                url: 'https://rextester.com/rundotnet/api',
+                method: 'POST',
+                format: (code, modules) => ({
+                    LanguageChoice: 24, // Python 3
+                    Program: code
+                })
             }
         ];
         
-        // Khởi tạo Brython
-        document.addEventListener('DOMContentLoaded', function() {
-            // Hiển thị thông báo Brython đang chạy
-            outputDiv.innerHTML = '<span class="output-success">✅ Brython đã sẵn sàng! Bạn có thể chạy mã Python.</span>\n\n' + 
-                                  '💡 <strong>Hướng dẫn:</strong>\n' +
-                                  '1. Viết hoặc chọn mã Python từ ví dụ\n' +
-                                  '2. Nhấn nút "Chạy Mã" hoặc Ctrl+Enter\n' +
-                                  '3. Xem kết quả ở khung bên phải\n\n' +
-                                  '⚠ <strong>Lưu ý:</strong> Một số thư viện như numpy, pandas không khả dụng.\n' +
-                                  '   Chỉ hỗ trợ thư viện Python thuần và browser APIs.';
+        // Khởi tạo danh sách module
+        function initializeModules() {
+            renderModulesList();
             
-            // Cài đặt Brython
-            brython({
-                debug: 0,
-                indexedDB: false
+            // Thêm sự kiện cho các module phổ biến
+            document.querySelectorAll('.common-module').forEach(module => {
+                module.addEventListener('click', function() {
+                    const moduleName = this.getAttribute('data-module');
+                    addModule(moduleName);
+                });
             });
-        });
+        }
         
-        // Hàm chạy mã Python với Brython
+        // Hiển thị danh sách module
+        function renderModulesList() {
+            modulesList.innerHTML = '';
+            
+            addedModules.forEach(moduleName => {
+                const moduleItem = document.createElement('div');
+                moduleItem.className = 'module-item';
+                moduleItem.innerHTML = `
+                    <span class="module-name">${moduleName}</span>
+                    <button class="remove-module" data-module="${moduleName}">×</button>
+                `;
+                modulesList.appendChild(moduleItem);
+            });
+            
+            // Thêm sự kiện xóa module
+            document.querySelectorAll('.remove-module').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const moduleName = this.getAttribute('data-module');
+                    removeModule(moduleName);
+                });
+            });
+        }
+        
+        // Thêm module mới
+        function addModule(moduleName) {
+            moduleName = moduleName.trim().toLowerCase();
+            
+            if (!moduleName) {
+                alert('Vui lòng nhập tên module');
+                return;
+            }
+            
+            // Kiểm tra module đã tồn tại chưa
+            if (addedModules.includes(moduleName)) {
+                alert(`Module "${moduleName}" đã được thêm trước đó`);
+                return;
+            }
+            
+            // Kiểm tra module có sẵn trong môi trường không
+            if (availableModules.includes(moduleName)) {
+                alert(`Module "${moduleName}" đã có sẵn trong môi trường Python`);
+                return;
+            }
+            
+            addedModules.push(moduleName);
+            renderModulesList();
+            moduleInput.value = '';
+            addModuleForm.style.display = 'none';
+            
+            // Thêm thông báo
+            showMessage(`Đã thêm module "${moduleName}". Chạy lại mã để sử dụng.`, 'success');
+        }
+        
+        // Xóa module
+        function removeModule(moduleName) {
+            addedModules = addedModules.filter(m => m !== moduleName);
+            renderModulesList();
+            showMessage(`Đã xóa module "${moduleName}".`, 'info');
+        }
+        
+        // Hiển thị thông báo
+        function showMessage(message, type) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = type === 'error' ? 'error-message' : 'install-suggestion';
+            messageDiv.textContent = message;
+            messageDiv.style.margin = '10px 0';
+            
+            installSuggestionsDiv.innerHTML = '';
+            installSuggestionsDiv.appendChild(messageDiv);
+            
+            // Tự động xóa sau 5 giây
+            setTimeout(() => {
+                if (messageDiv.parentNode === installSuggestionsDiv) {
+                    installSuggestionsDiv.removeChild(messageDiv);
+                }
+            }, 5000);
+        }
+        
+        // Hiển thị gợi ý cài đặt module
+        function showInstallSuggestion(moduleName) {
+            const suggestionDiv = document.createElement('div');
+            suggestionDiv.className = 'install-suggestion';
+            suggestionDiv.innerHTML = `
+                Module <strong>${moduleName}</strong> chưa được cài đặt.
+                <button onclick="addModule('${moduleName}')">Thêm module này</button>
+            `;
+            
+            installSuggestionsDiv.innerHTML = '';
+            installSuggestionsDiv.appendChild(suggestionDiv);
+        }
+        
+        // Hàm chạy mã Python với nhiều API dự phòng
         async function runPythonCode() {
             const code = editor.getValue();
             
             if (!code.trim()) {
-                showOutput("⚠ Vui lòng nhập mã Python để chạy!", "warning");
+                outputDiv.textContent = "⚠ Vui lòng nhập mã Python để chạy!";
                 return;
             }
             
-            // Hiển thị loading
-            loadingDiv.style.display = 'flex';
-            outputDiv.innerHTML = '';
+            // Hiển thị trạng thái loading
+            loadingDiv.style.display = 'block';
+            outputDiv.textContent = '';
+            installSuggestionsDiv.innerHTML = '';
             
-            try {
-                // Xóa console cũ
-                if (window.brythonConsole) {
-                    window.brythonConsole.clear();
+            let success = false;
+            let result = null;
+            
+            // Thử lần lượt các API
+            for (const api of executionAPIs) {
+                try {
+                    console.log(`Đang thử API: ${api.name}`);
+                    result = await executeWithAPI(api, code);
+                    success = true;
+                    console.log(`API ${api.name} thành công`);
+                    break;
+                } catch (error) {
+                    console.log(`API ${api.name} thất bại:`, error.message);
+                    continue;
                 }
-                
-                // Tạo một script element để chạy Brython
-                const scriptId = 'brython-exec-script-' + Date.now();
-                const script = document.createElement('script');
-                script.type = 'text/python';
-                script.id = scriptId;
-                script.textContent = `
-from browser import document, html
-import sys
-import io
-
-# Capture output
-class OutputCapture:
-    def __init__(self):
-        self.buffer = []
-    
-    def write(self, text):
-        self.buffer.append(str(text))
-    
-    def flush(self):
-        pass
-    
-    def get_output(self):
-        return ''.join(self.buffer)
-
-# Redirect stdout
-capture = OutputCapture()
-sys.stdout = capture
-sys.stderr = capture
-
-try:
-    # Execute user code
-    exec(r"""${code.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\\n/g, '\\\\n')}""")
-    
-    # Get output
-    output = capture.get_output()
-    
-    # Display result
-    if output:
-        document['output'].text = output
-    else:
-        document['output'].text = "✅ Mã đã chạy thành công (không có đầu ra)."
-        
-except Exception as e:
-    error_msg = f"❌ Lỗi khi chạy mã:\\n{type(e).__name__}: {e}"
-    document['output'].text = error_msg
-`;
-                
-                // Thêm script vào DOM
-                document.body.appendChild(script);
-                
-                // Chạy Brython
-                setTimeout(() => {
-                    try {
-                        // Brython sẽ tự động chạy script
-                        // Sau 2 giây, ẩn loading
-                        setTimeout(() => {
-                            loadingDiv.style.display = 'none';
-                            
-                            // Xóa script element
-                            const scriptElement = document.getElementById(scriptId);
-                            if (scriptElement) {
-                                scriptElement.remove();
-                            }
-                        }, 2000);
-                        
-                    } catch (error) {
-                        loadingDiv.style.display = 'none';
-                        showOutput(`❌ Lỗi Brython: ${error.message}`, "error");
-                        
-                        // Fallback: chạy với eval trong try-catch
-                        setTimeout(() => {
-                            runPythonFallback(code);
-                        }, 100);
-                    }
-                }, 100);
-                
-            } catch (error) {
-                loadingDiv.style.display = 'none';
-                showOutput(`❌ Lỗi: ${error.message}`, "error");
+            }
+            
+            // Ẩn loading
+            loadingDiv.style.display = 'none';
+            
+            if (success && result) {
+                displayExecutionResult(result);
+            } else {
+                // Nếu tất cả API đều thất bại
+                outputDiv.textContent = "❌ Không thể kết nối đến dịch vụ thực thi Python. Vui lòng:\n\n" +
+                                      "1. Kiểm tra kết nối internet\n" +
+                                      "2. Thử lại sau vài phút\n" +
+                                      "3. Sử dụng API khác nếu có\n\n" +
+                                      "Lỗi: Tất cả API thực thi đều không khả dụng.";
+                outputDiv.style.color = '#fc8181';
             }
         }
         
-        // Fallback method nếu Brython không hoạt động
-        function runPythonFallback(code) {
-            try {
-                // Simple Python-like execution in JavaScript
-                // This is a very basic interpreter for demo purposes
-                const lines = code.split('\n');
-                let output = [];
-                
-                // Replace Python syntax with JavaScript
-                let jsCode = code
-                    .replace(/print\((.*?)\)/g, 'output.push($1)')
-                    .replace(/#.*$/gm, '') // Remove comments
-                    .replace(/^(\s*)def\s+(\w+)\s*\((.*?)\):/gm, '$1function $2($3) {')
-                    .replace(/^(\s*)if\s+(.*?):/gm, '$1if ($2) {')
-                    .replace(/^(\s*)elif\s+(.*?):/gm, '$1} else if ($2) {')
-                    .replace(/^(\s*)else:/gm, '$1} else {')
-                    .replace(/^(\s*)for\s+(\w+)\s+in\s+(.*?):/gm, '$1for (let $2 of $3) {')
-                    .replace(/^(\s*)while\s+(.*?):/gm, '$
+        // Thực thi với API cụ thể
+        async function executeWithAPI(api, code) {
+            // Tạo mã với module cài đặt
+            let fullCode = '';
+            
+            if (addedModules.length > 0) {
+                fullCode += generateModuleInstallationCode();
+            }
+            
+            fullCode += code;
+            
+            // Tạo request body
+            const requestBody = api.format(fullCode, addedModules);
+            
+            // Gửi request
+            const response = await fetch(api.url, {
+                method: api.method,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestBody)
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
+            }
+            
+            return await response.json();
+        }
+        
+        // Tạo mã cài đặt module
+        function generateModuleInstallationCode() {
+            let code = '# Cài đặt các module bổ sung\n';
+            code += 'import sys\n';
+            code += 'import subprocess\n';
+            code += 'import importlib\n\n';
+            code += 'def install_and_import(package):\n';
+            code += '    try:\n';
+            code += '        importlib.import_module(package)\n';
+            code += '    except ImportError:\n';
+            code += '        print(f"Đang cài đặt {package}...")\n';
+            code += '        subprocess.check_call([sys.executable, "-m", "pip", "install", package])\n';
+            code += '        print(f"Đã cài đặt {package}")\n';
+            code += '    finally:\n';
+            code += '        globals()[package] = importlib.import_module(package)\n\n';
+            
+            code += 'print("=== CÀI ĐẶT MODULE ===\\n")\n';
+            addedModules.forEach(module => {
+                code += `install_and_import('${module}')\n`;
+            });
+            code += 'print("\\n=== BẮT ĐẦU CHẠY
