@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Theo dõi Bot Discord - Bot-Hosting.net</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Chạy Python Online</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/theme/dracula.min.css">
     <style>
         * {
             margin: 0;
@@ -12,238 +13,505 @@
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+        
         body {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            color: #f1f1f1;
-            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
+            padding: 20px;
+            color: #333;
         }
+        
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
-        }
-        header {
-            text-align: center;
-            padding: 3rem 1rem;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 20px;
-            margin-bottom: 2rem;
-            border: 1px solid #4cc9f0;
-        }
-        header h1 {
-            font-size: 2.8rem;
-            margin-bottom: 0.5rem;
-            color: #4cc9f0;
-            text-shadow: 0 0 10px rgba(76, 201, 240, 0.5);
-        }
-        header p {
-            font-size: 1.2rem;
-            max-width: 700px;
-            margin: 0 auto;
-            color: #b8d4e3;
-        }
-        .highlight {
-            color: #72efdd;
-            font-weight: bold;
-        }
-        .content-wrapper {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 30px;
-            margin-bottom: 30px;
-        }
-        .info-box {
-            flex: 1;
-            min-width: 300px;
-            background: rgba(30, 41, 59, 0.8);
-            padding: 25px;
+            background: white;
             border-radius: 15px;
-            border-left: 5px solid #4361ee;
-        }
-        .info-box h2 {
-            color: #4361ee;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .info-box ul {
-            list-style: none;
-            padding-left: 10px;
-        }
-        .info-box li {
-            margin-bottom: 12px;
-            padding-left: 25px;
-            position: relative;
-        }
-        .info-box li:before {
-            content: '✓';
-            position: absolute;
-            left: 0;
-            color: #4ade80;
-            font-weight: bold;
-        }
-        .dashboard-container {
-            flex: 2;
-            min-width: 300px;
-            background: rgba(0, 0, 0, 0.4);
-            padding: 20px;
-            border-radius: 15px;
-            text-align: center;
-        }
-        .dashboard-container h2 {
-            color: #f72585;
-            margin-bottom: 20px;
-        }
-        .dashboard-frame {
-            width: 100%;
-            height: 600px;
-            background: #111;
-            border-radius: 10px;
-            border: 2px solid #333;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             overflow: hidden;
         }
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
+        
+        header {
+            background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+            color: white;
+            padding: 25px 40px;
+            text-align: center;
         }
-        .note-box {
-            background: rgba(245, 158, 11, 0.15);
-            border: 1px solid #f59e0b;
-            border-radius: 10px;
-            padding: 20px;
-            margin-top: 25px;
-            text-align: left;
-        }
-        .note-box h3 {
-            color: #f59e0b;
+        
+        h1 {
+            font-size: 2.5rem;
             margin-bottom: 10px;
         }
-        .steps {
-            margin-top: 25px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.8;
+            margin-bottom: 10px;
         }
-        .step {
-            background: rgba(76, 201, 240, 0.1);
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-        }
-        .step-number {
+        
+        .github-link {
             display: inline-block;
-            background: #4cc9f0;
-            color: #1a1a2e;
-            width: 36px;
-            height: 36px;
-            line-height: 36px;
-            border-radius: 50%;
+            background: #24292e;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-top: 10px;
             font-weight: bold;
+            transition: background 0.3s;
+        }
+        
+        .github-link:hover {
+            background: #444d56;
+        }
+        
+        .main-content {
+            display: flex;
+            flex-wrap: wrap;
+            min-height: 600px;
+        }
+        
+        .editor-section, .output-section {
+            flex: 1;
+            min-width: 300px;
+            padding: 25px;
+        }
+        
+        .editor-section {
+            border-right: 1px solid #e2e8f0;
+            background: #f8fafc;
+        }
+        
+        .editor-header, .output-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 15px;
         }
-        footer {
-            text-align: center;
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px solid #333;
-            color: #94a3b8;
-            font-size: 0.9rem;
+        
+        h2 {
+            font-size: 1.5rem;
+            color: #2d3748;
         }
+        
         .btn {
-            display: inline-block;
-            background: linear-gradient(to right, #4361ee, #3a0ca3);
-            color: white;
-            padding: 12px 28px;
-            margin: 15px 10px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: all 0.3s ease;
+            padding: 10px 20px;
             border: none;
+            border-radius: 8px;
+            font-weight: bold;
             cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
         }
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 7px 15px rgba(67, 97, 238, 0.4);
+        
+        .run-btn {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            color: white;
         }
-        .btn-discord {
-            background: linear-gradient(to right, #5865F2, #4752c4);
+        
+        .run-btn:hover {
+            background: linear-gradient(135deg, #38a169 0%, #2f855a 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(56, 161, 105, 0.4);
         }
+        
+        .clear-btn {
+            background: #e53e3e;
+            color: white;
+            margin-left: 10px;
+        }
+        
+        .clear-btn:hover {
+            background: #c53030;
+        }
+        
+        .code-editor {
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+            height: 400px;
+            margin-bottom: 20px;
+        }
+        
+        .output-container {
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            height: 400px;
+            background: #1a202c;
+            color: #e2e8f0;
+            padding: 15px;
+            overflow-y: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 14px;
+            white-space: pre-wrap;
+            margin-bottom: 20px;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            color: #4299e1;
+        }
+        
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .example-code {
+            background: #edf2f7;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        .example-code h3 {
+            margin-bottom: 10px;
+            color: #4a5568;
+        }
+        
+        .example-code pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            color: #718096;
+        }
+        
         @media (max-width: 768px) {
-            header h1 { font-size: 2rem; }
-            .dashboard-frame { height: 450px; }
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .editor-section {
+                border-right: none;
+                border-bottom: 1px solid #e2e8f0;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1><i class="fas fa-server"></i> Trình Theo dõi Bot Discord</h1>
-            <p>Trang web này kết nối với <span class="highlight">Bot-Hosting.net</span> - nền tảng giúp bạn đưa bot Discord của mình hoạt động <span class="highlight">24/7 một cách dễ dàng và miễn phí</span>.</p>
-            <a href="https://bot-hosting.net" target="_blank" class="btn">Truy cập Bot-Hosting.net</a>
-            <a href="https://discord.com" target="_blank" class="btn btn-discord"><i class="fab fa-discord"></i> Discord chính thức</a>
+            <h1>🐍 Chạy Python Online</h1>
+            <p class="subtitle">Thực thi mã Python trực tiếp trên trình duyệt của bạn</p>
+            <a href="https://github.com" target="_blank" class="github-link">⭐ Sao trên GitHub</a>
         </header>
-
-        <div class="content-wrapper">
-            <div class="info-box">
-                <h2><i class="fas fa-star"></i> Về Bot-Hosting.net</h2>
-                <p>Được tin dùng bởi hàng ngàn người từ năm 2021, dịch vụ này được thiết kế đặc biệt cho việc host bot Discord.</p>
-                <ul>
-                    <li>Bắt đầu hoàn toàn <strong>Miễn phí</strong></li>
-                    <li>Triển khai bot <strong>Đơn giản & Nhanh chóng</strong></li>
-                    <li>Hỗ trợ nhiều môi trường chạy (Node.js, Python, Java...)</li>
-                    <li>Thời gian hoạt động (Uptime) cao & ổn định</li>
-                    <li>Tài liệu hướng dẫn chi tiết, dễ hiểu</li>
-                </ul>
-                <p>Mục tiêu của họ là biến quá trình host bot từ phức tạp trở nên dễ dàng và tiết kiệm.</p>
-            </div>
-
-            <div class="dashboard-container">
-                <h2><i class="fas fa-tachometer-alt"></i> Bảng Điều Khiển (Dashboard) Của Bạn</h2>
-                <p>Vui lòng đăng nhập vào tài khoản Bot-Hosting.net của bạn trong khung bên dưới để xem và quản lý trạng thái server host bot.</p>
-                <!-- THAY THẾ URL_DASHBOARD_CỦA_BẠN bên dưới -->
-                <div class="dashboard-frame">
-                    <iframe src="YOUR_BOT_HOSTING_DASHBOARD_URL" title="Bot Hosting Dashboard"></iframe>
+        
+        <div class="main-content">
+            <div class="editor-section">
+                <div class="editor-header">
+                    <h2>📝 Viết mã Python</h2>
+                    <div>
+                        <button class="btn run-btn" id="runBtn">▶ Chạy mã</button>
+                        <button class="btn clear-btn" id="clearBtn">🗑 Xóa mã</button>
+                    </div>
                 </div>
-                <p class="note"><small><i>Nếu khung trên không hiển thị, hãy đảm bảo bạn đã đăng nhập và URL dashboard của bạn là chính xác.</i></small></p>
+                
+                <div class="code-editor">
+                    <textarea id="pythonCode"># Mã Python mẫu
+print("Xin chào! Đây là Python chạy trên web!")
+print()
 
-                <div class="note-box">
-                    <h3><i class="fas fa-lightbulb"></i> Làm thế nào để lấy URL Dashboard?</h3>
-                    <ol style="padding-left: 20px;">
-                        <li>Đăng nhập vào <a href="https://bot-hosting.net" target="_blank" style="color:#4cc9f0;">bot-hosting.net</a> bằng Discord của bạn.</li>
-                        <li>Sau khi đăng nhập, bạn sẽ được chuyển đến trang tổng quan quản lý server/bot của mình.</li>
-                        <li>Sao chép URL đầy đủ của trang đó từ thanh địa chỉ trình duyệt.</li>
-                        <li>Dán URL đó để thay thế cho chữ <code>YOUR_BOT_HOSTING_DASHBOARD_URL</code> trong mã nguồn của trang này.</li>
-                    </ol>
+# Tính tổng các số từ 1 đến 10
+tong = sum(range(1, 11))
+print(f"Tổng các số từ 1 đến 10 là: {tong}")
+
+# Tạo danh sách và lọc số chẵn
+so = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+so_chan = [x for x in so if x % 2 == 0]
+print(f"Các số chẵn: {so_chan}")
+
+# Tính giai thừa
+def giai_thua(n):
+    if n == 0:
+        return 1
+    else:
+        return n * giai_thua(n-1)
+
+print(f"Giai thừa của 5 là: {giai_thua(5)}")
+
+# Kiểm tra số nguyên tố
+def la_so_nguyen_to(n):
+    if n <= 1:
+        return False
+    for i in range(2, int(n**0.5) + 1):
+        if n % i == 0:
+            return False
+    return True
+
+print(f"Các số nguyên tố nhỏ hơn 20: {[x for x in range(2, 20) if la_so_nguyen_to(x)]}")</textarea>
+                </div>
+                
+                <div class="example-code">
+                    <h3>📋 Ví dụ mã Python</h3>
+                    <pre><code># Tính dãy Fibonacci
+def fibonacci(n):
+    if n <= 1:
+        return n
+    else:
+        return fibonacci(n-1) + fibonacci(n-2)
+
+print("10 số Fibonacci đầu tiên:")
+for i in range(10):
+    print(fibonacci(i), end=" ")</code></pre>
+                </div>
+            </div>
+            
+            <div class="output-section">
+                <div class="output-header">
+                    <h2>📤 Kết quả</h2>
+                </div>
+                
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                    <p>Đang chạy mã Python...</p>
+                </div>
+                
+                <div class="output-container" id="output">
+                    Kết quả sẽ hiển thị ở đây...
+                </div>
+                
+                <div class="example-code">
+                    <h3>ℹ Thông tin</h3>
+                    <p>Mã Python được thực thi thông qua API công khai. Bạn có thể:</p>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>Viết và chạy mã Python trực tiếp</li>
+                        <li>Lưu mã vào GitHub bằng nút "⭐ Sao trên GitHub"</li>
+                        <li>Chỉnh sửa mã mẫu hoặc viết mã của riêng bạn</li>
+                    </ul>
                 </div>
             </div>
         </div>
-
-        <div class="steps">
-            <div class="step">
-                <div class="step-number">1</div>
-                <h3>Đăng Ký & Đăng Nhập</h3>
-                <p>Truy cập Bot-Hosting.net và đăng nhập dễ dàng bằng tài khoản Discord của bạn.</p>
-            </div>
-            <div class="step">
-                <div class="step-number">2</div>
-                <h3>Thêm Bot Của Bạn</h3>
-                <p>Tạo một server mới và cấu hình bot Discord của bạn với token và lệnh khởi động.</p>
-            </div>
-            <div class="step">
-                <div class="step-number">3</div>
-                <h3>Khởi Động & Giám Sát</h3>
-                <p>Khởi động bot và sử dụng dashboard để theo dõi trạng thái, nhật ký (logs) và tài nguyên.</p>
-            </div>
+        
+        <div class="footer">
+            <p>© 2023 Python Online Runner | Sử dụng API Piston để thực thi mã Python | Mã nguồn có thể lưu trên GitHub</p>
         </div>
-
-        <footer>
-            <p>© 2026 - Trang web trình diễn tích hợp với Bot-Hosting.net | Đây là một giao diện front-end mẫu, chức năng quản lý thực tế diễn ra tại <a href="https://bot-hosting.net" target="_blank" style="color:#72efdd;">Bot-Hosting.net</a>.</p>
-            <p><i>This is a front-end demo. Actual bot management happens on Bot-Hosting.net.</i></p>
-        </footer>
     </div>
+
+    <!-- Thư viện CodeMirror cho trình soạn thảo -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/python/python.min.js"></script>
+    
+    <script>
+        // Khởi tạo CodeMirror editor
+        const editor = CodeMirror.fromTextArea(document.getElementById('pythonCode'), {
+            lineNumbers: true,
+            mode: 'python',
+            theme: 'dracula',
+            indentUnit: 4,
+            smartIndent: true,
+            lineWrapping: true,
+            autofocus: true
+        });
+        
+        // Thiết lập chiều cao cho editor
+        editor.setSize('100%', '400px');
+        
+        // Lấy các phần tử DOM
+        const runBtn = document.getElementById('runBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const outputDiv = document.getElementById('output');
+        const loadingDiv = document.getElementById('loading');
+        
+        // Hàm chạy mã Python
+        async function runPythonCode() {
+            const code = editor.getValue();
+            
+            if (!code.trim()) {
+                outputDiv.textContent = "⚠ Vui lòng nhập mã Python để chạy!";
+                return;
+            }
+            
+            // Hiển thị trạng thái loading
+            loadingDiv.style.display = 'block';
+            outputDiv.textContent = '';
+            
+            try {
+                // Sử dụng Piston API để chạy Python
+                const response = await fetch('https://emkc.org/api/v2/piston/execute', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        language: 'python',
+                        version: '3.10.0',
+                        files: [{
+                            content: code
+                        }]
+                    })
+                });
+                
+                const result = await response.json();
+                
+                // Ẩn loading
+                loadingDiv.style.display = 'none';
+                
+                // Hiển thị kết quả
+                if (result.run) {
+                    if (result.run.stdout) {
+                        outputDiv.textContent = result.run.stdout;
+                    }
+                    if (result.run.stderr) {
+                        outputDiv.textContent = result.run.stderr;
+                        outputDiv.style.color = '#fc8181';
+                    }
+                    if (result.run.output) {
+                        outputDiv.textContent = result.run.output;
+                    }
+                } else {
+                    outputDiv.textContent = "❌ Lỗi khi thực thi mã!";
+                    outputDiv.style.color = '#fc8181';
+                }
+                
+                // Đặt lại màu mặc định nếu thành công
+                if (result.run && result.run.stdout && !result.run.stderr) {
+                    outputDiv.style.color = '#e2e8f0';
+                }
+                
+            } catch (error) {
+                // Ẩn loading
+                loadingDiv.style.display = 'none';
+                
+                // Fallback sử dụng API khác nếu Piston không hoạt động
+                try {
+                    const fallbackResponse = await fetch('https://python.godbolt.org/api/compile', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            source: code,
+                            options: {
+                                execute: true,
+                                compiler: 'python',
+                                "compiler-option-raw": ""
+                            }
+                        })
+                    });
+                    
+                    const fallbackResult = await fallbackResponse.json();
+                    
+                    if (fallbackResult.stdout) {
+                        outputDiv.textContent = fallbackResult.stdout;
+                        outputDiv.style.color = '#e2e8f0';
+                    } else if (fallbackResult.stderr) {
+                        outputDiv.textContent = fallbackResult.stderr;
+                        outputDiv.style.color = '#fc8181';
+                    } else {
+                        outputDiv.textContent = "✅ Mã đã chạy thành công (không có đầu ra).";
+                        outputDiv.style.color = '#e2e8f0';
+                    }
+                    
+                } catch (fallbackError) {
+                    // Nếu cả hai API đều thất bại, hiển thị lỗi
+                    outputDiv.textContent = "❌ Không thể kết nối đến dịch vụ thực thi Python. Vui lòng thử lại sau.\n\nLỗi: " + error.message;
+                    outputDiv.style.color = '#fc8181';
+                }
+            }
+        }
+        
+        // Hàm xóa mã
+        function clearCode() {
+            if (confirm("Bạn có chắc muốn xóa mã hiện tại không?")) {
+                editor.setValue("# Viết mã Python của bạn ở đây\nprint('Xin chào từ Python Online!')");
+                outputDiv.textContent = "Kết quả sẽ hiển thị ở đây...";
+                outputDiv.style.color = '#e2e8f0';
+            }
+        }
+        
+        // Thêm sự kiện cho các nút
+        runBtn.addEventListener('click', runPythonCode);
+        clearBtn.addEventListener('click', clearCode);
+        
+        // Thêm phím tắt Ctrl+Enter để chạy mã
+        editor.on('keydown', function(cm, event) {
+            if (event.ctrlKey && event.key === 'Enter') {
+                runPythonCode();
+            }
+        });
+        
+        // Mã mẫu để sao chép
+        const examples = [
+            `# Tính số Fibonacci
+def fibonacci(n):
+    if n <= 0:
+        return []
+    elif n == 1:
+        return [0]
+    elif n == 2:
+        return [0, 1]
+    
+    fib = [0, 1]
+    for i in range(2, n):
+        fib.append(fib[i-1] + fib[i-2])
+    return fib
+
+print("20 số Fibonacci đầu tiên:")
+print(fibonacci(20))`,
+            
+            `# Tìm số lớn nhất trong danh sách
+def tim_so_lon_nhat(danh_sach):
+    if not danh_sach:
+        return None
+    lon_nhat = danh_sach[0]
+    for so in danh_sach:
+        if so > lon_nhat:
+            lon_nhat = so
+    return lon_nhat
+
+so = [12, 45, 23, 67, 34, 89, 56]
+print(f"Danh sách số: {so}")
+print(f"Số lớn nhất: {tim_so_lon_nhat(so)}")`,
+            
+            `# Đảo ngược chuỗi
+def dao_nguoi_chuoi(chuoi):
+    return chuoi[::-1]
+
+text = "Xin chào Python!"
+print(f"Chuỗi gốc: {text}")
+print(f"Chuỗi đảo ngược: {dao_nguoi_chuoi(text)}")`
+        ];
+        
+        // Thêm nút để thay đổi ví dụ
+        const exampleHeader = document.querySelector('.example-code h3');
+        const exampleSelect = document.createElement('select');
+        exampleSelect.innerHTML = `
+            <option value="0">Fibonacci</option>
+            <option value="1">Tìm số lớn nhất</option>
+            <option value="2">Đảo ngược chuỗi</option>
+            <option value="custom">Mã tùy chỉnh</option>
+        `;
+        exampleSelect.style.marginLeft = '10px';
+        exampleSelect.style.padding = '5px';
+        exampleSelect.style.borderRadius = '5px';
+        
+        exampleHeader.parentNode.insertBefore(exampleSelect, exampleHeader.nextSibling);
+        
+        exampleSelect.addEventListener('change', function() {
+            if (this.value !== 'custom') {
+                editor.setValue(examples[parseInt(this.value)]);
+            }
+        });
+    </script>
 </body>
 </html>
