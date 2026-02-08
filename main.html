@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theo dõi Bot Discord - Bot-Hosting.net</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #f1f1f1;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            text-align: center;
+            padding: 3rem 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            border: 1px solid #4cc9f0;
+        }
+        header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
+            color: #4cc9f0;
+            text-shadow: 0 0 10px rgba(76, 201, 240, 0.5);
+        }
+        header p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+            color: #b8d4e3;
+        }
+        .highlight {
+            color: #72efdd;
+            font-weight: bold;
+        }
+        .content-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        .info-box {
+            flex: 1;
+            min-width: 300px;
+            background: rgba(30, 41, 59, 0.8);
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 5px solid #4361ee;
+        }
+        .info-box h2 {
+            color: #4361ee;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .info-box ul {
+            list-style: none;
+            padding-left: 10px;
+        }
+        .info-box li {
+            margin-bottom: 12px;
+            padding-left: 25px;
+            position: relative;
+        }
+        .info-box li:before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #4ade80;
+            font-weight: bold;
+        }
+        .dashboard-container {
+            flex: 2;
+            min-width: 300px;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+        }
+        .dashboard-container h2 {
+            color: #f72585;
+            margin-bottom: 20px;
+        }
+        .dashboard-frame {
+            width: 100%;
+            height: 600px;
+            background: #111;
+            border-radius: 10px;
+            border: 2px solid #333;
+            overflow: hidden;
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .note-box {
+            background: rgba(245, 158, 11, 0.15);
+            border: 1px solid #f59e0b;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 25px;
+            text-align: left;
+        }
+        .note-box h3 {
+            color: #f59e0b;
+            margin-bottom: 10px;
+        }
+        .steps {
+            margin-top: 25px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .step {
+            background: rgba(76, 201, 240, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .step-number {
+            display: inline-block;
+            background: #4cc9f0;
+            color: #1a1a2e;
+            width: 36px;
+            height: 36px;
+            line-height: 36px;
+            border-radius: 50%;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+        .btn {
+            display: inline-block;
+            background: linear-gradient(to right, #4361ee, #3a0ca3);
+            color: white;
+            padding: 12px 28px;
+            margin: 15px 10px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 15px rgba(67, 97, 238, 0.4);
+        }
+        .btn-discord {
+            background: linear-gradient(to right, #5865F2, #4752c4);
+        }
+        @media (max-width: 768px) {
+            header h1 { font-size: 2rem; }
+            .dashboard-frame { height: 450px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-server"></i> Trình Theo dõi Bot Discord</h1>
+            <p>Trang web này kết nối với <span class="highlight">Bot-Hosting.net</span> - nền tảng giúp bạn đưa bot Discord của mình hoạt động <span class="highlight">24/7 một cách dễ dàng và miễn phí</span>.</p>
+            <a href="https://bot-hosting.net" target="_blank" class="btn">Truy cập Bot-Hosting.net</a>
+            <a href="https://discord.com" target="_blank" class="btn btn-discord"><i class="fab fa-discord"></i> Discord chính thức</a>
+        </header>
+
+        <div class="content-wrapper">
+            <div class="info-box">
+                <h2><i class="fas fa-star"></i> Về Bot-Hosting.net</h2>
+                <p>Được tin dùng bởi hàng ngàn người từ năm 2021, dịch vụ này được thiết kế đặc biệt cho việc host bot Discord.</p>
+                <ul>
+                    <li>Bắt đầu hoàn toàn <strong>Miễn phí</strong></li>
+                    <li>Triển khai bot <strong>Đơn giản & Nhanh chóng</strong></li>
+                    <li>Hỗ trợ nhiều môi trường chạy (Node.js, Python, Java...)</li>
+                    <li>Thời gian hoạt động (Uptime) cao & ổn định</li>
+                    <li>Tài liệu hướng dẫn chi tiết, dễ hiểu</li>
+                </ul>
+                <p>Mục tiêu của họ là biến quá trình host bot từ phức tạp trở nên dễ dàng và tiết kiệm.</p>
+            </div>
+
+            <div class="dashboard-container">
+                <h2><i class="fas fa-tachometer-alt"></i> Bảng Điều Khiển (Dashboard) Của Bạn</h2>
+                <p>Vui lòng đăng nhập vào tài khoản Bot-Hosting.net của bạn trong khung bên dưới để xem và quản lý trạng thái server host bot.</p>
+                <!-- THAY THẾ URL_DASHBOARD_CỦA_BẠN bên dưới -->
+                <div class="dashboard-frame">
+                    <iframe src="YOUR_BOT_HOSTING_DASHBOARD_URL" title="Bot Hosting Dashboard"></iframe>
+                </div>
+                <p class="note"><small><i>Nếu khung trên không hiển thị, hãy đảm bảo bạn đã đăng nhập và URL dashboard của bạn là chính xác.</i></small></p>
+
+                <div class="note-box">
+                    <h3><i class="fas fa-lightbulb"></i> Làm thế nào để lấy URL Dashboard?</h3>
+                    <ol style="padding-left: 20px;">
+                        <li>Đăng nhập vào <a href="https://bot-hosting.net" target="_blank" style="color:#4cc9f0;">bot-hosting.net</a> bằng Discord của bạn.</li>
+                        <li>Sau khi đăng nhập, bạn sẽ được chuyển đến trang tổng quan quản lý server/bot của mình.</li>
+                        <li>Sao chép URL đầy đủ của trang đó từ thanh địa chỉ trình duyệt.</li>
+                        <li>Dán URL đó để thay thế cho chữ <code>YOUR_BOT_HOSTING_DASHBOARD_URL</code> trong mã nguồn của trang này.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h3>Đăng Ký & Đăng Nhập</h3>
+                <p>Truy cập Bot-Hosting.net và đăng nhập dễ dàng bằng tài khoản Discord của bạn.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <h3>Thêm Bot Của Bạn</h3>
+                <p>Tạo một server mới và cấu hình bot Discord của bạn với token và lệnh khởi động.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <h3>Khởi Động & Giám Sát</h3>
+                <p>Khởi động bot và sử dụng dashboard để theo dõi trạng thái, nhật ký (logs) và tài nguyên.</p>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2026 - Trang web trình diễn tích hợp với Bot-Hosting.net | Đây là một giao diện front-end mẫu, chức năng quản lý thực tế diễn ra tại <a href="https://bot-hosting.net" target="_blank" style="color:#72efdd;">Bot-Hosting.net</a>.</p>
+            <p><i>This is a front-end demo. Actual bot management happens on Bot-Hosting.net.</i></p>
+        </footer>
+    </div>
+</body>
+</html>
