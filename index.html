@@ -29,18 +29,15 @@
     color: var(--text);
     font-family: 'JetBrains Mono', monospace;
     min-height: 100vh;
-    overflow-x: hidden;
   }
 
-  /* Animated background */
   body::before {
     content: '';
     position: fixed;
     inset: 0;
     background: 
       radial-gradient(ellipse 80% 40% at 10% 20%, rgba(0,245,160,0.04) 0%, transparent 60%),
-      radial-gradient(ellipse 60% 60% at 90% 80%, rgba(0,201,255,0.04) 0%, transparent 60%),
-      radial-gradient(ellipse 40% 40% at 50% 50%, rgba(199,125,255,0.03) 0%, transparent 60%);
+      radial-gradient(ellipse 60% 60% at 90% 80%, rgba(0,201,255,0.04) 0%, transparent 60%);
     pointer-events: none;
     z-index: 0;
   }
@@ -57,7 +54,6 @@
   .header {
     text-align: center;
     padding: 32px 0 28px;
-    animation: fadeDown 0.6s ease;
   }
 
   .header-badge {
@@ -92,7 +88,6 @@
     margin-top: 10px;
     color: var(--text-dim);
     font-size: 13px;
-    letter-spacing: 0.5px;
   }
 
   /* Category tabs */
@@ -100,9 +95,7 @@
     margin-bottom: 20px;
     overflow-x: auto;
     padding-bottom: 4px;
-    scrollbar-width: none;
   }
-  .tabs-wrapper::-webkit-scrollbar { display: none; }
 
   .tabs {
     display: flex;
@@ -111,8 +104,6 @@
     border: 1px solid var(--border);
     border-radius: 12px;
     padding: 6px;
-    width: fit-content;
-    min-width: 100%;
   }
 
   .tab-btn {
@@ -129,7 +120,6 @@
     cursor: pointer;
     transition: all 0.2s;
     white-space: nowrap;
-    letter-spacing: 0.5px;
   }
 
   .tab-btn:hover {
@@ -141,7 +131,6 @@
     background: var(--surface2);
     color: var(--accent);
     border: 1px solid rgba(0,245,160,0.25);
-    box-shadow: 0 0 12px rgba(0,245,160,0.08);
   }
 
   /* Method grid */
@@ -177,7 +166,6 @@
     border-color: var(--accent);
     color: var(--accent);
     background: rgba(0,245,160,0.06);
-    box-shadow: 0 0 16px rgba(0,245,160,0.1);
   }
 
   .method-card .dot {
@@ -193,7 +181,6 @@
     border: 1px solid var(--border);
     border-radius: 16px;
     overflow: hidden;
-    animation: fadeUp 0.5s ease;
   }
 
   .panel-header {
@@ -222,7 +209,6 @@
     padding: 3px 9px;
     border-radius: 20px;
     font-weight: 600;
-    letter-spacing: 1px;
   }
 
   .mode-switch {
@@ -244,8 +230,6 @@
     font-size: 11px;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.2s;
-    letter-spacing: 0.5px;
   }
 
   .mode-btn.active {
@@ -257,9 +241,8 @@
   .io-grid {
     display: grid;
     grid-template-columns: 1fr auto 1fr;
-    gap: 0;
-    padding: 20px;
     gap: 12px;
+    padding: 20px;
     align-items: center;
   }
 
@@ -301,8 +284,6 @@
     padding: 2px 8px;
     cursor: pointer;
     font-family: 'JetBrains Mono', monospace;
-    transition: all 0.15s;
-    white-space: nowrap;
   }
 
   .copy-btn:hover, .save-btn:hover, .upload-btn:hover { 
@@ -320,8 +301,6 @@
     padding: 2px 8px;
     cursor: pointer;
     font-family: 'JetBrains Mono', monospace;
-    transition: all 0.15s;
-    white-space: nowrap;
     background: none;
   }
   
@@ -346,12 +325,10 @@
     padding: 14px;
     resize: vertical;
     outline: none;
-    transition: border-color 0.2s;
     line-height: 1.6;
   }
 
   textarea:focus { border-color: rgba(0,245,160,0.4); }
-  textarea::placeholder { color: var(--text-dim); }
 
   .output-area {
     min-height: 160px;
@@ -365,7 +342,6 @@
     white-space: pre-wrap;
     word-break: break-all;
     line-height: 1.6;
-    position: relative;
     overflow: auto;
   }
 
@@ -389,19 +365,13 @@
     height: 48px;
     font-size: 20px;
     cursor: pointer;
-    transition: all 0.2s;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 0 20px rgba(0,245,160,0.2);
     font-weight: 700;
   }
 
-  .execute-btn:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 30px rgba(0,245,160,0.4);
-  }
-
+  .execute-btn:hover { transform: scale(1.1); }
   .execute-btn:active { transform: scale(0.95); }
 
   /* Extra options */
@@ -413,7 +383,7 @@
     align-items: center;
   }
 
-  .opt-select {
+  .opt-select, .opt-input {
     background: var(--bg);
     border: 1px solid var(--border);
     border-radius: 6px;
@@ -422,10 +392,9 @@
     font-size: 11px;
     padding: 5px 10px;
     outline: none;
-    cursor: pointer;
   }
 
-  .opt-select:focus { border-color: var(--accent); }
+  .opt-select:focus, .opt-input:focus { border-color: var(--accent); }
 
   .opt-label {
     font-size: 11px;
@@ -445,10 +414,7 @@
     line-height: 1.7;
   }
 
-  .info-bar strong {
-    color: var(--accent);
-    font-weight: 600;
-  }
+  .info-bar strong { color: var(--accent); }
 
   /* Quick actions */
   .quick-bar {
@@ -467,7 +433,6 @@
     font-family: 'JetBrains Mono', monospace;
     font-size: 11px;
     cursor: pointer;
-    transition: all 0.15s;
   }
 
   .quick-btn:hover { border-color: var(--accent2); color: var(--accent2); }
@@ -484,16 +449,6 @@
   .stat { font-size: 11px; color: var(--text-dim); }
   .stat span { color: var(--text); font-weight: 600; }
 
-  @keyframes fadeDown {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
   /* Python code display */
   .code-snippet {
     margin: 0 20px 20px;
@@ -508,7 +463,6 @@
     padding: 8px 14px;
     font-size: 10px;
     color: var(--text-dim);
-    letter-spacing: 1px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -519,6 +473,7 @@
     font-size: 12px;
     line-height: 1.7;
     overflow-x: auto;
+    white-space: pre-wrap;
   }
 
   .kw { color: #c77dff; }
@@ -529,17 +484,7 @@
   .im { color: #ff9f43; }
 
   .hidden { display: none !important; }
-
-  /* File info */
-  .file-info {
-    font-size: 10px;
-    color: var(--text-dim);
-    margin-left: 8px;
-    padding: 2px 6px;
-    background: var(--surface2);
-    border-radius: 4px;
-    border: 1px solid var(--border);
-  }
+  .file-info { font-size: 10px; color: var(--text-dim); }
 </style>
 </head>
 <body>
@@ -550,90 +495,80 @@
     <p>Hỗ trợ tất cả các phương pháp encode/decode phổ biến trong Python</p>
   </header>
 
-  <!-- Category Tabs -->
   <div class="tabs-wrapper">
-    <div class="tabs">
-      <button class="tab-btn active" onclick="switchCategory('text')">📝 Text / String</button>
-      <button class="tab-btn" onclick="switchCategory('hash')">🔐 Hash</button>
-      <button class="tab-btn" onclick="switchCategory('url')">🌐 URL</button>
-      <button class="tab-btn" onclick="switchCategory('binary')">🔢 Binary / Hex</button>
-      <button class="tab-btn" onclick="switchCategory('cipher')">🔒 Cipher</button>
-      <button class="tab-btn" onclick="switchCategory('compress')">📦 Data Format</button>
+    <div class="tabs" id="categoryTabs">
+      <button class="tab-btn" data-cat="text">📝 Text / String</button>
+      <button class="tab-btn" data-cat="hash">🔐 Hash</button>
+      <button class="tab-btn" data-cat="url">🌐 URL</button>
+      <button class="tab-btn" data-cat="binary">🔢 Binary / Hex</button>
+      <button class="tab-btn" data-cat="cipher">🔒 Cipher</button>
+      <button class="tab-btn" data-cat="compress">📦 Data Format</button>
     </div>
   </div>
 
-  <!-- Method cards -->
   <div class="method-grid" id="methodGrid"></div>
 
-  <!-- Main Panel -->
   <div class="main-panel">
     <div class="panel-header">
       <div class="panel-title">
         <span id="currentMethodName">Base64</span>
-        <span class="panel-tag" id="panelTag" style="background:rgba(0,245,160,0.1);color:var(--accent);border:1px solid rgba(0,245,160,0.3)">ENCODE</span>
+        <span class="panel-tag" id="panelTag">ENCODE</span>
       </div>
       <div class="mode-switch">
-        <button class="mode-btn active" id="encBtn" onclick="setMode('encode')">ENCODE</button>
-        <button class="mode-btn" id="decBtn" onclick="setMode('decode')">DECODE</button>
+        <button class="mode-btn active" id="encBtn">ENCODE</button>
+        <button class="mode-btn" id="decBtn">DECODE</button>
       </div>
     </div>
 
-    <!-- Extra options -->
     <div class="extra-opts" id="extraOpts"></div>
 
-    <!-- IO Grid -->
     <div class="io-grid">
       <div class="io-box">
         <div class="io-label">
           INPUT
           <div class="io-actions">
             <label for="fileUpload" class="upload-label">📁 upload</label>
-            <button class="quick-btn" onclick="clearInput()" style="padding:2px 8px;border-radius:4px;font-size:10px">xóa</button>
+            <button class="quick-btn" id="clearInputBtn" style="padding:2px 8px">xóa</button>
           </div>
         </div>
-        <input type="file" id="fileUpload" onchange="handleFileUpload(event)">
+        <input type="file" id="fileUpload">
         <textarea id="inputText" placeholder="Nhập văn bản cần xử lý..."></textarea>
       </div>
       <div class="arrow-col">
-        <button class="execute-btn" onclick="execute()" title="Thực thi (Ctrl+Enter)">▶</button>
+        <button class="execute-btn" id="executeBtn">▶</button>
       </div>
       <div class="io-box">
         <div class="io-label">
           OUTPUT
           <div class="io-actions">
-            <button class="copy-btn" id="copyBtn" onclick="copyOutput()">copy</button>
-            <button class="save-btn" id="saveBtn" onclick="saveOutput()" title="Lưu kết quả">💾 save</button>
+            <button class="copy-btn" id="copyBtn">copy</button>
+            <button class="save-btn" id="saveBtn">💾 save</button>
           </div>
         </div>
         <div class="output-area" id="outputArea">
           <span class="output-placeholder">Kết quả sẽ hiển thị ở đây...</span>
         </div>
-        <div id="fileInfo" class="file-info hidden"></div>
       </div>
     </div>
 
-    <!-- Quick actions -->
     <div class="quick-bar">
-      <button class="quick-btn" onclick="swapIO()">↕ Hoán đổi Input/Output</button>
-      <button class="quick-btn" onclick="autoDetect()">🔍 Tự động nhận dạng</button>
-      <button class="quick-btn" onclick="loadSample()">📄 Tải mẫu</button>
+      <button class="quick-btn" id="swapBtn">↕ Hoán đổi</button>
+      <button class="quick-btn" id="detectBtn">🔍 Tự động nhận dạng</button>
+      <button class="quick-btn" id="sampleBtn">📄 Tải mẫu</button>
     </div>
 
-    <!-- Info -->
     <div class="info-bar" id="infoBar">Chọn phương pháp để xem thông tin chi tiết.</div>
 
-    <!-- Python Code -->
     <div class="code-snippet">
       <div class="code-header">
         <span>PYTHON CODE</span>
-        <button class="copy-btn" onclick="copyCode()">copy code</button>
+        <button class="copy-btn" id="copyCodeBtn">copy code</button>
       </div>
       <div class="code-body" id="codeBody">
         <span class="cm"># Python code sẽ hiển thị ở đây</span>
       </div>
     </div>
 
-    <!-- Stats -->
     <div class="stats">
       <div class="stat">Đầu vào: <span id="statIn">0</span> ký tự</div>
       <div class="stat">Đầu ra: <span id="statOut">0</span> ký tự</div>
@@ -644,191 +579,293 @@
 </div>
 
 <script>
-// [Giữ nguyên phần categories và methodInfo từ code gốc, không thay đổi]
-// ... (code categories và methodInfo giữ nguyên)
-
+// Data definitions
 const categories = {
-  text: {
-    label: 'Text / String', color: '--accent',
-    methods: [
-      { id: 'base64', name: 'Base64', dot: '#00f5a0' },
-      { id: 'base32', name: 'Base32', dot: '#00f5a0' },
-      { id: 'base16', name: 'Base16 (Hex)', dot: '#00f5a0' },
-      { id: 'base85', name: 'Base85', dot: '#00f5a0' },
-      { id: 'rot13', name: 'ROT13', dot: '#00c9ff' },
-      { id: 'unicode', name: 'Unicode Escape', dot: '#c77dff' },
-      { id: 'html', name: 'HTML Entities', dot: '#ffd93d' },
-      { id: 'ascii', name: 'ASCII Codes', dot: '#ff6b6b' },
-    ]
-  },
-  hash: {
-    label: 'Hash', color: '--accent5',
-    methods: [
-      { id: 'md5', name: 'MD5', dot: '#c77dff' },
-      { id: 'sha1', name: 'SHA-1', dot: '#c77dff' },
-      { id: 'sha256', name: 'SHA-256', dot: '#c77dff' },
-      { id: 'sha512', name: 'SHA-512', dot: '#c77dff' },
-      { id: 'sha3_256', name: 'SHA3-256', dot: '#c77dff' },
-    ]
-  },
-  url: {
-    label: 'URL', color: '--accent2',
-    methods: [
-      { id: 'url', name: 'URL Encode', dot: '#00c9ff' },
-      { id: 'url_full', name: 'URL Full Encode', dot: '#00c9ff' },
-      { id: 'punycode', name: 'Punycode', dot: '#00c9ff' },
-    ]
-  },
-  binary: {
-    label: 'Binary / Hex', color: '--accent3',
-    methods: [
-      { id: 'binary', name: 'Binary', dot: '#ff6b6b' },
-      { id: 'octal', name: 'Octal', dot: '#ff6b6b' },
-      { id: 'hex_str', name: 'Hex String', dot: '#ff6b6b' },
-      { id: 'xxencode', name: 'XX Encode', dot: '#ff9f43' },
-      { id: 'morse', name: 'Morse Code', dot: '#ffd93d' },
-    ]
-  },
-  cipher: {
-    label: 'Cipher', color: '--accent4',
-    methods: [
-      { id: 'caesar', name: 'Caesar Cipher', dot: '#ffd93d' },
-      { id: 'vigenere', name: 'Vigenère', dot: '#ffd93d' },
-      { id: 'atbash', name: 'Atbash', dot: '#ffd93d' },
-      { id: 'xor', name: 'XOR Cipher', dot: '#ff9f43' },
-    ]
-  },
-  compress: {
-    label: 'Data Format', color: '--accent',
-    methods: [
-      { id: 'json_format', name: 'JSON Format', dot: '#00f5a0' },
-      { id: 'json_min', name: 'JSON Minify', dot: '#00f5a0' },
-      { id: 'zlib_b64', name: 'zlib+Base64', dot: '#00c9ff' },
-      { id: 'gzip_b64', name: 'gzip+Base64', dot: '#00c9ff' },
-    ]
-  }
+  text: { label: 'Text / String', methods: [
+    { id: 'base64', name: 'Base64', dot: '#00f5a0' },
+    { id: 'base32', name: 'Base32', dot: '#00f5a0' },
+    { id: 'base16', name: 'Base16', dot: '#00f5a0' },
+    { id: 'rot13', name: 'ROT13', dot: '#00c9ff' },
+    { id: 'unicode', name: 'Unicode Escape', dot: '#c77dff' },
+    { id: 'html', name: 'HTML Entities', dot: '#ffd93d' },
+    { id: 'ascii', name: 'ASCII Codes', dot: '#ff6b6b' }
+  ]},
+  hash: { label: 'Hash', methods: [
+    { id: 'md5', name: 'MD5', dot: '#c77dff' },
+    { id: 'sha1', name: 'SHA-1', dot: '#c77dff' },
+    { id: 'sha256', name: 'SHA-256', dot: '#c77dff' },
+    { id: 'sha512', name: 'SHA-512', dot: '#c77dff' }
+  ]},
+  url: { label: 'URL', methods: [
+    { id: 'url', name: 'URL Encode', dot: '#00c9ff' },
+    { id: 'url_full', name: 'URL Full', dot: '#00c9ff' }
+  ]},
+  binary: { label: 'Binary / Hex', methods: [
+    { id: 'binary', name: 'Binary', dot: '#ff6b6b' },
+    { id: 'hex_str', name: 'Hex String', dot: '#ff6b6b' },
+    { id: 'morse', name: 'Morse Code', dot: '#ffd93d' }
+  ]},
+  cipher: { label: 'Cipher', methods: [
+    { id: 'caesar', name: 'Caesar', dot: '#ffd93d' },
+    { id: 'vigenere', name: 'Vigenère', dot: '#ffd93d' },
+    { id: 'atbash', name: 'Atbash', dot: '#ffd93d' },
+    { id: 'xor', name: 'XOR', dot: '#ff9f43' }
+  ]},
+  compress: { label: 'Data Format', methods: [
+    { id: 'json_format', name: 'JSON Format', dot: '#00f5a0' },
+    { id: 'json_min', name: 'JSON Minify', dot: '#00f5a0' }
+  ]}
 };
 
 const methodInfo = {
-  base64: {
-    info: '<strong>Base64</strong>: Mã hóa dữ liệu nhị phân thành ASCII. Sử dụng rộng rãi trong email, JWT, data URI. Tăng kích thước ~33%.',
-    code: (mode) => mode === 'encode' ? 
-`<span class="im">import</span> base64
-
-<span class="cm"># Mã hóa Base64</span>
-text = <span class="st">"Hello, World!"</span>
-encoded = base64.b64encode(text.encode(<span class="st">'utf-8'</span>))
-result = encoded.decode(<span class="st">'utf-8'</span>)
-<span class="fn">print</span>(result)  <span class="cm"># SGVsbG8sIFdvcmxkIQ==</span>` :
-`<span class="im">import</span> base64
-
-<span class="cm"># Giải mã Base64</span>
-encoded = <span class="st">"SGVsbG8sIFdvcmxkIQ=="</span>
-decoded = base64.b64decode(encoded)
-result = decoded.decode(<span class="st">'utf-8'</span>)
-<span class="fn">print</span>(result)  <span class="cm"># Hello, World!</span>`,
-    sample: { encode: 'Hello, World! Xin chào Việt Nam!', decode: 'SGVsbG8sIFdvcmxkISBYaW4gY2jDoG8gVmnhu4d0IE5hbSE=' }
+  base64: { 
+    info: '<strong>Base64</strong>: Mã hóa nhị phân thành ASCII.',
+    code: () => 'import base64\n\n# Encode\nencoded = base64.b64encode(b"Hello").decode()\nprint(encoded)'
   },
-  base32: {
-    info: '<strong>Base32</strong>: Tương tự Base64 nhưng dùng 32 ký tự. Dùng trong TOTP (Google Auth), tên file không phân biệt hoa thường.',
-    code: (mode) => mode === 'encode' ?
-`<span class="im">import</span> base64
-
-text = <span class="st">"Hello, World!"</span>
-encoded = base64.b32encode(text.encode(<span class="st">'utf-8'</span>))
-<span class="fn">print</span>(encoded.decode())  <span class="cm"># JBSWY3DPEBLW64TMMQ======</span>` :
-`<span class="im">import</span> base64
-
-encoded = <span class="st">"JBSWY3DPEBLW64TMMQ======"</span>
-decoded = base64.b32decode(encoded)
-<span class="fn">print</span>(decoded.decode(<span class="st">'utf-8'</span>))`,
-    sample: { encode: 'Hello', decode: 'JBSWY3DPEB3W64TMMQ======' }
+  base32: { 
+    info: '<strong>Base32</strong>: Dùng 32 ký tự an toàn.',
+    code: () => 'import base64\n\nencoded = base64.b32encode(b"Hello").decode()\nprint(encoded)'
   },
-  base16: {
-    info: '<strong>Base16 / Hex</strong>: Mỗi byte được biểu diễn bởi 2 chữ số hex. Dùng trong lập trình hệ thống, mã màu CSS.',
-    code: (mode) => mode === 'encode' ?
-`<span class="im">import</span> base64
-
-text = <span class="st">"Hello"</span>
-encoded = base64.b16encode(text.encode(<span class="st">'utf-8'</span>))
-<span class="fn">print</span>(encoded.decode())  <span class="cm"># 48656C6C6F</span>
-
-<span class="cm"># Hoặc dùng hex()</span>
-result = text.encode().hex()
-<span class="fn">print</span>(result)  <span class="cm"># 48656c6c6f</span>` :
-`<span class="im">import</span> base64
-
-encoded = <span class="st">"48656C6C6F"</span>
-decoded = base64.b16decode(encoded)
-<span class="fn">print</span>(decoded.decode())  <span class="cm"># Hello</span>`,
-    sample: { encode: 'Hello', decode: '48656C6C6F' }
+  base16: { 
+    info: '<strong>Base16</strong>: Hex encoding.',
+    code: () => 'import base64\n\nencoded = base64.b16encode(b"Hello").decode()\nprint(encoded)'
   },
-  base85: {
-    info: '<strong>Base85</strong>: Hiệu quả hơn Base64, tăng kích thước chỉ ~25%. Dùng trong Git, PDF.',
-    code: (mode) => mode === 'encode' ?
-`<span class="im">import</span> base64
-
-text = <span class="st">"Hello, World!"</span>
-encoded = base64.b85encode(text.encode())
-<span class="fn">print</span>(encoded.decode())` :
-`<span class="im">import</span> base64
-
-encoded = <span class="st">"NM&qnZ!92pZz&bWDd@0Wn>^"</span>
-decoded = base64.b85decode(encoded)
-<span class="fn">print</span>(decoded.decode())`,
-    sample: { encode: 'Hello, World!', decode: 'NM&qnZ!92pZz&bWDd@0Wn>^' }
+  rot13: { 
+    info: '<strong>ROT13</strong>: Dịch chuyển 13 vị trí.',
+    code: () => 'import codecs\n\nresult = codecs.encode("Hello", "rot_13")\nprint(result)'
   },
-  rot13: {
-    info: '<strong>ROT13</strong>: Thay thế mỗi chữ cái bằng chữ cái cách nó 13 vị trí. Encode = Decode (symmetric).',
-    code: (mode) =>
-`<span class="im">import</span> codecs
-
-text = <span class="st">"Hello, World!"</span>
-result = codecs.encode(text, <span class="st">'rot_13'</span>)
-<span class="fn">print</span>(result)  <span class="cm"># Uryyb, Jbeyq!</span>
-
-<span class="cm"># ROT13 là đối xứng (decode = encode)</span>
-decoded = codecs.encode(result, <span class="st">'rot_13'</span>)
-<span class="fn">print</span>(decoded)  <span class="cm"># Hello, World!</span>`,
-    sample: { encode: 'Hello, World!', decode: 'Uryyb, Jbeyq!' }
+  unicode: { 
+    info: '<strong>Unicode Escape</strong>: \\uXXXX format.',
+    code: () => 'text = "Xin chào"\nencoded = text.encode("unicode_escape").decode()\nprint(encoded)'
   },
-  unicode: {
-    info: '<strong>Unicode Escape</strong>: Biểu diễn ký tự Unicode dưới dạng \\uXXXX. Hữu ích khi làm việc với JSON và các ngôn ngữ khác nhau.',
-    code: (mode) => mode === 'encode' ?
-`text = <span class="st">"Xin chào Việt Nam!"</span>
-<span class="cm"># Unicode escape</span>
-encoded = text.encode(<span class="st">'unicode_escape'</span>).decode(<span class="st">'ascii'</span>)
-<span class="fn">print</span>(encoded)
-
-<span class="cm"># Hoặc thủ công</span>
-result = <span class="st">""</span>.join(<span class="fn">f</span><span class="st">r"\\u{ord(c):04x}"</span> <span class="kw">for</span> c <span class="kw">in</span> text)
-<span class="fn">print</span>(result)` :
-`<span class="cm"># Giải mã unicode escape</span>
-encoded = <span class="st">"\\u0058\\u0069\\u006e"</span>
-decoded = encoded.encode(<span class="st">'ascii'</span>).decode(<span class="st">'unicode_escape'</span>)
-<span class="fn">print</span>(decoded)`,
-    sample: { encode: 'Xin chào!', decode: '\\u0058\\u0069\\u006e \\u0063h\\u00e0o!' }
+  html: { 
+    info: '<strong>HTML Entities</strong>: Escape HTML special chars.',
+    code: () => 'import html\n\nencoded = html.escape("<div>Hello</div>")\nprint(encoded)'
   },
-  html: {
-    info: '<strong>HTML Entities</strong>: Chuyển đổi ký tự đặc biệt HTML như <, >, &, " thành entity. Quan trọng để tránh XSS.',
-    code: (mode) => mode === 'encode' ?
-`<span class="im">import</span> html
-
-text = <span class="st">'<div class="test">Hello & World!</div>'</span>
-encoded = html.escape(text)
-<span class="fn">print</span>(encoded)
-<span class="cm"># &lt;div class=&quot;test&quot;&gt;Hello &amp; World!&lt;/div&gt;</span>` :
-`<span class="im">import</span> html
-
-encoded = <span class="st">"&lt;div&gt;Hello &amp; World!&lt;/div&gt;"</span>
-decoded = html.unescape(encoded)
-<span class="fn">print</span>(decoded)  <span class="cm"># <div>Hello & World!</div></span>`,
-    sample: { encode: '<div class="test">Hello & World!</div>', decode: '&lt;div class=&quot;test&quot;&gt;Hello &amp; World!&lt;/div&gt;' }
+  ascii: { 
+    info: '<strong>ASCII Codes</strong>: Chuyển đổi sang mã ASCII.',
+    code: () => 'text = "Hello"\ncodes = [ord(c) for c in text]\nprint(codes)'
   },
-  ascii: {
-    info: '<strong>ASCII Codes</strong>: Chuyển đổi ký tự thành mã số ASCII (0-127) và ngược lại. Hữu ích khi debug encoding issues.',
-    code: (mode) => mode === 'encode' ?
-`text = <span class="st">"Hello"</span>
-<span class="cm"># Chuyển thành mã ASCII</span>
-codes = [<span class="fn">ord</span>(c) <span class="kw">for</span> c <span class="kw">in</span> text]
-<span class="
+  md5: { 
+    info: '<strong>MD5</strong>: 128-bit hash.',
+    code: () => 'import hashlib\n\nhash = hashlib.md5(b"Hello").hexdigest()\nprint(hash)'
+  },
+  sha1: { 
+    info: '<strong>SHA-1</strong>: 160-bit hash.',
+    code: () => 'import hashlib\n\nhash = hashlib.sha1(b"Hello").hexdigest()\nprint(hash)'
+  },
+  sha256: { 
+    info: '<strong>SHA-256</strong>: 256-bit hash.',
+    code: () => 'import hashlib\n\nhash = hashlib.sha256(b"Hello").hexdigest()\nprint(hash)'
+  },
+  sha512: { 
+    info: '<strong>SHA-512</strong>: 512-bit hash.',
+    code: () => 'import hashlib\n\nhash = hashlib.sha512(b"Hello").hexdigest()\nprint(hash)'
+  },
+  url: { 
+    info: '<strong>URL Encode</strong>: Encode URL components.',
+    code: () => 'from urllib.parse import quote, unquote\n\nencoded = quote("Hello World")\nprint(encoded)'
+  },
+  url_full: { 
+    info: '<strong>URL Full</strong>: Encode all special chars.',
+    code: () => 'from urllib.parse import quote_plus\n\nencoded = quote_plus("Hello World")\nprint(encoded)'
+  },
+  binary: { 
+    info: '<strong>Binary</strong>: Chuyển sang nhị phân.',
+    code: () => 'text = "Hello"\nbinary = " ".join(format(ord(c), "08b") for c in text)\nprint(binary)'
+  },
+  hex_str: { 
+    info: '<strong>Hex String</strong>: Chuyển sang hex.',
+    code: () => 'text = "Hello"\nhex_str = text.encode().hex()\nprint(hex_str)'
+  },
+  morse: { 
+    info: '<strong>Morse Code</strong>: Mã Morse.',
+    code: () => 'MORSE = {"A": ".-", "B": "-...", " ": "/"}\n\nmorse = " ".join(MORSE.get(c, "?") for c in "HELLO".upper())\nprint(morse)'
+  },
+  caesar: { 
+    info: '<strong>Caesar Cipher</strong>: Dịch chuyển ký tự.',
+    code: () => 'def caesar(text, shift):\n    result = ""\n    for c in text:\n        if c.isalpha():\n            base = ord("A") if c.isupper() else ord("a")\n            result += chr((ord(c) - base + shift) % 26 + base)\n        else:\n            result += c\n    return result\n\nprint(caesar("Hello", 3))'
+  },
+  vigenere: { 
+    info: '<strong>Vigenère</strong>: Mã hóa với keyword.',
+    code: () => 'def vigenere(text, key):\n    result = ""\n    key_idx = 0\n    for c in text:\n        if c.isalpha():\n            shift = ord(key[key_idx % len(key)].upper()) - ord("A")\n            base = ord("A") if c.isupper() else ord("a")\n            result += chr((ord(c) - base + shift) % 26 + base)\n            key_idx += 1\n        else:\n            result += c\n    return result\n\nprint(vigenere("Hello", "KEY"))'
+  },
+  atbash: { 
+    info: '<strong>Atbash</strong>: Đảo ngược bảng chữ cái.',
+    code: () => 'def atbash(text):\n    result = ""\n    for c in text:\n        if c.isalpha():\n            base = ord("A") if c.isupper() else ord("a")\n            result += chr(base + 25 - (ord(c) - base))\n        else:\n            result += c\n    return result\n\nprint(atbash("Hello"))'
+  },
+  xor: { 
+    info: '<strong>XOR Cipher</strong>: Mã hóa XOR với key.',
+    code: () => 'def xor_cipher(text, key):\n    result = []\n    for i, c in enumerate(text):\n        result.append(chr(ord(c) ^ ord(key[i % len(key)])))\n    return "".join(result)\n\nprint(xor_cipher("Hello", "key"))'
+  },
+  json_format: { 
+    info: '<strong>JSON Format</strong>: Format JSON đẹp.',
+    code: () => 'import json\n\ndata = {"name": "Alice", "age": 30}\nformatted = json.dumps(data, indent=4)\nprint(formatted)'
+  },
+  json_min: { 
+    info: '<strong>JSON Minify</strong>: Nén JSON.',
+    code: () => 'import json\n\ndata = {"name": "Alice", "age": 30}\nminified = json.dumps(data, separators=(",", ":"))\nprint(minified)'
+  }
+};
+
+// Morse code table
+const MORSE_TABLE = {
+  'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 'F': '..-.',
+  'G': '--.', 'H': '....', 'I': '..', 'J': '.---', 'K': '-.-', 'L': '.-..',
+  'M': '--', 'N': '-.', 'O': '---', 'P': '.--.', 'Q': '--.-', 'R': '.-.',
+  'S': '...', 'T': '-', 'U': '..-', 'V': '...-', 'W': '.--', 'X': '-..-',
+  'Y': '-.--', 'Z': '--..', '0': '-----', '1': '.----', '2': '..---',
+  '3': '...--', '4': '....-', '5': '.....', '6': '-....', '7': '--...',
+  '8': '---..', '9': '----.', ' ': '/'
+};
+const MORSE_INV = Object.fromEntries(Object.entries(MORSE_TABLE).map(([k,v]) => [v,k]));
+
+// State
+let currentCategory = 'text';
+let currentMethod = 'base64';
+let currentMode = 'encode';
+let caesarShift = 3;
+let vigenereKey = 'KEY';
+let xorKey = 'secret';
+
+// DOM Elements
+const elements = {
+  categoryTabs: document.getElementById('categoryTabs'),
+  methodGrid: document.getElementById('methodGrid'),
+  currentMethodName: document.getElementById('currentMethodName'),
+  panelTag: document.getElementById('panelTag'),
+  encBtn: document.getElementById('encBtn'),
+  decBtn: document.getElementById('decBtn'),
+  extraOpts: document.getElementById('extraOpts'),
+  inputText: document.getElementById('inputText'),
+  outputArea: document.getElementById('outputArea'),
+  infoBar: document.getElementById('infoBar'),
+  codeBody: document.getElementById('codeBody'),
+  statIn: document.getElementById('statIn'),
+  statOut: document.getElementById('statOut'),
+  statRatio: document.getElementById('statRatio'),
+  statMethod: document.getElementById('statMethod'),
+  copyBtn: document.getElementById('copyBtn'),
+  saveBtn: document.getElementById('saveBtn'),
+  copyCodeBtn: document.getElementById('copyCodeBtn'),
+  clearInputBtn: document.getElementById('clearInputBtn'),
+  swapBtn: document.getElementById('swapBtn'),
+  detectBtn: document.getElementById('detectBtn'),
+  sampleBtn: document.getElementById('sampleBtn'),
+  executeBtn: document.getElementById('executeBtn'),
+  fileUpload: document.getElementById('fileUpload')
+};
+
+// Initialize
+function init() {
+  setupEventListeners();
+  renderMethods();
+  updateUI();
+  buildExtraOpts();
+}
+
+function setupEventListeners() {
+  // Category tabs
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => switchCategory(btn.dataset.cat));
+  });
+
+  // Mode buttons
+  elements.encBtn.addEventListener('click', () => setMode('encode'));
+  elements.decBtn.addEventListener('click', () => setMode('decode'));
+
+  // Action buttons
+  elements.executeBtn.addEventListener('click', execute);
+  elements.clearInputBtn.addEventListener('click', clearInput);
+  elements.copyBtn.addEventListener('click', copyOutput);
+  elements.saveBtn.addEventListener('click', saveOutput);
+  elements.copyCodeBtn.addEventListener('click', copyCode);
+  elements.swapBtn.addEventListener('click', swapIO);
+  elements.detectBtn.addEventListener('click', autoDetect);
+  elements.sampleBtn.addEventListener('click', loadSample);
+
+  // File upload
+  elements.fileUpload.addEventListener('change', handleFileUpload);
+
+  // Input change
+  elements.inputText.addEventListener('input', () => {
+    updateStats();
+    execute();
+  });
+
+  // Keyboard shortcut
+  document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+      e.preventDefault();
+      execute();
+    }
+  });
+}
+
+function switchCategory(cat) {
+  currentCategory = cat;
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.cat === cat);
+  });
+  renderMethods();
+  selectMethod(categories[cat].methods[0].id);
+}
+
+function renderMethods() {
+  const cat = categories[currentCategory];
+  elements.methodGrid.innerHTML = cat.methods.map(m => `
+    <div class="method-card ${m.id === currentMethod ? 'active' : ''}" data-method="${m.id}">
+      <div class="dot" style="background:${m.dot}"></div>
+      ${m.name}
+    </div>
+  `).join('');
+
+  // Add click handlers
+  document.querySelectorAll('.method-card').forEach(card => {
+    card.addEventListener('click', () => selectMethod(card.dataset.method));
+  });
+}
+
+function selectMethod(id) {
+  currentMethod = id;
+  renderMethods(); // Re-render to update active state
+  updateUI();
+  buildExtraOpts();
+  execute();
+}
+
+function updateUI() {
+  const info = methodInfo[currentMethod];
+  if (!info) return;
+  
+  elements.currentMethodName.textContent = categories[currentCategory].methods.find(m => m.id === currentMethod)?.name || currentMethod;
+  elements.infoBar.innerHTML = info.info;
+  elements.codeBody.innerHTML = info.code();
+  elements.panelTag.textContent = currentMode.toUpperCase();
+  
+  // Update mode button states
+  elements.encBtn.classList.toggle('active', currentMode === 'encode');
+  elements.decBtn.classList.toggle('active', currentMode === 'decode');
+  
+  // Disable decode for hash methods
+  const isHash = ['md5', 'sha1', 'sha256', 'sha512'].includes(currentMethod);
+  elements.decBtn.style.opacity = isHash ? '0.3' : '1';
+  elements.decBtn.style.pointerEvents = isHash ? 'none' : 'auto';
+  if (isHash) currentMode = 'encode';
+}
+
+function buildExtraOpts() {
+  let html = '';
+  if (currentMethod === 'caesar') {
+    html = `
+      <span class="opt-label">Shift:</span>
+      <select class="opt-select" id="caesarShift">
+        ${Array.from({length:25}, (_,i) => `<option value="${i+1}" ${i+1 === caesarShift ? 'selected' : ''}>${i+1}</option>`).join('')}
+      </select>`;
+  } else if (currentMethod === 'vigenere') {
+    html = `
+      <span class="opt-label">Key:</span>
+      <input type="text" class="opt-input" id="vigenereKey" value="${vigenereKey}">`;
+  } else if (currentMethod === 'xor') {
+    html = `
+     
