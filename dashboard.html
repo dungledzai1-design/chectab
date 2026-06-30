@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Zalo IMEI Cookie Tool</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Aurora Background -->
+        <div class="aurora-bg">
+            <div class="aurora-blob blob1"></div>
+            <div class="aurora-blob blob2"></div>
+            <div class="aurora-blob blob3"></div>
+            <div class="aurora-blob blob4"></div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="dashboard-content">
+            <!-- Header -->
+            <div class="dashboard-header">
+                <h1 class="dashboard-title">Zalo IMEI Cookie Tool</h1>
+                <div class="hamburger-menu" onclick="toggleSidebar()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="sidebar" id="sidebar">
+                <div class="sidebar-header">
+                    <h2>Menu</h2>
+                    <button class="close-sidebar" onclick="toggleSidebar()">✕</button>
+                </div>
+                <div class="sidebar-content">
+                    <div class="admin-info">
+                        <div class="admin-avatar">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                        </div>
+                        <div class="admin-details">
+                            <p class="admin-name">Admin</p>
+                            <p class="admin-email">admin@zalo-tool.com</p>
+                        </div>
+                    </div>
+                    <div class="sidebar-menu">
+                        <button class="sidebar-menu-item active" onclick="showDashboard()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="3" width="7" height="7"></rect>
+                                <rect x="14" y="3" width="7" height="7"></rect>
+                                <rect x="3" y="14" width="7" height="7"></rect>
+                                <rect x="14" y="14" width="7" height="7"></rect>
+                            </svg>
+                            Dashboard
+                        </button>
+                        <button class="sidebar-menu-item" onclick="showExtract()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="7 10 12 15 17 10"></polyline>
+                                <line x1="12" y1="15" x2="12" y2="3"></line>
+                            </svg>
+                            Lấy IMEI & Cookie
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Area -->
+            <div class="main-area">
+                <!-- Dashboard View -->
+                <div id="dashboardView" class="view active">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h3>Tổng số lượt lấy</h3>
+                            <p class="stat-number" id="totalExtracts">0</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Trạng thái</h3>
+                            <p class="stat-number" id="statusText">Sẵn sàng</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Phiên bản</h3>
+                            <p class="stat-number">v1.0.0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Extract View -->
+                <div id="extractView" class="view">
+                    <div class="extract-container">
+                        <!-- Status Buttons -->
+                        <div class="status-buttons">
+                            <button class="status-btn" id="statusWaiting" disabled>
+                                <span class="status-dot waiting"></span>
+                                Chờ quét QR
+                            </button>
+                            <button class="status-btn" id="statusScanned" disabled>
+                                <span class="status-dot scanned"></span>
+                                Đã quét QR
+                            </button>
+                            <button class="status-btn" id="statusConfirmed" disabled>
+                                <span class="status-dot confirmed"></span>
+                                Chờ duyệt
+                            </button>
+                        </div>
+
+                        <!-- QR Code Area -->
+                        <div class="qr-container" id="qrContainer">
+                            <div class="qr-placeholder">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+                                    <line x1="3" y1="9" x2="21" y2="9"></line>
+                                    <line x1="3" y1="15" x2="21" y2="15"></line>
+                                    <line x1="9" y1="3" x2="9" y2="21"></line>
+                                    <line x1="15" y1="3" x2="15" y2="21"></line>
+                                </svg>
+                                <p>Nhấn "Start" để tạo mã QR</p>
+                            </div>
+                            <img id="qrImage" class="qr-image" style="display: none;" alt="QR Code" />
+                        </div>
+
+                        <!-- Start Button -->
+                        <button class="start-btn" id="startBtn" onclick="startQRProcess()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                            </svg>
+                            Start
+                        </button>
+
+                        <!-- Result Area -->
+                        <div class="result-container" id="resultContainer" style="display: none;">
+                            <div class="result-header">
+                                <h3>Kết quả lấy IMEI & Cookie</h3>
+                                <button class="copy-btn" onclick="copyResult()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                    </svg>
+                                    Copy
+                                </button>
+                                <button class="download-btn" onclick="downloadResult()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                        <polyline points="7 10 12 15 17 10"></polyline>
+                                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                                    </svg>
+                                    Download
+                                </button>
+                            </div>
+                            <pre id="resultContent" class="result-content"></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="qr-logic.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+</html>
